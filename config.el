@@ -22,7 +22,14 @@
 ;; learned habit from IntelliJ and VS Code
 (map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
 
-(map! :leader "SPC" #'counsel-M-x)
+(map! :leader :desc "M-x" "SPC" #'counsel-M-x)
+
+;; easier window movement
+(map!
+ :n "C-h" #'evil-window-left
+ :n "C-j" #'evil-window-down
+ :n "C-k" #'evil-window-up
+ :n "C-l" #'evil-window-right)
 
 ;; take back ~s~
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)

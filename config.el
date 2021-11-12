@@ -52,6 +52,11 @@
 
 (setq display-line-numbers-type t)
 
+(use-package! highlight-indent-guides
+  :config
+  ;; stop doom from autoloading this
+  (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
+
 ;;; $$ Font
 (setq doom-font (font-spec :family "Iosevka" :size 12))
 

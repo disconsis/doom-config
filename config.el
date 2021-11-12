@@ -94,3 +94,7 @@
 
 ;; check every hour
 (run-at-time t 3600 #'kk/reload-theme-for-time)
+
+;;; Assorted
+
+(setq confirm-kill-emacs nil)

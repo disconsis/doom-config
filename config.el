@@ -27,6 +27,12 @@
 ;; take back ~s~
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
+;;; $ Evil
+(use-package! evil
+  :config
+  (setq evil-split-window-below t
+        evil-vsplit-window-right t))
+
 ;;; $ UI
 
 (setq display-line-numbers-type t)

@@ -9,22 +9,27 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-;; This determines the style of line numbers in effect. If set to `nil', line
-;; numbers are disabled. For relative line numbers, set this to `relative'.
-(setq display-line-numbers-type t)
+(setq org-hide-emphasis-markers t)
+
+
+;;; $ Keybindings
 
 (setq doom-leader-key "SPC"
       doom-leader-alt-key "M-SPC"
       doom-localleader-key ","
       doom-localleader-alt-key "M-,")
 
-(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
-
-(setq org-hide-emphasis-markers t)
+;; learned habit from IntelliJ and VS Code
+(map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
 
 (map! :leader "SPC" #'counsel-M-x)
 
+;; take back ~s~
+(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+
 ;;; $ UI
+
+(setq display-line-numbers-type t)
 
 ;;; $$ Font
 (setq doom-font (font-spec :family "Iosevka" :size 12))

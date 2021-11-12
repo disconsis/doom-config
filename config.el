@@ -46,7 +46,8 @@
 (use-package! evil
   :config
   (setq evil-split-window-below t
-        evil-vsplit-window-right t))
+        evil-vsplit-window-right t
+        evil-ex-substitute-global t))
 
 ;;; $ UI
 

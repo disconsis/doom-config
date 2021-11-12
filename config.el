@@ -36,6 +36,12 @@
 ;; take back ~s~
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 
+;; vim-vinegar
+(map! :m "-" #'dired-jump)
+
+;;; $ Filesystem
+(add-hook! dired-mode #'dired-hide-details-mode)
+
 ;;; $ Evil
 (use-package! evil
   :config

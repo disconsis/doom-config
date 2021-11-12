@@ -1,9 +1,11 @@
-;;; $DOOMDIR/config.el -*- lexical-binding: t; -*-
+;;; -*- lexical-binding: t; -*-
 
 ;; Some functionality uses this to identify you, e.g. GPG configuration, email
 ;; clients, file templates and snippets.
 (setq user-full-name    "Ketan Kanishka"
       user-mail-address "ketan.kanishka@nyu.edu")
+
+;;; $ Org
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!

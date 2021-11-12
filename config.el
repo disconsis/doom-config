@@ -39,6 +39,13 @@
 ;; vim-vinegar
 (map! :m "-" #'dired-jump)
 
+;; keep keybinds consistent even in emacs' different terminals.
+;; for this, unmap C-k and C-j from moving between prompts.
+;; these are still available through ~g k~ and ~g j~
+(map! :map term-mode-map
+ :n "C-k" nil
+ :n "C-j" nil)
+
 ;;; $ Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)
 

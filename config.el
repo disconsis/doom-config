@@ -62,6 +62,10 @@
 (defun between (start item end)
   (and (<= start item)
        (<= item end)))
+(defun kk/load-doom-theme ()
+  "Load `doom-theme'"
+  (interactive)
+  (doom--load-theme-a #'load-theme doom-theme t nil))
 
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
@@ -88,12 +92,17 @@
 
 (setq doom-theme (kk/theme-for-time))
 
-(defun kk/reload-theme-for-time ()
-  (setq doom-theme (kk/theme-for-time))
-  (doom/reload-theme))
+(defun kk/load-theme-for-time ()
+  "Load appropriate theme for current time."
+  (interactive)
+  (let ((new-theme (kk/theme-for-time)))
+    (when (or (not (equal new-theme doom-theme))
+              (not (custom-theme-enabled-p doom-theme)))
+      (setq doom-theme new-theme)
+      (kk/load-doom-theme))))
 
 ;; check every hour
-(run-at-time t 3600 #'kk/reload-theme-for-time)
+(run-at-time t 3600 #'kk/load-theme-for-time)
 
 ;;; Assorted
 

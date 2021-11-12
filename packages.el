@@ -57,3 +57,5 @@
            :files ("gitignore-mode.el")))
 
 (package! outshine)
+
+(package! modus-themes)

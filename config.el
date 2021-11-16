@@ -70,6 +70,14 @@
  :n "C-k" nil
  :n "C-j" nil)
 
+;;; $$ LSP
+;; TODO this does not isolate this to prog-mode-map
+(map! :map prog-mode-map
+      (:leader (:prefix ("l" . "lsp")
+       :desc "start lsp server"   :n "l" #'lsp!
+       :desc "restart lsp server" :n "r" #'lsp-workspace-restart
+       :desc "stop lsp server"    :n "k" #'lsp-workspace-shutdown)))
+
 ;;; $ Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)
 

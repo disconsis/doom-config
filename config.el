@@ -5,6 +5,22 @@
 (setq user-full-name    "Ketan Kanishka"
       user-mail-address "ketan.kanishka@nyu.edu")
 
+;;; $ Utility functions
+;; Due to name visibility issues, this section needs to be at the top.
+
+;; 12-hour time -> 24-hour time
+(defun pm (hour) (mod (+ hour 12) 24))
+(defun am (hour) hour)
+
+(defun between (start item end)
+  (and (<= start item)
+       (<= item end)))
+
+(defun kk/load-doom-theme ()
+  "Load the currently set `doom-theme'."
+  (interactive)
+  (doom--load-theme-a #'load-theme doom-theme t nil))
+
 ;;; $ Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -79,17 +95,6 @@
 (setq doom-font (font-spec :family "Iosevka" :size 12))
 
 ;;; $$ Theme
-
-(defun pm (hour) (mod (+ hour 12) 24))
-(defun am (hour) hour)
-(defun between (start item end)
-  (and (<= start item)
-       (<= item end)))
-(defun kk/load-doom-theme ()
-  "Load `doom-theme'"
-  (interactive)
-  (doom--load-theme-a #'load-theme doom-theme t nil))
-
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
                          (doom-miramare          . (,(pm 9) . ,(am 5)))))

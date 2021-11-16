@@ -33,6 +33,14 @@
  :n "C-k" #'evil-window-up
  :n "C-l" #'evil-window-right)
 
+;; `doom/window-enlargen' just looks ugly, and there seems to be
+;; no benefit over `doom/window-maximize-buffer'. So we set that
+;; to the keybinding I'm most used to.
+;; NOTE Both of these are undo'd by `winner-undo' (~SPC w u~).
+;; `winner-undo' is really powerful. Try to use it more.
+(map! :leader
+ :n "w o" #'doom/window-maximize-buffer)
+
 ;; take back ~s~
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
 

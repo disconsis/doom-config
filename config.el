@@ -68,6 +68,8 @@
 
 (setq display-line-numbers-type t)
 
+(global-hl-line-mode -1)
+
 (use-package! highlight-indent-guides
   :config
   ;; stop doom from autoloading this

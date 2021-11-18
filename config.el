@@ -54,8 +54,16 @@
 ;; to the keybinding I'm most used to.
 ;; NOTE Both of these are undo'd by `winner-undo' (~SPC w u~).
 ;; `winner-undo' is really powerful. Try to use it more.
-(map! :leader
- :n "w o" #'doom/window-maximize-buffer)
+(map! (:leader (:prefix "w"
+ :desc "maximize buffer" :n "o" #'doom/window-maximize-buffer
+ :desc "+zoom"           :n "z" #'+hydra/text-zoom/body
+ :desc "+navi"           :n "." #'+hydra/window-nav/body
+ ;; remove previous one-shot bindings.
+ ;; the hydra takes care of all these cases much better.
+ "+" nil
+ "-" nil
+ "<" nil
+ ">" nil)))
 
 ;; take back ~s~
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
@@ -69,9 +77,6 @@
 (map! :map term-mode-map
  :n "C-k" nil
  :n "C-j" nil)
-
-;; control zoom
-(map! :leader :desc "+zoom" :n "w z" #'+hydra/text-zoom/body)
 
 ;;; $$ LSP
 ;; TODO this does not isolate this to prog-mode-map

@@ -70,6 +70,9 @@
  :n "C-k" nil
  :n "C-j" nil)
 
+;; control zoom
+(map! :leader :desc "+zoom" :n "w z" #'+hydra/text-zoom/body)
+
 ;;; $$ LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

@@ -5,7 +5,7 @@
 (setq user-full-name    "Ketan Kanishka"
       user-mail-address "ketan.kanishka@nyu.edu")
 
-;;; $ Utility functions
+;;; Utility functions
 ;; Due to name visibility issues, this section needs to be at the top.
 
 ;; 12-hour time -> 24-hour time
@@ -21,7 +21,7 @@
   (interactive)
   (doom--load-theme-a #'load-theme doom-theme t nil))
 
-;;; $ Org
+;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -30,7 +30,7 @@
 (setq org-hide-emphasis-markers t)
 
 
-;;; $ Keybindings
+;;; Keybindings
 
 (setq doom-leader-key "SPC"
       doom-leader-alt-key "M-SPC"
@@ -78,7 +78,7 @@
  :n "C-k" nil
  :n "C-j" nil)
 
-;;; $$ LSP
+;;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map
       (:leader (:prefix ("l" . "lsp")
@@ -86,17 +86,17 @@
        :desc "restart lsp server" :n "r" #'lsp-workspace-restart
        :desc "stop lsp server"    :n "k" #'lsp-workspace-shutdown)))
 
-;;; $ Filesystem
+;;; Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)
 
-;;; $ Evil
+;;; Evil
 (use-package! evil
   :config
   (setq evil-split-window-below t
         evil-vsplit-window-right t
         evil-ex-substitute-global t))
 
-;;; $ UI
+;;; UI
 
 (setq display-line-numbers-type t)
 
@@ -107,10 +107,10 @@
   ;; stop doom from autoloading this
   (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
 
-;;; $$ Font
+;;;; Font
 (setq doom-font (font-spec :family "Iosevka" :size 12))
 
-;;; $$ Theme
+;;;; Theme
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
                          (doom-sourcerer         . (,(pm 9) . ,(am 5)))))

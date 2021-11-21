@@ -113,7 +113,7 @@
 ;;; $$ Theme
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
-                         (doom-miramare          . (,(pm 9) . ,(am 5)))))
+                         (doom-sourcerer         . (,(pm 9) . ,(am 5)))))
 
 (defun kk/theme-for-time ()
   "Get appropriate theme for current time from `kk/theme-timings'."

@@ -150,3 +150,9 @@
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)
+
+;;; Notes
+
+;; TODO Check out rougier's svg-lib - seems pretty fun
+;; TODO improve lsp-ui-doc
+;; TODO Constrict prettify-symbols-mode in ocaml to only ->

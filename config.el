@@ -19,7 +19,7 @@
 (defun kk/load-doom-theme ()
   "Load the currently set `doom-theme'."
   (interactive)
-  (doom--load-theme-a #'load-theme doom-theme t nil))
+  (load-theme doom-theme t nil))
 
 ;;; Org
 

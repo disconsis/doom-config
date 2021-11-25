@@ -21,6 +21,13 @@
   (interactive)
   (load-theme doom-theme t nil))
 
+(defun nshuffle (sequence)
+  "Shuffle SEQUENCE in place. Picked up from somewhere on the internet."
+  (loop for i from (length sequence) downto 2
+        do (rotatef (elt sequence (random i))
+                    (elt sequence (1- i))))
+  sequence)
+
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -150,6 +157,18 @@
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)
+
+(defun kk/try-all-themes ()
+  "Go through all themes in a shuffled order."
+  (interactive)
+  (let* ((all-themes (nshuffle (custom-available-themes)))
+         (theme-idx 1)
+         (num-themes (length all-themes)))
+   (dolist (theme all-themes)
+     (setq theme-idx (+ 3 theme-idx))
+     (load-theme theme t nil)
+     (when (not (yes-or-no-p (format "current theme: %s [%d/%d]  Go to next theme? " theme theme-idx num-themes)))
+       (return theme)))))
 
 ;;; Notes
 

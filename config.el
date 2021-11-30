@@ -178,7 +178,3 @@
 ;;; Notes
 
 ;; TODO Check out rougier's `svg-lib' - seems pretty fun
-;; TODO turn off lsp-ui-doc and lsp-ui
-;; TODO Constrict prettify-symbols-mode in ocaml to only ->
-;; TODO Try `paredit'
-

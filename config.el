@@ -173,6 +173,8 @@
      (when (not (yes-or-no-p (format "current theme: %s [%d/%d]  Go to next theme? " theme theme-idx num-themes)))
        (return theme)))))
 
+(setq initial-frame-alist '((top . 23) (left . 0) (height . 56) (width . 272)))
+
 ;;; Notes
 
 ;; TODO Check out rougier's `svg-lib' - seems pretty fun

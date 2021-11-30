@@ -115,7 +115,7 @@
   (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
 
 ;;;; Font
-(setq doom-font (font-spec :family "Iosevka" :size 12))
+(setq doom-font (font-spec :family "Iosevka" :size 14))
 
 ;;;; Theme
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))

@@ -16,9 +16,9 @@
   (and (<= start item)
        (<= item end)))
 
-(defun kk/load-doom-theme ()
-  "Load the currently set `doom-theme'."
-  (interactive)
+(defun kk/load-doom-theme (&optional theme)
+  "Load the currently set `doom-theme'. If THEME is provided, set it to `doom-theme' first."
+  (setq doom-theme (or theme doom-theme))
   (load-theme doom-theme t nil))
 
 (defun nshuffle (sequence)
@@ -133,34 +133,42 @@
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
                          (doom-sourcerer         . (,(pm 9) . ,(am 5)))))
 
-(defun kk/theme-for-time ()
-  "Get appropriate theme for current time from `kk/theme-timings'."
-  (let* ((curr-hour (decoded-time-hour (decode-time (current-time))))
+(defun kk/theme-for-time (&optional hour-diff)
+  "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `kk/theme-timings'."
+  (let* ((hour (mod (+ (or 0 hour-diff)
+                       (decoded-time-hour (decode-time (current-time))))
+                    24))
          (check-theme
             (lambda (item)
               (cl-destructuring-bind (_theme . (start-hour . end-hour)) item
                   (if (<= start-hour end-hour)
-                      (between start-hour curr-hour end-hour)
-                    (or (between end-hour curr-hour 23)
-                        (between 0 curr-hour end-hour))))))
+                      (between start-hour hour end-hour)
+                    (or (between end-hour hour 23)
+                        (between 0 hour end-hour))))))
          (found-item (seq-find check-theme kk/theme-timings))
          (default-theme 'default))
     (if (not found-item)
         (progn
-          (warn "No suitable theme found in `kk/theme-timings' for hour = %s. Defaulting to %s theme" curr-hour default-theme)
+          (warn "No suitable theme found in `kk/theme-timings' for hour = %s. Defaulting to %s theme" hour default-theme)
           default-theme)
       (car found-item))))
 
 (setq doom-theme (kk/theme-for-time))
 
 (defun kk/load-theme-for-time ()
-  "Load appropriate theme for current time."
+  "Load appropriate theme for time if the current theme hasn't been changed."
   (interactive)
-  (let ((new-theme (kk/theme-for-time)))
-    (when (or (not (equal new-theme doom-theme))
-              (not (custom-theme-enabled-p doom-theme)))
-      (setq doom-theme new-theme)
-      (kk/load-doom-theme))))
+  (let* ((prev-theme-for-time (kk/theme-for-time -1))
+         (curr-theme-for-time (kk/theme-for-time))
+         (change-to-curr-theme-for-time
+          (and (not (equal doom-theme curr-theme-for-time))
+               (or (equal doom-theme prev-theme-for-time)
+                   (yes-or-no-p (format "Current theme '%s' has been set manually. Do you want to set it to the appropriate theme according to `kk/theme-timings' (%s)? "
+                                        doom-theme curr-theme-for-time))))))
+    (if change-to-curr-theme-for-time
+        (progn (setq doom-theme curr-theme-for-time)
+               (kk/load-doom-theme))
+      (message "Not changing theme"))))
 
 ;; check every hour
 (run-at-time t 3600 #'kk/load-theme-for-time)

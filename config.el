@@ -106,6 +106,14 @@
         evil-vsplit-window-right t
         evil-ex-substitute-global t))
 
+;;; LSP
+
+(setq lsp-ui-doc-enable nil
+      lsp-ui-doc-show-with-cursor nil
+      lsp-ui-sideline-enable nil
+      lsp-eldoc-enable-hover t
+      lsp-signature-render-documentation t)
+
 ;;; UI
 
 (setq display-line-numbers-type t)

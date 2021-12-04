@@ -165,6 +165,25 @@
 ;; check every hour
 (run-at-time t 3600 #'kk/load-theme-for-time)
 
+;;; Language-specific configs
+;;;; OCaml
+
+(defun kk/find-dune-file ()
+  "Find the corresponding dune file for the current file."
+  (interactive)
+  (let* ((curr-dir (f-dirname (ff-buffer-file-name (current-buffer))))
+         (dune-file (f-join curr-dir "dune")))
+    (if (f-exists? dune-file)
+        (find-file dune-file)
+      (message "No dune file found in %s" curr-dir))))
+
+(after! tuareg
+ (map! :map tuareg-mode-map
+       :localleader
+       :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
+ (setq +default-want-RET-continue-comments nil
+       +evil-want-o/O-to-continue-comments nil))
+
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)

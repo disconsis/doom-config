@@ -163,8 +163,10 @@
          (change-to-curr-theme-for-time
           (and (not (equal doom-theme curr-theme-for-time))
                (or (equal doom-theme prev-theme-for-time)
-                   (yes-or-no-p (format "Current theme '%s' has been set manually. Do you want to set it to the appropriate theme according to `kk/theme-timings' (%s)? "
-                                        doom-theme curr-theme-for-time))))))
+                   (y-or-n-p-with-timeout
+                    (format "Current theme '%s' has been set manually. Do you want to set it to the appropriate theme according to `kk/theme-timings' (%s)? "
+                            doom-theme curr-theme-for-time)
+                    5 t)))))
     (if change-to-curr-theme-for-time
         (progn (setq doom-theme curr-theme-for-time)
                (kk/load-doom-theme))

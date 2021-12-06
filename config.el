@@ -87,6 +87,12 @@
  :n "C-k" nil
  :n "C-j" nil)
 
+(map!
+ :desc "scroll other window down"       :n "M-j"   (cmd! (scroll-other-window 2))
+ :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
+ :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
+ :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
+
 ;;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

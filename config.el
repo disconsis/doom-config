@@ -188,11 +188,19 @@
       (message "No dune file found in %s" curr-dir))))
 
 (after! tuareg
+ ;; switch back-and-forth b/w ocaml and dune file
  (map! :map tuareg-mode-map
        :localleader
        :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
  (setq +default-want-RET-continue-comments nil
        +evil-want-o/O-to-continue-comments nil))
+
+(after! dune
+ ;; switch back-and-forth b/w ocaml and dune file
+ (map! :map dune-mode-map
+       :localleader
+       :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
+ (add-hook 'dune-mode-hook #'parinfer-rust-mode))
 
 ;;; Assorted
 

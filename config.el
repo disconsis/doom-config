@@ -8,6 +8,8 @@
 ;;; Utility functions
 ;; Due to name visibility issues, this section needs to be at the top.
 
+(require 'cl)
+
 ;; 12-hour time -> 24-hour time
 (defun pm (hour) (mod (+ hour 12) 24))
 (defun am (hour) hour)
@@ -145,17 +147,46 @@
 (defvar kk/random-theme-at-start 'default
   "The theme that `hydra-random-themes' was entered with, in case the user wants to go back to it.")
 
+(defun hydra-random-themes-gen-docstring (num-surrounding)
+  "Generate docstring for `hydra-random-themes' with NUM-SURROUNDING themes before and after (each) the current one."
+
+  (let* ((num-themes (length kk/random-themes-list))
+         (-frame-width- (frame-width))
+         (rows (--reduce-r-from
+                (cl-destructuring-bind (theme-row num-row) acc
+                  (let* ((theme-idx (mod (+ it kk/random-theme-idx) num-themes))
+                         (theme-name (symbol-name (elt kk/random-themes-list theme-idx)))
+                         (is-current (zerop it))
+                         (theme-name-decorated (propertize theme-name
+                                                           'face
+                                                           (if is-current
+                                                               'font-lock-preprocessor-face
+                                                             'font-lock-comment-face)))
+                         (theme-num (s-center (string-width theme-name-decorated)
+                                              (if is-current
+                                                  (format "[%d/%d]" (1+ theme-idx) num-themes)
+                                                ""))))
+                   (list (cons theme-name-decorated theme-row) (cons theme-num num-row))))
+
+                (list nil nil)
+                (number-sequence (- num-surrounding) num-surrounding))))
+
+    (cl-destructuring-bind (theme-row num-row) rows
+      (apply #'s-concat
+             (--map
+              (s-concat (s-center -frame-width- (s-join " " it)) "\n")
+              (list (-concat '("...") theme-row '("..."))
+                    (-concat '("   ")  num-row  '("   "))))))))
+
 (defhydra hydra-random-themes
   (:color red
    :body-pre
    (progn
      (setq kk/random-theme-at-start doom-theme)
      (kk/random-themes-reshuffle)))
-
   "
-        %(elt kk/random-themes-list kk/random-theme-idx) [%(1+ kk/random-theme-idx)/%(length kk/random-themes-list)]
+%s(hydra-random-themes-gen-docstring 3)
 "
-
   ("k" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
   ("j" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
   ("r" kk/random-themes-reshuffle "randomize")

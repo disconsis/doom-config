@@ -138,12 +138,15 @@
       (message "No dune file found in %s" curr-dir))))
 
 (after! tuareg
- ;; switch back-and-forth b/w ocaml and dune file
  (map! :map tuareg-mode-map
+       :desc "format region" :v "gq" #'ocp-indent-region
        :localleader
+       ;; switch back-and-forth b/w ocaml and dune file
        :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
+
  (setq +default-want-RET-continue-comments nil
        +evil-want-o/O-to-continue-comments nil))
+
 
 (after! dune
  ;; switch back-and-forth b/w ocaml and dune file

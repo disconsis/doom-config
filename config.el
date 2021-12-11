@@ -125,6 +125,43 @@
 ;; check every hour
 (run-at-time t 3600 #'kk/load-theme-for-time)
 
+;;;;; Random theme switching
+
+(defvar kk/random-themes-list nil)
+(defvar kk/random-theme-idx nil)
+
+(defun kk/set-random-theme-idx (idx)
+  (interactive)
+  (let ((idx (mod idx (length kk/random-themes-list))))
+    (setq kk/random-theme-idx idx)
+    (load-theme (elt kk/random-themes-list kk/random-theme-idx) t nil)))
+
+(defun kk/random-themes-reshuffle ()
+  (interactive)
+  (setq kk/random-themes-list (or kk/random-themes-list (apply #'vector (custom-available-themes))))
+  (nshuffle kk/random-themes-list)
+  (kk/set-random-theme-idx 0))
+
+(defvar kk/random-theme-at-start 'default
+  "The theme that `hydra-random-themes' was entered with, in case the user wants to go back to it.")
+
+(defhydra hydra-random-themes
+  (:color red
+   :body-pre
+   (progn
+     (setq kk/random-theme-at-start doom-theme)
+     (kk/random-themes-reshuffle)))
+
+  "
+        %(elt kk/random-themes-list kk/random-theme-idx) [%(1+ kk/random-theme-idx)/%(length kk/random-themes-list)]
+"
+
+  ("k" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
+  ("j" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
+  ("r" kk/random-themes-reshuffle "randomize")
+  ("q" (load-theme kk/random-theme-at-start t nil) "reset to initial" :color blue)
+  ("." nil "confirm and quit" :color blue))
+
 ;;; Language-specific configs
 ;;;; OCaml
 
@@ -158,18 +195,6 @@
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)
-
-(defun kk/try-all-themes ()
-  "Go through all themes in a shuffled order."
-  (interactive)
-  (let* ((all-themes (nshuffle (custom-available-themes)))
-         (theme-idx 0)
-         (num-themes (length all-themes)))
-   (dolist (theme all-themes)
-     (setq theme-idx (1+ theme-idx))
-     (load-theme theme t nil)
-     (when (not (yes-or-no-p (format "current theme: %s [%d/%d]  Go to next theme? " theme theme-idx num-themes)))
-       (return theme)))))
 
 (setq initial-frame-alist '((top . 23) (left . 0) (height . 56) (width . 272)))
 
@@ -228,6 +253,8 @@
  :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
  :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
  :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
+
+(map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
 
 ;;; Notes
 

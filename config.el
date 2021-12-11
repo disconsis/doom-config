@@ -37,62 +37,6 @@
 (setq org-hide-emphasis-markers t)
 
 
-;;; Keybindings
-
-(setq doom-leader-key "SPC"
-      doom-leader-alt-key "M-SPC"
-      doom-localleader-key ","
-      doom-localleader-alt-key "M-,")
-
-;; learned habit from IntelliJ and VS Code
-(map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
-
-(map! :leader :desc "M-x" "SPC" #'counsel-M-x)
-
-;; easier window movement
-(map!
- :n "C-h" #'evil-window-left
- :n "C-j" #'evil-window-down
- :n "C-k" #'evil-window-up
- :n "C-l" #'evil-window-right)
-
-;; `doom/window-enlargen' just looks ugly, and there seems to be
-;; no benefit over `doom/window-maximize-buffer'. So we set that
-;; to the keybinding I'm most used to.
-;; NOTE Both of these are undo'd by `winner-undo' (~SPC w u~).
-;; `winner-undo' is really powerful. Try to use it more.
-(map!
- (:leader
-  (:prefix "w"
-   :desc "maximize buffer" :n "o" #'doom/window-maximize-buffer
-   :desc "+zoom"           :n "z" #'+hydra/text-zoom/body
-   :desc "+navi"           :n "." #'+hydra/window-nav/body
-   ;; remove previous one-shot bindings.
-   ;; the hydra takes care of all these cases much better.
-   "+" nil
-   "-" nil
-   "<" nil
-   ">" nil)))
-
-;; take back ~s~
-(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
-
-;; vim-vinegar
-(map! :m "-" #'dired-jump)
-
-;; keep keybinds consistent even in emacs' different terminals.
-;; for this, unmap C-k and C-j from moving between prompts.
-;; these are still available through ~g k~ and ~g j~
-(map! :map term-mode-map
- :n "C-k" nil
- :n "C-j" nil)
-
-(map!
- :desc "scroll other window down"       :n "M-j"   (cmd! (scroll-other-window 2))
- :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
- :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
- :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
-
 ;;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map
@@ -225,6 +169,62 @@
        (return theme)))))
 
 (setq initial-frame-alist '((top . 23) (left . 0) (height . 56) (width . 272)))
+
+;;; Keybindings
+
+(setq doom-leader-key "SPC"
+      doom-leader-alt-key "M-SPC"
+      doom-localleader-key ","
+      doom-localleader-alt-key "M-,")
+
+;; learned habit from IntelliJ and VS Code
+(map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
+
+(map! :leader :desc "M-x" "SPC" #'counsel-M-x)
+
+;; easier window movement
+(map!
+ :n "C-h" #'evil-window-left
+ :n "C-j" #'evil-window-down
+ :n "C-k" #'evil-window-up
+ :n "C-l" #'evil-window-right)
+
+;; `doom/window-enlargen' just looks ugly, and there seems to be
+;; no benefit over `doom/window-maximize-buffer'. So we set that
+;; to the keybinding I'm most used to.
+;; NOTE Both of these are undo'd by `winner-undo' (~SPC w u~).
+;; `winner-undo' is really powerful. Try to use it more.
+(map!
+ (:leader
+  (:prefix "w"
+   :desc "maximize buffer" :n "o" #'doom/window-maximize-buffer
+   :desc "+zoom"           :n "z" #'+hydra/text-zoom/body
+   :desc "+navi"           :n "." #'+hydra/window-nav/body
+   ;; remove previous one-shot bindings.
+   ;; the hydra takes care of all these cases much better.
+   "+" nil
+   "-" nil
+   "<" nil
+   ">" nil)))
+
+;; take back ~s~
+(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+
+;; vim-vinegar
+(map! :m "-" #'dired-jump)
+
+;; keep keybinds consistent even in emacs' different terminals.
+;; for this, unmap C-k and C-j from moving between prompts.
+;; these are still available through ~g k~ and ~g j~
+(map! :map term-mode-map
+ :n "C-k" nil
+ :n "C-j" nil)
+
+(map!
+ :desc "scroll other window down"       :n "M-j"   (cmd! (scroll-other-window 2))
+ :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
+ :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
+ :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
 
 ;;; Notes
 

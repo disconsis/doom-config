@@ -216,10 +216,10 @@
   "Go through all themes in a shuffled order."
   (interactive)
   (let* ((all-themes (nshuffle (custom-available-themes)))
-         (theme-idx 1)
+         (theme-idx 0)
          (num-themes (length all-themes)))
    (dolist (theme all-themes)
-     (setq theme-idx (+ 3 theme-idx))
+     (setq theme-idx (1+ theme-idx))
      (load-theme theme t nil)
      (when (not (yes-or-no-p (format "current theme: %s [%d/%d]  Go to next theme? " theme theme-idx num-themes)))
        (return theme)))))

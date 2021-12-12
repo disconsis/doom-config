@@ -174,7 +174,7 @@
     (cl-destructuring-bind (theme-row num-row) rows
       (apply #'s-concat
              (--map
-              (s-concat (s-center -frame-width- (s-join " " it)) "\n")
+              (s-concat (s-center -frame-width- (s-join "   " it)) "\n")
               (list (-concat '("...") theme-row '("..."))
                     (-concat '("   ")  num-row  '("   "))))))))
 

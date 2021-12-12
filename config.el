@@ -85,6 +85,8 @@
 (setq doom-font-increment 1)
 
 ;;;; Theme
+;;;;; Timed changes
+
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
                          (doom-sourcerer         . (,(pm 9) . ,(am 5)))))

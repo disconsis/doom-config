@@ -59,3 +59,5 @@
 (package! outshine)
 
 (package! modus-themes)
+
+(package! svg-lib)

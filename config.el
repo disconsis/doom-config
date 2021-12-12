@@ -77,6 +77,8 @@
   ;; stop doom from autoloading this
   (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
 
+(setq initial-frame-alist '((top . 23) (left . 0) (height . 56) (width . 272)))
+
 ;;;; Font
 (setq doom-font (font-spec :family "Iosevka" :size 14))
 
@@ -228,8 +230,6 @@
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)
-
-(setq initial-frame-alist '((top . 23) (left . 0) (height . 56) (width . 272)))
 
 ;;; Keybindings
 

@@ -82,6 +82,8 @@
 ;;;; Font
 (setq doom-font (font-spec :family "Iosevka" :size 14))
 
+(setq doom-font-increment 1)
+
 ;;;; Theme
 (setq kk/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
                          (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))

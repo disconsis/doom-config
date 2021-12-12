@@ -91,6 +91,8 @@
                                    (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
                                    (doom-sourcerer         . (,(pm 9) . ,(am 5)))))
 
+(setq timed-themes/default-theme 'doom-ir-black) ;; something slightly weird so that the change is noticeable
+
 (defun timed-themes/theme-for-time (&optional hour-diff)
   "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `timed-theme/theme-timings'."
   (let* ((hour (mod (+ (or 0 hour-diff)
@@ -103,15 +105,12 @@
                       (between start-hour hour end-hour)
                     (or (between end-hour hour 23)
                         (between 0 hour end-hour))))))
-         (found-item (seq-find check-theme timed-themes/theme-timings))
-         (default-theme 'default))
+         (found-item (seq-find check-theme timed-themes/theme-timings)))
     (if (not found-item)
         (progn
-          (warn "No suitable theme found in `timed-themes/theme-timings' for hour = %s. Defaulting to %s theme" hour default-theme)
-          default-theme)
+          (warn "No suitable theme found in `timed-themes/theme-timings' for hour = %s. Defaulting to %s theme" hour timed-themes/default-theme)
+          timed-themes/default-theme)
       (car found-item))))
-
-(setq doom-theme (timed-themes/theme-for-time))
 
 (defun timed-themes/load-theme-for-time ()
   "Load appropriate theme for time if the current theme hasn't been changed."
@@ -130,10 +129,24 @@
                (kk/load-doom-theme))
       (message "Not changing theme"))))
 
+(defvar timed-themes/change-timer nil
+  "Timer to change themes periodically.")
+
 (defvar timed-themes/change-time 3600
   "Number of seconds per which to check for theme changes.")
 
-(run-at-time t timed-themes/change-time #'timed-themes/load-theme-for-time)
+(define-minor-mode timed-themes-minor-mode
+  "Minor mode to periodically change themes."
+  :global t
+  :lighter " TimedThemes"
+  (when timed-themes/change-timer (cancel-timer timed-themes/change-timer))
+  (setq timed-themes/change-timer nil)
+  (when timed-themes-minor-mode
+    (setq timed-themes/change-timer
+          (run-with-timer nil timed-themes/change-time #'timed-themes/load-theme-for-time))))
+
+(setq doom-theme (timed-themes/theme-for-time))
+(timed-themes-minor-mode)
 
 ;;;;; Random theme switching
 

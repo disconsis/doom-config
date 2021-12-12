@@ -183,7 +183,9 @@
    :body-pre
    (progn
      (setq kk/random-theme-at-start doom-theme)
-     (kk/random-themes-reshuffle)))
+     (if kk/random-themes-list
+        (load-theme (elt kk/random-themes-list kk/random-theme-idx) t nil)
+       (kk/random-themes-reshuffle))))
   "
 %s(hydra-random-themes-gen-docstring 3)
 "

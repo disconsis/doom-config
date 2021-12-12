@@ -182,6 +182,15 @@
               (list (-concat '("...") theme-row '("..."))
                     (-concat '("   ")  num-row  '("   "))))))))
 
+(defun kk/search-random-theme ()
+  (interactive)
+  (-> (completing-read "Find theme: "
+                       (mapcar #'symbol-name kk/random-themes-list)
+                       nil t)
+      (intern)
+      (cl-position kk/random-themes-list)
+      (kk/set-random-theme-idx)))
+
 (defhydra hydra-random-themes
   (:color red
    :body-pre
@@ -196,6 +205,7 @@
   ("k" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
   ("j" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
   ("r" kk/random-themes-reshuffle "randomize")
+  ("/" kk/search-random-theme "search")
   ("q" (load-theme kk/random-theme-at-start t nil) "reset to initial" :color blue)
   ("." nil "confirm and quit" :color blue))
 

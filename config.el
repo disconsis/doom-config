@@ -39,7 +39,7 @@
 (setq org-hide-emphasis-markers t)
 
 
-;;;; LSP
+;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map
       (:leader

@@ -122,7 +122,7 @@
           (and (not (equal doom-theme curr-theme-for-time))
                (or (equal doom-theme prev-theme-for-time)
                    (y-or-n-p-with-timeout
-                    (format "Current theme '%s' has been set manually. Do you want to set it to the appropriate theme according to `kk/theme-timings' (%s)? "
+                    (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
                             doom-theme curr-theme-for-time)
                     5 t)))))
     (if change-to-curr-theme-for-time

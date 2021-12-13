@@ -120,12 +120,12 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
                        (decoded-time-hour (decode-time (current-time))))
                     24))
          (check-theme
-            (lambda (item)
-              (cl-destructuring-bind (_theme . (start-hour . end-hour)) item
-                  (if (<= start-hour end-hour)
-                      (between start-hour hour end-hour)
-                    (or (between end-hour hour 23)
-                        (between 0 hour end-hour))))))
+          (lambda (item)
+            (cl-destructuring-bind (_theme . (start-hour . end-hour)) item
+              (if (<= start-hour end-hour)
+                  (between start-hour hour end-hour)
+                (or (between end-hour hour 23)
+                    (between 0 hour end-hour))))))
          (found-item (seq-find check-theme timed-themes/theme-timings)))
     (if (not found-item)
         (progn
@@ -209,7 +209,7 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
                                               (if is-current
                                                   (format "[%d/%d]" (1+ theme-idx) num-themes)
                                                 ""))))
-                   (list (cons theme-name-decorated theme-row) (cons theme-num num-row))))
+                    (list (cons theme-name-decorated theme-row) (cons theme-num num-row))))
 
                 (list nil nil)
                 (number-sequence (- num-surrounding) num-surrounding))))
@@ -236,7 +236,7 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
    (progn
      (setq kk/random-theme-at-start doom-theme)
      (if kk/random-themes-list
-        (load-theme (elt kk/random-themes-list kk/random-theme-idx) t nil)
+         (load-theme (elt kk/random-themes-list kk/random-theme-idx) t nil)
        (kk/random-themes-reshuffle))))
   "
 %s(hydra-random-themes-gen-docstring 3)
@@ -275,23 +275,23 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
       (message "No dune file found in %s" curr-dir))))
 
 (after! tuareg
- (map! :map tuareg-mode-map
-       :desc "format region" :v "gq" #'ocp-indent-region
-       :localleader
-       ;; switch back-and-forth b/w ocaml and dune file
-       :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
+  (map! :map tuareg-mode-map
+        :desc "format region" :v "gq" #'ocp-indent-region
+        :localleader
+        ;; switch back-and-forth b/w ocaml and dune file
+        :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
 
- (add-hook! 'tuareg-mode-hook
-  (setq-local
-   +default-want-RET-continue-comments nil
-   +evil-want-o/O-to-continue-comments nil)))
+  (add-hook! 'tuareg-mode-hook
+    (setq-local
+     +default-want-RET-continue-comments nil
+     +evil-want-o/O-to-continue-comments nil)))
 
 (after! dune
- ;; switch back-and-forth b/w ocaml and dune file
- (map! :map dune-mode-map
-       :localleader
-       :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
- (add-hook 'dune-mode-hook #'parinfer-rust-mode))
+  ;; switch back-and-forth b/w ocaml and dune file
+  (map! :map dune-mode-map
+        :localleader
+        :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
+  (add-hook 'dune-mode-hook #'parinfer-rust-mode))
 
 ;;; Assorted
 
@@ -344,8 +344,8 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
 ;; for this, unmap C-k and C-j from moving between prompts.
 ;; these are still available through ~g k~ and ~g j~
 (map! :map term-mode-map
- :n "C-k" nil
- :n "C-j" nil)
+      :n "C-k" nil
+      :n "C-j" nil)
 
 (map!
  :desc "scroll other window down"       :n "M-j"   (cmd! (scroll-other-window 2))

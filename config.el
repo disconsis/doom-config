@@ -256,7 +256,11 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
         ;; reduce the size of icons in the modeline so that it doesn't get cut off at the end
         all-the-icons-scale-factor 1.1)
 
-  (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode))
+  (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode)
+  (doom-themes-set-faces nil
+    ;; Modeline icons use this face, which has :inherit `success' and `bold'.
+    ;; I don't know any way of removing the :inherit `bold' without just specifying everything else it inherits from.
+    '(doom-modeline-info :inherit 'success)))
 
 ;;; Language-specific configs
 ;;;; OCaml

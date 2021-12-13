@@ -89,7 +89,12 @@
 (message "initial-frame-alist: %s" initial-frame-alist)
 
 ;;;; Font
+
 (setq doom-font (font-spec :family "Iosevka" :size 14))
+
+;; fix the weird fixed-pitch font in Info manuals
+(doom-themes-set-faces nil
+  '(fixed-pitch-serif :inherit 'default))
 
 (setq doom-font-increment 1)
 

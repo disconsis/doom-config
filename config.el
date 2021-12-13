@@ -281,9 +281,10 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
        ;; switch back-and-forth b/w ocaml and dune file
        :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
 
- (setq +default-want-RET-continue-comments nil
-       +evil-want-o/O-to-continue-comments nil))
-
+ (add-hook! 'tuareg-mode-hook
+  (setq-local
+   +default-want-RET-continue-comments nil
+   +evil-want-o/O-to-continue-comments nil)))
 
 (after! dune
  ;; switch back-and-forth b/w ocaml and dune file

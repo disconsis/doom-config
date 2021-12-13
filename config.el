@@ -93,11 +93,12 @@
     (doom-sourcerer         . (,(pm 9) . ,(am 5))))
   "Alist mapping themes to their suitable timings.
 Entries should be of the form (THEME . (START-TIME . END-TIME))."
-  :group 'timed-themes
-  :type '(alist :key-type symbol :value-type (alist :key-type integer :value-type integer)))
+  :type '(alist :key-type symbol :value-type (alist :key-type integer :value-type integer))
+  :group 'timed-themes)
 
 (defcustom timed-themes/default-theme 'wombat
-  "Fallback theme in case no suitable timed theme is found.")
+  "Fallback theme in case no suitable timed theme is found."
+  :group 'timed-themes)
 
 (defun timed-themes/theme-for-time (&optional hour-diff)
   "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `timed-theme/theme-timings'."
@@ -144,6 +145,7 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
 (define-minor-mode timed-themes-minor-mode
   "Minor mode to periodically change themes."
   :global t
+  :group 'timed-themes
   :lighter " TimedThemes"
   (when timed-themes/change-timer (cancel-timer timed-themes/change-timer))
   (setq timed-themes/change-timer nil)

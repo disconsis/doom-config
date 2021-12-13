@@ -77,7 +77,16 @@
   ;; stop doom from autoloading this
   (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
 
-(setq initial-frame-alist '((top . 23) (left . 0) (height . 56) (width . 272)))
+
+;; put the window on the second monitor if present
+
+(setq kk/single-monitor-width 1920)
+
+(let* ((second-monitor-present? (> (x-display-pixel-width) kk/single-monitor-width))
+       (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
+  (setq initial-frame-alist `((top . 23) (left . ,left-pos) (height . 56) (width . 272))))
+
+(message "initial-frame-alist: %s" initial-frame-alist)
 
 ;;;; Font
 (setq doom-font (font-spec :family "Iosevka" :size 14))

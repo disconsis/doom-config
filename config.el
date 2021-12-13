@@ -353,6 +353,10 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
  :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
  :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
 
+(map!
+ :desc "format region" :v "gq" #'+format/region ; This is the keybinding I always reach for to format a region
+ :desc "format buffer" :n "gQ" #'+format/buffer)
+
 (map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
 
 ;;; Notes

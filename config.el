@@ -87,11 +87,17 @@
 ;;;; Theme
 ;;;;; Timed changes
 
-(setq timed-themes/theme-timings `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
-                                   (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
-                                   (doom-sourcerer         . (,(pm 9) . ,(am 5)))))
+(defcustom timed-themes/theme-timings
+  `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
+    (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
+    (doom-sourcerer         . (,(pm 9) . ,(am 5))))
+  "Alist mapping themes to their suitable timings.
+Entries should be of the form (THEME . (START-TIME . END-TIME))."
+  :group 'timed-themes
+  :type '(alist :key-type symbol :value-type (alist :key-type integer :value-type integer)))
 
-(setq timed-themes/default-theme 'doom-ir-black) ;; something slightly weird so that the change is noticeable
+(defcustom timed-themes/default-theme 'wombat
+  "Fallback theme in case no suitable timed theme is found.")
 
 (defun timed-themes/theme-for-time (&optional hour-diff)
   "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `timed-theme/theme-timings'."

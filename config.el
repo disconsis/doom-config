@@ -243,6 +243,16 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
   ("q" (load-theme kk/random-theme-at-start t nil) "reset to initial" :color blue)
   ("." nil "confirm and quit" :color blue))
 
+;;;; Modeline
+
+(after! doom-modeline
+  (setq doom-modeline-hud t
+        doom-modeline-major-mode-icon t
+        ;; reduce the size of icons in the modeline so that it doesn't get cut off at the end
+        all-the-icons-scale-factor 1.1)
+
+  (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode))
+
 ;;; Language-specific configs
 ;;;; OCaml
 

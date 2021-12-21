@@ -74,6 +74,7 @@ Both START-HOUR and END-HOUR are inclusive."
           (and (not (equal loaded-theme curr-theme-for-time))
                (or
                 (not loaded-theme)
+                (called-interactively-p 'any)
                 (equal loaded-theme prev-theme-for-time)
                 (cl-case timed-themes/change-theme-if-manually-set
                   (nil nil)
@@ -82,9 +83,8 @@ Both START-HOUR and END-HOUR are inclusive."
                          (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
                                  loaded-theme curr-theme-for-time)
                          5 timed-themes/change-theme-default-on-ask-timeout)))))))
-    (if change-to-curr-theme-for-time
-        (load-theme curr-theme-for-time t nil)
-      (message "Not changing theme"))))
+    (when change-to-curr-theme-for-time
+        (load-theme curr-theme-for-time t nil))))
 
 (defvar timed-themes/change-timer nil
   "Timer to change themes periodically.")

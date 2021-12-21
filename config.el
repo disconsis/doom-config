@@ -291,7 +291,7 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
   (map! :map dune-mode-map
         :localleader
         :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
-  (add-hook 'dune-mode-hook #'parinfer-rust-mode))
+  (when (featurep! :editor lispy) (add-hook 'dune-mode-hook #'lispyville-mode)))
 
 ;;; Assorted
 

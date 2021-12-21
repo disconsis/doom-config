@@ -117,8 +117,15 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
   :type 'symbol
   :group 'timed-themes)
 
-(defcustom timed-themes/change-if-timeout nil
-  "Should the theme be changed if a different theme has been loaded manually and the user prompt times out?"
+(defcustom timed-themes/change-theme-if-manually-set t
+  "Should the theme be changed if a different theme has been set manually?"
+  :type '(choice (const :tag "Don't change" nil)
+                 (const :tag "Prompt yes or no" 'ask)
+                 (const :tag "Change without asking" t))
+  :group 'timed-themes)
+
+(defcustom timed-themes/change-theme-default-on-ask-timeout nil
+  "Should the theme be changed if the user prompt to change manually set theme times out?"
   :type 'boolean
   :group 'timed-themes)
 
@@ -149,10 +156,13 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
          (change-to-curr-theme-for-time
           (and (not (equal doom-theme curr-theme-for-time))
                (or (equal doom-theme prev-theme-for-time)
-                   (y-or-n-p-with-timeout
-                    (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
-                            doom-theme curr-theme-for-time)
-                    5 timed-themes/change-if-timeout)))))
+                   (cl-case timed-themes/change-theme-if-manually-set
+                     (nil nil)
+                     (t t)
+                     ('ask (y-or-n-p-with-timeout
+                            (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
+                                    doom-theme curr-theme-for-time)
+                            5 timed-themes/change-theme-default-on-ask-timeout)))))))
     (if change-to-curr-theme-for-time
         (progn (setq doom-theme curr-theme-for-time)
                (kk/load-doom-theme))

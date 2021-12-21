@@ -294,6 +294,13 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
         :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
   (when (featurep! :editor lispy) (add-hook 'dune-mode-hook #'lispyville-mode)))
 
+;;;; Minor-modes
+;;;;; outshine
+
+(after! outshine
+  (map! :map outshine-mode-map
+        :desc "narrow to subtree" :n "zn" #'outshine-narrow-to-subtree))
+
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)

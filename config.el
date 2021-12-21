@@ -113,6 +113,12 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
 
 (defcustom timed-themes/default-theme 'wombat
   "Fallback theme in case no suitable timed theme is found."
+  :type 'symbol
+  :group 'timed-themes)
+
+(defcustom timed-themes/change-if-timeout nil
+  "Should the theme be changed if a different theme has been loaded manually and the user prompt times out?"
+  :type 'boolean
   :group 'timed-themes)
 
 (defun timed-themes/theme-for-time (&optional hour-diff)
@@ -145,7 +151,7 @@ Entries should be of the form (THEME . (START-TIME . END-TIME))."
                    (y-or-n-p-with-timeout
                     (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
                             doom-theme curr-theme-for-time)
-                    5 t)))))
+                    5 timed-themes/change-if-timeout)))))
     (if change-to-curr-theme-for-time
         (progn (setq doom-theme curr-theme-for-time)
                (kk/load-doom-theme))

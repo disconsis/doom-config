@@ -106,7 +106,7 @@
         (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
         (doom-sourcerer         . (,(pm 9) . ,(am 5))))
 
-      timed-themes/default-theme 'wombat
+      timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil
       timed-themes/change-theme-default-on-ask-timeout nil)
 

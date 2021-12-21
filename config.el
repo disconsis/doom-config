@@ -82,9 +82,10 @@
 
 (setq kk/single-monitor-width 1920)
 
-(let* ((second-monitor-present? (> (x-display-pixel-width) kk/single-monitor-width))
-       (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
-  (setq initial-frame-alist `((top . 23) (left . ,left-pos) (height . 56) (width . 272))))
+(when (display-graphic-p)
+  (let* ((second-monitor-present? (> (x-display-pixel-width) kk/single-monitor-width))
+         (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
+    (setq initial-frame-alist `((top . 23) (left . ,left-pos) (height . 56) (width . 272)))))
 
 (message "initial-frame-alist: %s" initial-frame-alist)
 

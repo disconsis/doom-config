@@ -47,6 +47,8 @@
 ;;; Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)
 
+(add-to-list 'recentf-exclude (concat "^" doom-local-dir))
+
 ;;; Evil
 (use-package! evil
   :config

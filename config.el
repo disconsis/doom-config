@@ -206,7 +206,9 @@
   (doom-themes-set-faces nil
     ;; Modeline icons use this face, which has :inherit `success' and `bold'.
     ;; I don't know any way of removing the :inherit `bold' without just specifying everything else it inherits from.
-    '(doom-modeline-info :inherit 'success)))
+    '(doom-modeline-info :inherit 'success)
+    ;; similarly for warning
+    '(doom-modeline-warning :inherit 'warning)))
 
 ;;; Language-specific configs
 ;;;; OCaml

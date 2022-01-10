@@ -34,6 +34,12 @@
 
 (setq org-hide-emphasis-markers t)
 
+;;;; Look
+(use-package! valign
+  :defer
+  :init
+  (setq valign-fancy-bar t)
+  (add-hook 'org-mode-hook #'valign-mode))
 
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map

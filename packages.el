@@ -61,3 +61,5 @@
 (package! modus-themes)
 
 (package! svg-lib)
+
+(package! valign)

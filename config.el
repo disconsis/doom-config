@@ -247,6 +247,10 @@
         :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
   (when (featurep! :editor lispy) (add-hook 'dune-mode-hook #'lispyville-mode)))
 
+;;;; Purescript
+(after! purescript-mode
+  (set-formatter! 'purty "purty -" :modes '(purescript-mode)))
+
 ;;;; Minor-modes
 ;;;;; outshine
 

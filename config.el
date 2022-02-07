@@ -123,8 +123,8 @@
 (load! "local-packages/timed-themes/timed-themes.el" doom-private-dir)
 
 (setq timed-themes/theme-timings
-      `((doom-flatwhite         . (,(am 6) . ,(pm 3)))
-        (doom-monokai-ristretto . (,(pm 4) . ,(pm 8)))
+      `((doom-one-light         . (,(am 6) . ,(pm 3)))
+        (doom-ayu-mirage        . (,(pm 4) . ,(pm 8)))
         (doom-sourcerer         . (,(pm 9) . ,(am 5))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me

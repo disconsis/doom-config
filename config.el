@@ -41,6 +41,18 @@
   (setq valign-fancy-bar t)
   (add-hook 'org-mode-hook #'valign-mode))
 
+;;;; Capture templates
+
+(setq +org-capture-work-tasks-file (expand-file-name "work_tasks.org" org-directory))
+
+(setq org-capture-templates
+      '(("w" "Work tasks" entry
+         (file +org-capture-work-tasks-file)
+         "* TODO %^{title}\n:PROPERTIES:\nDATE: %t\n:END:\n%?"
+         :prepend t
+         :jump-to-capture t
+         :empty-lines 1)))
+
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

@@ -63,3 +63,5 @@
 (package! svg-lib)
 
 (package! valign)
+
+(package! dhall-mode)

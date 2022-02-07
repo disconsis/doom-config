@@ -263,6 +263,10 @@
 (after! purescript-mode
   (set-formatter! 'purty "purty -" :modes '(purescript-mode)))
 
+;;;; Dhall
+(use-package! dhall-mode
+  :mode "\\.dhall\\'")
+
 ;;;; Minor-modes
 ;;;;; outshine
 

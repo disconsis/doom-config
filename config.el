@@ -261,7 +261,8 @@
 
 ;;;; Purescript
 (after! purescript-mode
-  (set-formatter! 'purty "purty -" :modes '(purescript-mode)))
+  ;; (set-formatter! 'purty "purty -" :modes '(purescript-mode))
+  (set-formatter! 'purs-tidy "purs-tidy format" :modes '(purescript-mode)))
 
 ;;;; Dhall
 (use-package! dhall-mode
@@ -280,6 +281,8 @@
 
 ;;; Keybindings
 
+;;;; Main
+
 (setq doom-leader-key "SPC"
       doom-leader-alt-key "M-SPC"
       doom-localleader-key ","
@@ -289,6 +292,8 @@
 (map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
 
 (map! :leader :desc "M-x" "SPC" #'counsel-M-x)
+
+;;;; Window
 
 ;; easier window movement
 (map!
@@ -315,11 +320,13 @@
    "<" nil
    ">" nil)))
 
-;; take back ~s~
-(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+(map!
+ :desc "scroll other window down"       :n "M-j"   (cmd! (scroll-other-window 2))
+ :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
+ :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
+ :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
 
-;; vim-vinegar
-(map! :m "-" #'dired-jump)
+;;;; Terminal(s)
 
 ;; keep keybinds consistent even in emacs' different terminals.
 ;; for this, unmap C-k and C-j from moving between prompts.
@@ -328,17 +335,27 @@
       :n "C-k" nil
       :n "C-j" nil)
 
-(map!
- :desc "scroll other window down"       :n "M-j"   (cmd! (scroll-other-window 2))
- :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
- :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
- :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
+(map! :map vterm-mode-map
+      :n "g k" #'vterm-previous-prompt
+      :n "g j" #'vterm-next-prompt
+      :i "C-l" (cmd! (vterm-clear) (vterm-clear-scrollback)))
+
+;;;; Other
+
+;; take back ~s~
+(remove-hook 'doom-first-input-hook #'evil-snipe-mode)
+
+;; vim-vinegar
+(map! :m "-" #'dired-jump)
 
 (map!
  :desc "format region" :v "gq" #'+format/region ; This is the keybinding I always reach for to format a region
  :desc "format buffer" :n "gQ" #'+format/buffer)
 
 (map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
+
+(when (featurep! :ui hl-todo)
+  (map! :leader :desc "search for todos" :n "s t" #'hl-todo-occur))
 
 ;;; Notes
 

@@ -105,8 +105,6 @@
          (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
     (setq initial-frame-alist `((top . 23) (left . ,left-pos) (height . 56) (width . 272)))))
 
-(message "initial-frame-alist: %s" initial-frame-alist)
-
 ;;;; Font
 
 (setq doom-font (font-spec :family "Iosevka" :size 14))

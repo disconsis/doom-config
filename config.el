@@ -207,6 +207,8 @@
 "
   ("k" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
   ("j" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
+  ("h" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
+  ("l" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
   ("r" kk/random-themes-reshuffle "randomize")
   ("/" kk/search-random-theme "search")
   ("q" (load-theme kk/random-theme-at-start t nil) "reset to initial" :color blue)

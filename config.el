@@ -110,7 +110,7 @@
 (setq doom-font (font-spec :family "Iosevka" :size 14))
 
 ;; fix the weird fixed-pitch font in Info manuals
-(doom-themes-set-faces nil
+(custom-theme-set-faces! 'user
   '(fixed-pitch-serif :inherit 'default))
 
 (setq doom-font-increment 1)
@@ -212,6 +212,12 @@
   ("q" (load-theme kk/random-theme-at-start t nil) "reset to initial" :color blue)
   ("." nil "confirm and quit" :color blue))
 
+;;;;; Theme modifications
+
+(after! doom
+ (custom-theme-set-faces! 'doom-ayu-mirage
+   '(line-number :foreground "gray28")))
+
 ;;;; Modeline
 
 (after! doom-modeline
@@ -221,7 +227,7 @@
         all-the-icons-scale-factor 1.1)
 
   (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode)
-  (doom-themes-set-faces nil
+  (custom-theme-set-faces! 'user
     ;; Modeline icons use this face, which has :inherit `success' and `bold'.
     ;; I don't know any way of removing the :inherit `bold' without just specifying everything else it inherits from.
     '(doom-modeline-info :inherit 'success)

@@ -247,10 +247,24 @@
         ;; switch back-and-forth b/w ocaml and dune file
         :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
 
-  (add-hook! 'tuareg-mode-hook
-    (setq-local
-     +default-want-RET-continue-comments nil
-     +evil-want-o/O-to-continue-comments nil)))
+  (setq-hook! 'tuareg-mode-hook
+    +default-want-RET-continue-comments nil
+    +evil-want-o/O-to-continue-comments nil
+    evil-surround-pairs-alist
+    (append
+     '((?\b . ("begin"  . "end"))
+       (?\m . ("sig"    . "end"))
+       (?\s . ("struct" . "end")))
+     evil-surround-pairs-alist))
+
+  (add-to-list
+   'hs-special-modes-alist
+   `(tuareg-mode
+     ,(regexp-opt '("sig" "struct" "begin"))
+     "end"
+     nil nil))
+
+  (add-hook! 'tuareg-mode-hook #'hs-minor-mode))
 
 (after! dune
   ;; switch back-and-forth b/w ocaml and dune file

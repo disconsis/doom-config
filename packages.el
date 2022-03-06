@@ -58,10 +58,14 @@
 
 (package! outshine)
 
-(package! modus-themes)
-
 (package! svg-lib)
 
 (package! valign)
 
 (package! dhall-mode)
+
+;;; Themes
+(package! modus-themes)
+(package! plan9-theme)
+(package! anti-zenburn-theme)
+(package! noctilux-theme)

@@ -64,6 +64,8 @@
 
 (package! dhall-mode)
 
+(package! prism)
+
 ;;; Themes
 (package! modus-themes)
 (package! plan9-theme)

@@ -229,6 +229,9 @@
     '(doom-modeline-warning :inherit 'warning)))
 
 ;;; Language-specific configs
+;;;; Emacs lisp
+(add-hook 'emacs-lisp-mode-hook #'prism-mode)
+
 ;;;; OCaml
 
 (defun kk/find-dune-file ()

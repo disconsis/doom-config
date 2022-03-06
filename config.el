@@ -337,10 +337,13 @@
       :n "C-k" nil
       :n "C-j" nil)
 
+(after! vterm
+  (setq vterm-clear-scrollback-when-clearing t))
+
 (map! :map vterm-mode-map
       :n "g k" #'vterm-previous-prompt
       :n "g j" #'vterm-next-prompt
-      :i "C-l" (cmd! (vterm-clear) (vterm-clear-scrollback)))
+      :i "C-l" #'vterm-clear)
 
 ;;;; Other
 

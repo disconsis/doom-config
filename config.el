@@ -218,6 +218,9 @@
  (custom-theme-set-faces! 'doom-ayu-mirage
    '(line-number :foreground "gray28")))
 
+(after! modus-themes
+  (setq modus-themes-mode-line '(accented borderless)))
+
 ;;;; Modeline
 
 (after! doom-modeline

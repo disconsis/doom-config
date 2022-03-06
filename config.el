@@ -232,7 +232,31 @@
     ;; I don't know any way of removing the :inherit `bold' without just specifying everything else it inherits from.
     '(doom-modeline-info :inherit 'success)
     ;; similarly for warning
-    '(doom-modeline-warning :inherit 'warning)))
+    '(doom-modeline-warning :inherit 'warning))
+
+  (doom-modeline-def-segment theme
+    (let ((face (if (doom-modeline--active)
+                    'doom-modeline-buffer-minor-mode
+                  'mode-line-inactive))
+          (theme-name (symbol-name
+                       (or (car-safe custom-enabled-themes)
+                           'default))))
+      (concat
+       (doom-modeline-spc)
+       (and doom-modeline-icon
+            (concat (doom-modeline-icon
+                     'material "color_lens" "" ""
+                     :face face)
+                    (doom-modeline-vspc)))
+       (propertize theme-name
+                   'face face
+                   'mouse-face 'mode-line-highlight
+                   'help-echo "Current theme")
+       (doom-modeline-spc))))
+
+  (doom-modeline-def-modeline 'main
+    '(bar workspace-name window-number modals matches buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker)))
 
 ;;; Language-specific configs
 ;;;; Emacs lisp

@@ -221,6 +221,17 @@
 (after! modus-themes
   (setq modus-themes-mode-line '(accented borderless)))
 
+(after! prism
+  (setq prism-colors
+        '(font-lock-type-face
+          font-lock-function-name-face
+          font-lock-keyword-face
+          font-lock-builtin-face)
+        prism-num-faces 8
+        prism-color-distance 40000
+        prism-desaturations '(0)
+        prism-lightens '(0)))
+
 ;;;; Modeline
 
 (after! doom-modeline

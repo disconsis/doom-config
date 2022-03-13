@@ -249,20 +249,33 @@
     '(doom-modeline-warning :inherit 'warning))
 
   (doom-modeline-def-segment theme
-    (let ((face (if (doom-modeline--active)
-                    'doom-modeline-buffer-minor-mode
-                  'mode-line-inactive))
-          (theme-name (symbol-name
-                       (or (car-safe custom-enabled-themes)
-                           'default))))
+    (let* ((face (if (doom-modeline--active)
+                     'doom-modeline-buffer-minor-mode
+                   'mode-line-inactive))
+           (theme-name (symbol-name
+                        (or (car-safe custom-enabled-themes)
+                            'default)))
+           (timed-themes-enabled (and (fboundp 'timed-themes-minor-mode) timed-themes-minor-mode))
+           (prism-enabled (and (fboundp 'prism-mode) prism-mode))
+           (special-modes-enabled (or timed-themes-enabled prism-enabled)))
       (concat
        (doom-modeline-spc)
-       (and doom-modeline-icon
-            (concat (doom-modeline-icon
-                     'material "color_lens" "" ""
-                     :face face)
-                    (doom-modeline-vspc)))
-       (propertize theme-name
+       (when doom-modeline-icon
+         (concat
+          (unless special-modes-enabled
+            (doom-modeline-icon 'material "color_lens" "" "" :face face))
+          (when timed-themes-enabled
+            (doom-modeline-icon 'material "av_timer" "" "" :face face))
+          (when prism-enabled
+            (doom-modeline-icon 'material "details" "" "" :face face))
+          (doom-modeline-vspc)))
+       (propertize (concat theme-name
+                           (when (and (not doom-modeline-icon) special-modes-enabled)
+                             (concat
+                              "("
+                              (when timed-themes-enabled "t")
+                              (when prism-enabled "p")
+                              ")")))
                    'face face
                    'mouse-face 'mode-line-highlight
                    'help-echo "Current theme")

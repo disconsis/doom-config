@@ -83,7 +83,7 @@ Both START-HOUR and END-HOUR are inclusive."
                                  loaded-theme curr-theme-for-time)
                          5 timed-themes/change-theme-default-on-ask-timeout)))))))
     (when change-to-curr-theme-for-time
-        (load-theme curr-theme-for-time t nil))))
+      (load-theme curr-theme-for-time t nil))))
 
 (defvar timed-themes/change-timer nil
   "Timer to change themes periodically.")

@@ -10,7 +10,6 @@
 ;;; ambient light.
 
 ;;; Code:
-;;;; Requirements
 
 (require 'cl-lib)
 

@@ -46,7 +46,7 @@ Both START-HOUR and END-HOUR are inclusive."
 
 (defun timed-themes/theme-for-time (&optional hour-diff)
   "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `timed-theme/theme-timings'."
-  (let* ((hour (mod (+ (or 0 hour-diff)
+  (let* ((hour (mod (+ (or hour-diff 0)
                        (decoded-time-hour (decode-time (current-time))))
                     24))
          (check-theme

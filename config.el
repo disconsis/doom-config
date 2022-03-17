@@ -122,8 +122,7 @@
 
 (setq timed-themes/theme-timings
       `((doom-one-light         . (,(am 6) . ,(pm 3)))
-        (doom-badger            . (,(pm 4) . ,(pm 8)))
-        (modus-vivendi          . (,(pm 9) . ,(am 5))))
+        (doom-badger            . (,(pm 4) . ,(am 5))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil

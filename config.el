@@ -254,8 +254,8 @@
            (theme-name (symbol-name
                         (or (car-safe custom-enabled-themes)
                             'default)))
-           (timed-themes-enabled (and (fboundp 'timed-themes-minor-mode) timed-themes-minor-mode))
-           (prism-enabled (and (fboundp 'prism-mode) prism-mode))
+           (timed-themes-enabled (and (boundp 'timed-themes-minor-mode) timed-themes-minor-mode))
+           (prism-enabled (and (boundp 'prism-mode) prism-mode))
            (special-modes-enabled (or timed-themes-enabled prism-enabled)))
       (concat
        (doom-modeline-spc)

@@ -420,6 +420,10 @@
       :n "g j" #'vterm-next-prompt
       :i "C-l" #'vterm-clear)
 
+;;;; Errors
+
+(map! :after flycheck :leader :n "e l" #'flycheck-list-errors)
+
 ;;;; Other
 
 ;; take back ~s~

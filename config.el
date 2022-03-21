@@ -222,7 +222,8 @@
    '(line-number :foreground "gray28")))
 
 (after! modus-themes
-  (setq modus-themes-mode-line '(accented borderless)))
+  (setq modus-themes-mode-line '(accented borderless)
+        modus-themes-subtle-line-numbers t))
 
 (after! prism
   (setq prism-colors

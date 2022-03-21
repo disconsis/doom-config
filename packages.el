@@ -66,6 +66,8 @@
 
 (package! prism)
 
+(package! org-fragtog)
+
 ;;; Themes
 (package! modus-themes)
 (package! plan9-theme)

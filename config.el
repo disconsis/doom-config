@@ -53,6 +53,10 @@
          :jump-to-capture t
          :empty-lines 1)))
 
+;;;; Latex preview
+(use-package! org-fragtog
+  :hook (org-mode . org-fragtog-mode))
+
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

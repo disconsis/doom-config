@@ -125,7 +125,7 @@
 (load! "local-packages/timed-themes/timed-themes.el" doom-private-dir)
 
 (setq timed-themes/theme-timings
-      `((doom-one-light         . (,(am 6) . ,(pm 3)))
+      `((doom-opera-light       . (,(am 6) . ,(pm 3)))
         (doom-badger            . (,(pm 4) . ,(am 5))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me

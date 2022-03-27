@@ -269,9 +269,19 @@
           (unless special-modes-enabled
             (doom-modeline-icon 'material "color_lens" "" "" :face face))
           (when timed-themes-enabled
-            (doom-modeline-icon 'material "av_timer" "" "" :face face))
+            (propertize (doom-modeline-icon 'material "av_timer" "" "" :face face)
+                        'face face
+                        'mouse-face 'mode-line-highlight
+                        'help-echo "Timed theme changes\nmouse-1: Disable"
+                        'local-map (let ((map (make-sparse-keymap)))
+                                     (define-key map [mode-line mouse-1] (cmd! (timed-themes-minor-mode -1))))))
           (when prism-enabled
-            (doom-modeline-icon 'material "details" "" "" :face face))
+            (propertize (doom-modeline-icon 'material "details" "" "" :face face)
+                        'face face
+                        'mouse-face 'mode-line-highlight
+                        'help-echo "Color distributed according to depth\nmouse-1: Disable"
+                        'local-map (let ((map (make-sparse-keymap)))
+                                     (define-key map [mode-line mouse-1] (cmd! (prism-mode -1))))))
           (doom-modeline-vspc)))
        (propertize (concat theme-name
                            (when (and (not doom-modeline-icon) special-modes-enabled)

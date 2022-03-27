@@ -97,8 +97,11 @@
 (use-package! highlight-indent-guides
   :config
   ;; stop doom from autoloading this
-  (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode))
-
+  (remove-hook! (prog-mode text-mode conf-mode) #'highlight-indent-guides-mode)
+  (setq highlight-indent-guides-responsive 'top
+        highlight-indent-guides-method 'bitmap
+        ;; highlight-indent-guides-character ?\|
+        highlight-indent-guides-bitmap-function #'highlight-indent-guides--bitmap-line))
 
 ;; put the window on the second monitor if present
 

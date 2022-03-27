@@ -443,7 +443,7 @@
 
 (map! :after flycheck :leader :n "e l" #'flycheck-list-errors)
 
-;;;; Other
+;;;; Vim
 
 ;; take back ~s~
 (remove-hook 'doom-first-input-hook #'evil-snipe-mode)
@@ -458,7 +458,9 @@
 (map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
 (map! :when (featurep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
+;;;; LSP
 
+(map! :when (featurep! :tools lsp) :map lsp-mode-map :localleader :desc "rename" :n "r" #'lsp-rename)
 ;;; Notes
 
 ;; TODO Check out rougier's `svg-lib' - seems pretty fun

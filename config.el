@@ -257,7 +257,7 @@
 
   ;; Change the lsp icon to be something nicer
   (defun kk/doom-modeline-lsp-icon (text face)
-    (doom-modeline-icon 'faicon "codepen" "{lsp}" text :face face))
+    (doom-modeline-icon 'material "blur_circular" "{lsp}" text :face face))
   (advice-add 'doom-modeline-lsp-icon :override #'kk/doom-modeline-lsp-icon)
 
   (doom-modeline-def-segment theme

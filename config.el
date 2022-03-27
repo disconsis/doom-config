@@ -252,6 +252,11 @@
     ;; similarly for warning
     '(doom-modeline-warning :inherit 'warning))
 
+  ;; Change the lsp icon to be something nicer
+  (defun kk/doom-modeline-lsp-icon (text face)
+    (doom-modeline-icon 'faicon "codepen" "{lsp}" text :face face))
+  (advice-add 'doom-modeline-lsp-icon :override #'kk/doom-modeline-lsp-icon)
+
   (doom-modeline-def-segment theme
     (let* ((face (if (doom-modeline--active)
                      'doom-modeline-buffer-minor-mode

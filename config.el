@@ -456,9 +456,8 @@
  :desc "format buffer" :n "gQ" #'+format/buffer)
 
 (map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
+(map! :when (featurep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
-(when (featurep! :ui hl-todo)
-  (map! :leader :desc "search for todos" :n "s t" #'hl-todo-occur))
 
 ;;; Notes
 

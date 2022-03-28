@@ -252,6 +252,8 @@ This is almost a complete copy of the original method, with a few very minor del
   (setq modus-themes-mode-line '(accented borderless)
         modus-themes-subtle-line-numbers t))
 
+;;;;; Prism
+
 (after! prism
   (setq prism-colors
         '(font-lock-type-face

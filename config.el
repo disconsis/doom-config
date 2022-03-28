@@ -275,11 +275,11 @@ This is almost a complete copy of the original method, with a few very minor del
 
   (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode)
   (custom-theme-set-faces! 'user
-    ;; Modeline icons use this face, which has :inherit `success' and `bold'.
-    ;; I don't know any way of removing the :inherit `bold' without just specifying everything else it inherits from.
-    '(doom-modeline-info :inherit 'success)
-    ;; similarly for warning
-    '(doom-modeline-warning :inherit 'warning))
+    '(doom-modeline-info        :weight normal)
+    '(doom-modeline-warning     :weight normal)
+    '(doom-modeline-lsp-error   :weight normal)
+    '(doom-modeline-lsp-warning :weight normal)
+    '(doom-modeline-lsp-success :weight normal))
 
   ;; Change the lsp icon to be something nicer
   (defun kk/doom-modeline-lsp-icon (text face)
@@ -358,12 +358,13 @@ This is almost a complete copy of the original method, with a few very minor del
   (setq-hook! 'tuareg-mode-hook
     +default-want-RET-continue-comments nil
     +evil-want-o/O-to-continue-comments nil
-    evil-surround-pairs-alist
-    (append
-     '((?\b . ("begin"  . "end"))
-       (?\m . ("sig"    . "end"))
-       (?\s . ("struct" . "end")))
-     evil-surround-pairs-alist))
+    ;; evil-surround-pairs-alist
+    ;; (append
+    ;;  '((?\b . ("begin"  . "end"))
+    ;;    (?\m . ("sig"    . "end"))
+    ;;    (?\s . ("struct" . "end")))
+    ;;  evil-surround-pairs-alist)
+    )
 
   (add-to-list
    'hs-special-modes-alist

@@ -485,6 +485,11 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; LSP
 
 (map! :when (featurep! :tools lsp) :map lsp-mode-map :localleader :desc "rename" :n "r" #'lsp-rename)
+;;;; Version control
+
+(map! :when (featurep! :ui vc-gutter) :leader
+      :desc "Show git diff at point" :n "g d" #'git-gutter:popup-diff)
+
 ;;; Notes
 
 ;; TODO Check out rougier's `svg-lib' - seems pretty fun

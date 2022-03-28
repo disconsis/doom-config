@@ -84,9 +84,33 @@
 
 (setq lsp-ui-doc-enable nil
       lsp-ui-doc-show-with-cursor nil
-      lsp-ui-sideline-enable nil
-      lsp-eldoc-enable-hover t
-      lsp-signature-render-documentation t)
+      lsp-ui-sideline-enable t
+      lsp-eldoc-enable-hover nil
+      lsp-signature-render-documentation nil
+      lsp-enable-folding t)
+
+(after! lsp-mode
+  (defun kk/lsp--read-rename-no-placeholder (at-point)
+    "Modify `lsp--read-rename' (the function that reads the new name for symbol when `lsp-rename' is called to not use a placeholder name.
+The placeholder name is usually the old name itself, which irks me as I have to delete it before I can do the rename.
+This is almost a complete copy of the original method, with a few very minor deletions to remove the placeholder-calculation."
+    (unless at-point
+      (user-error "`lsp-rename' is invalid here"))
+    (-let* ((((start . end) . _placeholder) at-point)
+            (rename-me (buffer-substring start end))
+            overlay)
+      ;; We need unwind protect, as the user might cancel here, causing the
+      ;; overlay to linger.
+      (unwind-protect
+          (progn
+            (setq overlay (make-overlay start end))
+            (overlay-put overlay 'face 'lsp-face-rename)
+
+            (read-string (format "Rename %s to: " rename-me) nil
+                         'lsp-rename-history))
+        (and overlay (delete-overlay overlay)))))
+
+  (advice-add #'lsp--read-rename :override #'kk/lsp--read-rename-no-placeholder))
 
 ;;; UI
 

@@ -358,13 +358,12 @@ This is almost a complete copy of the original method, with a few very minor del
   (setq-hook! 'tuareg-mode-hook
     +default-want-RET-continue-comments nil
     +evil-want-o/O-to-continue-comments nil
-    ;; evil-surround-pairs-alist
-    ;; (append
-    ;;  '((?\b . ("begin"  . "end"))
-    ;;    (?\m . ("sig"    . "end"))
-    ;;    (?\s . ("struct" . "end")))
-    ;;  evil-surround-pairs-alist)
-    )
+    evil-surround-pairs-alist
+    (append
+     '((?\b . ("begin"  . "end"))
+       (?\m . ("sig"    . "end"))
+       (?\s . ("struct" . "end")))
+     evil-surround-pairs-alist))
 
   (add-to-list
    'hs-special-modes-alist

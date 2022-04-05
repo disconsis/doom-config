@@ -134,7 +134,7 @@ This is almost a complete copy of the original method, with a few very minor del
 (when (display-graphic-p)
   (let* ((second-monitor-present? (> (x-display-pixel-width) kk/single-monitor-width))
          (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
-    (setq initial-frame-alist `((top . 23) (left . ,left-pos) (height . 56) (width . 272)))))
+    (setq initial-frame-alist `((top . 29) (left . ,left-pos) (height . 58) (width . 267)))))
 
 ;;;; Font
 

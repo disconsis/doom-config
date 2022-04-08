@@ -427,6 +427,11 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (map! :leader :desc "M-x" "SPC" #'counsel-M-x)
 
+;;;; Line numbers
+
+(map! :leader :desc "toggle line numbers" "t l"
+      (cmd! (setq display-line-numbers (not display-line-numbers))))
+
 ;;;; Window
 
 ;; easier window movement

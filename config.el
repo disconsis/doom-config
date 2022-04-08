@@ -41,6 +41,18 @@
   (setq valign-fancy-bar t)
   (add-hook 'org-mode-hook #'valign-mode))
 
+(use-package! org-superstar
+  :config
+  (setq org-superstar-headline-bullets-list '(?))
+  (set-face-attribute 'org-superstar-header-bullet nil :family "Material Icons" :bold nil :height 0.8))
+
+(after! imenu-list
+  (custom-theme-set-faces! 'user
+    '(imenu-list-entry-subalist-face-0 :bold nil :underline nil)
+    '(imenu-list-entry-subalist-face-1 :bold nil :underline nil)
+    '(imenu-list-entry-subalist-face-2 :bold nil :underline nil)
+    '(imenu-list-entry-subalist-face-3 :bold nil :underline nil :inherit imenu-list-entry-face-3)))
+
 ;;;; Capture templates
 
 (setq +org-capture-work-tasks-file (expand-file-name "work_tasks.org" org-directory))
@@ -303,7 +315,7 @@ This is almost a complete copy of the original method, with a few very minor del
           (unless special-modes-enabled
             (doom-modeline-icon 'material "color_lens" "" "" :face face))
           (when timed-themes-enabled
-            (propertize (doom-modeline-icon 'material "av_timer" "" "" :face face)
+            (propertize (doom-modeline-icon 'material "timer" "" "" :face face)
                         'face face
                         'mouse-face 'mode-line-highlight
                         'help-echo "Timed theme changes\nmouse-1: Disable"

@@ -69,6 +69,13 @@
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
 
+(after! org
+  ;; org-block backgrounds peek out from behind latex preview images.
+  ;; This disables the org-block background whenever latex is previewed in any org buffer.
+  (defun kk/org-block-remove-bg (&rest _)
+    (set-face-background 'org-block 'unspecified))
+  (advice-add #'org--latex-preview-region :after #'kk/org-block-remove-bg))
+
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

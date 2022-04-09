@@ -74,7 +74,21 @@
   ;; This disables the org-block background whenever latex is previewed in any org buffer.
   (defun kk/org-block-remove-bg (&rest _)
     (set-face-background 'org-block 'unspecified))
-  (advice-add #'org--latex-preview-region :after #'kk/org-block-remove-bg))
+  (advice-add #'org--latex-preview-region :after #'kk/org-block-remove-bg)
+
+  (defun kk/org-regen-latex-previews ()
+    "Regenerate latex previews in this buffer."
+    (interactive)
+    (message "regenerating latex previews...")
+    (when (fboundp #'+org--toggle-inline-images-in-subtree)
+      (let ((beg (point-min))
+            (end (point-max)))
+        (+org--toggle-inline-images-in-subtree beg end)
+        (org-clear-latex-preview beg end)
+        (org--latex-preview-region beg end))
+      (message "regenerating latex previews... done.")))
+
+  (add-hook 'doom-load-theme-hook #'kk/org-regen-latex-previews))
 
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map

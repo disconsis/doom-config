@@ -68,6 +68,9 @@
 
 (package! org-fragtog)
 
+(package! imenu-list
+  :recipe (:host github :repo "bmag/imenu-list"))
+
 ;;; Themes
 (package! modus-themes)
 (package! plan9-theme)

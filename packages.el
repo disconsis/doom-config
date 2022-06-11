@@ -76,3 +76,4 @@
 (package! plan9-theme)
 (package! anti-zenburn-theme)
 (package! noctilux-theme)
+(package! poet-theme)

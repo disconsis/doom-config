@@ -68,7 +68,6 @@
 ;;; Org
 (package! org-fragtog)
 (package! outshine)
-(package! valign)
 (package! hyperbole)
 (package! org-modern)
 (package! org-modern-indent

@@ -35,12 +35,6 @@
 (setq org-hide-emphasis-markers t)
 
 ;;;; Look
-(use-package! valign
-  :defer
-  :init
-  (setq valign-fancy-bar t)
-  (add-hook 'org-mode-hook #'valign-mode))
-
 (after! imenu-list
   (custom-theme-set-faces! 'user
     '(imenu-list-entry-subalist-face-0 :bold nil :underline nil)
@@ -54,6 +48,7 @@
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
   :config
+  (setq org-modern-table-vertical 1)
   (setq org-modern-checkbox
         `((?X  . ,(all-the-icons-material "check_box"))
           (?\s . ,(all-the-icons-material "check_box_outline_blank"))

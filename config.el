@@ -112,6 +112,9 @@
 ;;; Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)
 
+(after! dired-x
+  (setq dired-omit-files (rx line-start (repeat 1 2 (char ".")))))
+
 (after! recentf
   (add-to-list 'recentf-exclude (concat "^" doom-local-dir)))
 

@@ -41,17 +41,27 @@
   (setq valign-fancy-bar t)
   (add-hook 'org-mode-hook #'valign-mode))
 
-(use-package! org-superstar
-  :config
-  (setq org-superstar-headline-bullets-list '(?))
-  (set-face-attribute 'org-superstar-header-bullet nil :family "Material Icons" :bold nil :height 0.8))
-
 (after! imenu-list
   (custom-theme-set-faces! 'user
     '(imenu-list-entry-subalist-face-0 :bold nil :underline nil)
     '(imenu-list-entry-subalist-face-1 :bold nil :underline nil)
     '(imenu-list-entry-subalist-face-2 :bold nil :underline nil)
     '(imenu-list-entry-subalist-face-3 :bold nil :underline nil :inherit imenu-list-entry-face-3)))
+
+(use-package! org-modern
+  :defer
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  :config
+  (setq org-modern-checkbox
+        `((?X  . ,(all-the-icons-material "check_box"))
+          (?\s . ,(all-the-icons-material "check_box_outline_blank"))
+          (?-  . ,(all-the-icons-material "indeterminate_check_box")))))
+
+(use-package! org-modern-indent
+  :defer
+  :hook (org-mode . org-modern-indent-mode))
 
 ;;;; Capture templates
 
@@ -172,6 +182,7 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; Font
 
 (setq doom-font (font-spec :family "Iosevka" :size 14))
+(setq doom-variable-pitch-font (font-spec :family "Lato"))
 
 ;; fix the weird fixed-pitch font in Info manuals
 (custom-theme-set-faces! 'user

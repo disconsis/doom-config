@@ -56,20 +56,23 @@
   :recipe (:host github :repo "magit/git-modes"
            :files ("gitignore-mode.el")))
 
-(package! outshine)
-
 (package! svg-lib)
-
-(package! valign)
 
 (package! dhall-mode)
 
 (package! prism)
 
-(package! org-fragtog)
-
 (package! imenu-list
   :recipe (:host github :repo "bmag/imenu-list"))
+
+;;; Org
+(package! org-fragtog)
+(package! outshine)
+(package! valign)
+(package! hyperbole)
+(package! org-modern)
+(package! org-modern-indent
+  :recipe (:host github :repo "jdtsmith/org-modern-indent"))
 
 ;;; Themes
 (package! modus-themes)

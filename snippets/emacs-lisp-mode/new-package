@@ -1,0 +1,16 @@
+# key: <<<
+# name: new package
+# condition: (buffer-file-name)
+# --
+;;; ${1:`(file-name-nondirectory (buffer-file-name))`} --- ${2:short description}
+;;; -*- lexical-binding: t; -*-
+
+;;; Author: Ketan Kanishka
+
+;;; Commentary: $3
+
+;;; Code:
+$0
+
+(provide '${1:$(file-name-sans-extension yas-text)})
+;;; $1 ends here

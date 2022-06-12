@@ -437,7 +437,37 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (after! outshine
   (map! :map outshine-mode-map
-        :desc "narrow to subtree" :n "zn" #'outshine-narrow-to-subtree))
+        :desc "narrow to subtree" :n "zn" #'outshine-narrow-to-subtree)
+
+  (add-hook 'outshine-mode-hook
+            (defun kk/outshine-compose-start ()
+              "Make outshine (outline) headings prettier."
+              (when outshine-mode
+                (add-to-list 'font-lock-extra-managed-props 'display)
+                (let* ((outline-rgxp (substring outline-regexp 0 -8))
+                       (font-lock-new-keywords
+                        `((,(concat outline-rgxp "\\{1\\} ") 0 '(face 'outshine-level-1 display "○ ") t)
+                          (,(concat outline-rgxp "\\{2\\} ") 0 '(face 'outshine-level-2 display "○○ ") t)
+                          (,(concat outline-rgxp "\\{3\\} ") 0 '(face 'outshine-level-3 display "○○○ ") t)
+                          (,(concat outline-rgxp "\\{4\\} ") 0 '(face 'outshine-level-4 display "○○○○ ") t)
+                          (,(concat outline-rgxp "\\{5\\} ") 0 '(face 'outshine-level-5 display "○○○○○ ") t)
+                          (,(concat outline-rgxp "\\{6\\} ") 0 '(face 'outshine-level-6 display "○○○○○○ ") t)
+                          (,(concat outline-rgxp "\\{7\\} ") 0 '(face 'outshine-level-7 display "○○○○○○○ ") t)
+                          (,(concat outline-rgxp "\\{8\\} ") 0 '(face 'outshine-level-8 display "○○○○○○○○ ") t))))
+                  (setf (car outshine-font-lock-keywords) (append (car outshine-font-lock-keywords) font-lock-new-keywords))
+                  (font-lock-add-keywords nil font-lock-new-keywords 'append)
+                  (outshine-font-lock-flush)))))
+
+  (setq outshine-fontify-whole-heading-line t)
+  (custom-theme-set-faces! 'user
+    '(outshine-level-1 :height 2.0 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-2 :height 1.8 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-3 :height 1.6 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-4 :height 1.4 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-5 :height 1.3 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-6 :height 1.2 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-7 :height 1.1 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-8 :height 1.1 :inherit magit-diff-hunk-heading-highlight)))
 
 ;;; Assorted
 
@@ -532,13 +562,12 @@ This is almost a complete copy of the original method, with a few very minor del
 (map! :when (featurep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
 ;;;; LSP
-
 (map! :when (featurep! :tools lsp) :map lsp-mode-map :localleader :desc "rename" :n "r" #'lsp-rename)
-;;;; Version control
 
+;;;; Version control
 (map! :when (featurep! :ui vc-gutter) :leader
       :desc "Show git diff at point" :n "g d" #'git-gutter:popup-diff)
 
 ;;; Notes
-
-;; TODO Check out rougier's `svg-lib' - seems pretty fun
+;; TODO Check out what `hyperbole' can do for you
+;; TODO Change `imenu-list' to differentiate between headlines of diff depths

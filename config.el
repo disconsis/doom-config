@@ -474,7 +474,6 @@ This is almost a complete copy of the original method, with a few very minor del
 (setq confirm-kill-emacs nil)
 
 ;;; Keybindings
-
 ;;;; Main
 
 (setq doom-leader-key "SPC"
@@ -486,6 +485,8 @@ This is almost a complete copy of the original method, with a few very minor del
 (map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
 
 (map! :leader :desc "M-x" "SPC" #'counsel-M-x)
+
+(map! :leader "s I" #'imenu-list)
 
 ;;;; Line numbers
 

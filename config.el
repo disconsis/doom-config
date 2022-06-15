@@ -169,9 +169,7 @@ This is almost a complete copy of the original method, with a few very minor del
         highlight-indent-guides-bitmap-function #'highlight-indent-guides--bitmap-line))
 
 ;; put the window on the second monitor if present
-
 (setq kk/single-monitor-width 1920)
-
 (when (display-graphic-p)
   (let* ((second-monitor-present? (> (x-display-pixel-width) kk/single-monitor-width))
          (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
@@ -194,8 +192,8 @@ This is almost a complete copy of the original method, with a few very minor del
 (load! "local-packages/timed-themes/timed-themes.el" doom-private-dir)
 
 (setq timed-themes/theme-timings
-      `((doom-opera-light       . (,(am 6) . ,(pm 3)))
-        (doom-badger            . (,(pm 4) . ,(am 5))))
+      `((modus-operandi         . (,(am 6) . ,(pm 3)))
+        (doom-moonlight         . (,(pm 4) . ,(am 5))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil

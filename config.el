@@ -32,9 +32,11 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/org/")
 
-(setq org-hide-emphasis-markers t)
-
 ;;;; Look
+
+(after! org
+  (setq org-hide-emphasis-markers t))
+
 (after! imenu-list
   (custom-theme-set-faces! 'user
     '(imenu-list-entry-subalist-face-0 :bold nil :underline nil)
@@ -59,16 +61,14 @@
   :hook (org-mode . org-modern-indent-mode))
 
 ;;;; Capture templates
-
-(setq +org-capture-work-tasks-file (expand-file-name "work_tasks.org" org-directory))
-
-(setq org-capture-templates
-      '(("w" "Work tasks" entry
-         (file +org-capture-work-tasks-file)
-         "* TODO %^{title}\n:PROPERTIES:\nDATE: %t\n:END:\n%?"
-         :prepend t
-         :jump-to-capture t
-         :empty-lines 1)))
+(after! org
+  (setq org-capture-templates
+        `(("w" "Work tasks" entry
+           (file ,(expand-file-name "tasks.org" org-directory))
+           "* TODO %^{title}\n:PROPERTIES:\nDATE: %t\n:END:\n%?"
+           :prepend t
+           :jump-to-capture t
+           :empty-lines 1))))
 
 ;;;; Latex preview
 (use-package! org-fragtog

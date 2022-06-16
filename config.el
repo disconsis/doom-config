@@ -60,6 +60,25 @@
   :defer
   :hook (org-mode . org-modern-indent-mode))
 
+;;;; Structure templates (like <s)
+(after! org
+  (setq org-structure-template-alist
+        '(("c"  . "comment")
+          ("C"  . "center")
+          ("e"  . "example")
+          ("q"  . "quote")
+          ("v"  . "verse")
+          ("s"  . "src")
+          ("el" . "src emacs-lisp")
+          ("py" . "src python")
+          ("hs" . "src haskell")
+          ("jv" . "src java")
+          ("E"  . "export")
+          ("h"  . "export html")
+          ("l"  . "export latex")))
+  ;; required to actually use these
+  (require 'org-tempo))
+
 ;;;; Capture templates
 (after! org
   (setq org-capture-templates

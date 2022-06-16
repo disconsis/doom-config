@@ -68,12 +68,12 @@ Both START-HOUR and END-HOUR are inclusive."
   (interactive)
   (let* ((prev-theme-for-time (timed-themes/theme-for-time -1))
          (curr-theme-for-time (timed-themes/theme-for-time))
-         (loaded-theme (and custom-enabled-themes (car custom-enabled-themes)))
-         (change-to-curr-theme-for-time
+         (loaded-theme (car-safe custom-enabled-themes))
+         (change-theme
           (and (not (equal loaded-theme curr-theme-for-time))
                (or
                 (not loaded-theme)
-                (called-interactively-p 'any)
+                (called-interactively-p 'any)  ;; force if called interactively
                 (equal loaded-theme prev-theme-for-time)
                 (cl-case timed-themes/change-theme-if-manually-set
                   (nil nil)
@@ -82,7 +82,7 @@ Both START-HOUR and END-HOUR are inclusive."
                          (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
                                  loaded-theme curr-theme-for-time)
                          5 timed-themes/change-theme-default-on-ask-timeout)))))))
-    (when change-to-curr-theme-for-time
+    (when change-theme
       (load-theme curr-theme-for-time t nil))))
 
 (defvar timed-themes/change-timer nil

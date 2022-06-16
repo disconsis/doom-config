@@ -79,3 +79,5 @@
 (package! anti-zenburn-theme)
 (package! noctilux-theme)
 (package! poet-theme)
+(package! autumn-light-theme)
+(package! light-soap-theme)

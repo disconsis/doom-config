@@ -192,8 +192,9 @@ This is almost a complete copy of the original method, with a few very minor del
 (load! "local-packages/timed-themes/timed-themes.el" doom-private-dir)
 
 (setq timed-themes/theme-timings
-      `((modus-operandi         . (,(am 6) . ,(pm 3)))
-        (doom-moonlight         . (,(pm 4) . ,(am 5))))
+      `((light-soap             . (,(am 6) . ,(pm 1)))
+        (autumn-light           . (,(pm 1) . ,(pm 5)))
+        (doom-moonlight         . (,(pm 5) . ,(am 5))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil

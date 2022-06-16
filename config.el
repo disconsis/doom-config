@@ -304,6 +304,7 @@ This is almost a complete copy of the original method, with a few very minor del
         prism-num-faces 8
         prism-color-distance 40000
         prism-desaturations '(0)
+        prism-parens t
         prism-lightens '(0)))
 
 ;;;; Modeline

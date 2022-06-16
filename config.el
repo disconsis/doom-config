@@ -316,8 +316,10 @@ This is almost a complete copy of the original method, with a few very minor del
 
   (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode)
   (custom-theme-set-faces! 'user
+    '(doom-modeline-debug       :weight normal :inherit font-lock-doc-face)
     '(doom-modeline-info        :weight normal :inherit info)
     '(doom-modeline-warning     :weight normal :inherit warning)
+    '(doom-modeline-urgent      :weight normal :inherit error)
     '(doom-modeline-lsp-error   :weight normal :inherit error)
     '(doom-modeline-lsp-warning :weight normal :inherit warning)
     '(doom-modeline-lsp-success :weight normal :inherit info))

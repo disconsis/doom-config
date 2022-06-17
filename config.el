@@ -187,12 +187,11 @@ This is almost a complete copy of the original method, with a few very minor del
         ;; highlight-indent-guides-character ?\|
         highlight-indent-guides-bitmap-function #'highlight-indent-guides--bitmap-line))
 
-;; put the window on the second monitor if present
+;; put the window on the right-most monitor if present
 (setq kk/single-monitor-width 1920)
-(when (display-graphic-p)
-  (let* ((second-monitor-present? (> (x-display-pixel-width) kk/single-monitor-width))
-         (left-pos (* kk/single-monitor-width (if second-monitor-present? 1 0))))
-    (setq initial-frame-alist `((top . 29) (left . ,left-pos) (height . 58) (width . 267)))))
+(let ((rightmost-monitor-left-pos (* kk/single-monitor-width (1- (mod (x-display-pixel-width) kk/single-monitor-width)))))
+  (setq initial-frame-alist
+        `((top . 29) (left . ,rightmost-monitor-left-pos) (height . 58) (width . 267))))
 
 ;;;; Font
 

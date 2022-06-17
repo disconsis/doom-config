@@ -315,6 +315,10 @@ This is almost a complete copy of the original method, with a few very minor del
   (custom-theme-set-faces! 'light-soap
     '(fringe :background nil)))
 
+(after! autumn-light-theme
+  (custom-theme-set-faces! 'autumn-light
+    '(mode-line :background "tan")))
+
 ;;;;; Prism
 
 (after! prism

@@ -75,13 +75,13 @@ Both START-HOUR and END-HOUR are inclusive."
                 (not loaded-theme)
                 (called-interactively-p 'any)  ;; force if called interactively
                 (equal loaded-theme prev-theme-for-time)
-                (cl-case timed-themes/change-theme-if-manually-set
-                  (nil nil)
-                  (t t)
-                  ('ask (y-or-n-p-with-timeout
+                (pcase timed-themes/change-theme-if-manually-set
+                  (`ask (y-or-n-p-with-timeout
                          (format "Current theme '%s' has been set manually. Do you want to set it to the timed theme %s"
                                  loaded-theme curr-theme-for-time)
-                         5 timed-themes/change-theme-default-on-ask-timeout)))))))
+                         5 timed-themes/change-theme-default-on-ask-timeout))
+                  (`nil nil)
+                  (`t t))))))
     (when change-theme
       (load-theme curr-theme-for-time t nil))))
 

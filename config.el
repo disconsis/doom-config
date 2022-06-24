@@ -8,8 +8,6 @@
 ;;; Utility functions
 ;; Due to name visibility issues, this section needs to be at the top.
 
-(require 'cl)
-
 ;; 12-hour time -> 24-hour time
 (defun pm (hour) (mod (+ hour 12) 24))
 (defun am (hour) hour)
@@ -243,7 +241,7 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (defun hydra-random-themes-gen-docstring (num-surrounding)
   "Generate docstring for `hydra-random-themes' with NUM-SURROUNDING themes before and after (each) the current one."
-
+  (require 'cl)
   (let* ((num-themes (length kk/random-themes-list))
          (-frame-width- (frame-width))
          (rows (--reduce-r-from

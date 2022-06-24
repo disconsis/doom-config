@@ -17,7 +17,7 @@
   (setq doom-theme (or theme doom-theme))
   (load-theme doom-theme t nil))
 
-(defun nshuffle (sequence)
+(defun kk/nshuffle (sequence)
   "Shuffle SEQUENCE in place. Picked up from somewhere on the internet."
   (loop for i from (length sequence) downto 2
         do (rotatef (elt sequence (random i))
@@ -233,7 +233,7 @@ This is almost a complete copy of the original method, with a few very minor del
 (defun kk/random-themes-reshuffle ()
   (interactive)
   (setq kk/random-themes-list (or kk/random-themes-list (apply #'vector (custom-available-themes))))
-  (nshuffle kk/random-themes-list)
+  (kk/nshuffle kk/random-themes-list)
   (kk/set-random-theme-idx 0))
 
 (defvar kk/random-theme-at-start 'default
@@ -245,7 +245,7 @@ This is almost a complete copy of the original method, with a few very minor del
   (let* ((num-themes (length kk/random-themes-list))
          (-frame-width- (frame-width))
          (rows (--reduce-r-from
-                (cl-destructuring-bind (theme-row num-row) acc
+                (destructuring-bind (theme-row num-row) acc
                   (let* ((theme-idx (mod (+ it kk/random-theme-idx) num-themes))
                          (theme-name (symbol-name (elt kk/random-themes-list theme-idx)))
                          (is-current (zerop it))
@@ -263,7 +263,7 @@ This is almost a complete copy of the original method, with a few very minor del
                 (list nil nil)
                 (number-sequence (- num-surrounding) num-surrounding))))
 
-    (cl-destructuring-bind (theme-row num-row) rows
+    (destructuring-bind (theme-row num-row) rows
       (apply #'s-concat
              (--map
               (s-concat (s-center -frame-width- (s-join "   " it)) "\n")

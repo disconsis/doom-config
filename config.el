@@ -195,7 +195,8 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; Font
 
 (setq doom-font (font-spec :family "Iosevka" :size 14))
-(setq doom-variable-pitch-font (font-spec :family "Lato"))
+;; (setq doom-variable-pitch-font (font-spec :family "Lato"))
+(setq doom-variable-pitch-font doom-font)
 
 ;; fix the weird fixed-pitch font in Info manuals
 (custom-theme-set-faces! 'user
@@ -209,8 +210,7 @@ This is almost a complete copy of the original method, with a few very minor del
 (load! "local-packages/timed-themes/timed-themes.el" doom-private-dir)
 
 (setq timed-themes/theme-timings
-      `((light-soap             . (,(am 6) . ,(pm 1)))
-        (autumn-light           . (,(pm 1) . ,(pm 5)))
+      `((autumn-light           . (,(am 6) . ,(pm 5)))
         (doom-monokai-octagon   . (,(pm 5) . ,(am 5))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me

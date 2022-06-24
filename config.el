@@ -52,7 +52,8 @@
   (setq org-modern-checkbox
         `((?X  . ,(all-the-icons-material "check_box"))
           (?\s . ,(all-the-icons-material "check_box_outline_blank"))
-          (?-  . ,(all-the-icons-material "indeterminate_check_box")))))
+          (?-  . ,(all-the-icons-material "indeterminate_check_box"))))
+  (add-hook 'doom-load-theme-hook #'org-modern--update-label-face))
 
 (use-package! org-modern-indent
   :defer

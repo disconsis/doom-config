@@ -316,7 +316,8 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (after! autumn-light-theme
   (custom-theme-set-faces! 'autumn-light
-    '(mode-line :background "tan")))
+    '(mode-line :background "tan")
+    '(org-verbatim :inherit org-priority)))
 
 ;;;;; Prism
 

@@ -369,26 +369,30 @@ This is almost a complete copy of the original method, with a few very minor del
       (concat
        (doom-modeline-spc)
        (when doom-modeline-icon
-         (concat
-          (unless special-modes-enabled
-            (doom-modeline-icon 'material "color_lens" "" "" :face face))
-          (when timed-themes-enabled
-            (propertize (doom-modeline-icon 'material "timer" "" "" :face face)
-                        'face face
-                        'mouse-face 'mode-line-highlight
-                        'help-echo "Timed theme changes\nmouse-1: Disable"
-                        'local-map (let ((map (make-sparse-keymap)))
-                                     (define-key map [mode-line mouse-1] (cmd! (timed-themes-minor-mode -1)))
-                                     map)))
-          (when prism-enabled
-            (propertize (doom-modeline-icon 'material "details" "" "" :face face)
-                        'face face
-                        'mouse-face 'mode-line-highlight
-                        'help-echo "Color distributed according to depth\nmouse-1: Disable"
-                        'local-map (let ((map (make-sparse-keymap)))
-                                     (define-key map [mode-line mouse-1] (cmd! (prism-mode -1)))
-                                     map)))
-          (doom-modeline-vspc)))
+         (->>
+          (list
+           (unless special-modes-enabled
+             (doom-modeline-icon 'material "color_lens" "" "" :face face))
+           (when timed-themes-enabled
+             (propertize (doom-modeline-icon 'material "timer" "" "" :face face)
+                         'face face
+                         'mouse-face 'mode-line-highlight
+                         'help-echo "Timed theme changes\nmouse-1: Disable"
+                         'local-map (let ((map (make-sparse-keymap)))
+                                      (define-key map [mode-line mouse-1] (cmd! (timed-themes-minor-mode -1)))
+                                      map)))
+           (when prism-enabled
+             (propertize (doom-modeline-icon 'material "details" "" "" :face face)
+                         'face face
+                         'mouse-face 'mode-line-highlight
+                         'help-echo "Color distributed according to depth\nmouse-1: Disable"
+                         'local-map (let ((map (make-sparse-keymap)))
+                                      (define-key map [mode-line mouse-1] (cmd! (prism-mode -1)))
+                                      map))))
+          -non-nil
+          (-interpose (propertize " " 'face '(:height 0.05)))
+          (apply #'concat)))
+       (doom-modeline-vspc)
        (propertize (concat theme-name
                            (when (and (not doom-modeline-icon) special-modes-enabled)
                              (concat

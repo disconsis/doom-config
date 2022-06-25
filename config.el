@@ -19,6 +19,7 @@
 
 (defun kk/nshuffle (sequence)
   "Shuffle SEQUENCE in place. Picked up from somewhere on the internet."
+  (require 'cl)
   (loop for i from (length sequence) downto 2
         do (rotatef (elt sequence (random i))
                     (elt sequence (1- i))))
@@ -278,7 +279,7 @@ This is almost a complete copy of the original method, with a few very minor del
                        nil t)
       (intern)
       (cl-position kk/random-themes-list)
-      (kk/set-random-theme-idx)))
+      (kk/set-random-theme-idx 0)))
 
 (defhydra hydra-random-themes
   (:color red

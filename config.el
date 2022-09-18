@@ -508,6 +508,14 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (setq confirm-kill-emacs nil)
 
+;; stop the constant "Cleaning up the recentf list...done" messages
+(defun silently (fn)
+  "Run FN without showing any messages in echo area."
+  (let ((inhibit-message t))
+    (funcall fn)))
+
+(advice-add 'recentf-cleanup :around #'silently)
+
 ;;; Keybindings
 ;;;; Main
 

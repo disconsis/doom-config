@@ -81,3 +81,6 @@
 (package! poet-theme)
 (package! autumn-light-theme)
 (package! light-soap-theme)
+
+;;; Additional file types
+(package! ahk-mode)

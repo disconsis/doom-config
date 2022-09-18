@@ -188,10 +188,13 @@ This is almost a complete copy of the original method, with a few very minor del
         highlight-indent-guides-bitmap-function #'highlight-indent-guides--bitmap-line))
 
 ;; put the window on the right-most monitor if present
-(setq kk/single-monitor-width 1920)
-(let ((rightmost-monitor-left-pos (* kk/single-monitor-width (1- (/ (x-display-pixel-width) kk/single-monitor-width)))))
-  (setq initial-frame-alist
-        `((top . 29) (left . ,rightmost-monitor-left-pos) (height . 58) (width . 267))))
+(when (display-graphic-p)
+  (setq kk/single-monitor-width 1920)
+  (let ((rightmost-monitor-left-pos
+         (* kk/single-monitor-width (1- (/ (x-display-pixel-width) kk/single-monitor-width)))))
+    (setq initial-frame-alist
+          `((top . 29) (left . ,rightmost-monitor-left-pos) (height . 58) (width . 267)))))
+
 
 ;;;; Font
 

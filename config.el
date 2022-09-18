@@ -278,8 +278,8 @@ This is almost a complete copy of the original method, with a few very minor del
                        (mapcar #'symbol-name kk/random-themes-list)
                        nil t)
       (intern)
-      (cl-position kk/random-themes-list)
-      (kk/set-random-theme-idx 0)))
+      (position kk/random-themes-list)
+      (kk/set-random-theme-idx)))
 
 (defhydra hydra-random-themes
   (:color red

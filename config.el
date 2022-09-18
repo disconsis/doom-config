@@ -608,3 +608,7 @@ This is almost a complete copy of the original method, with a few very minor del
 ;; TODO Check out what `hyperbole' can do for you
 ;; TODO Change `imenu-list' to differentiate between headlines of diff depths
 ;; TODO Check out dynamic views in `org-ql' to make a better agenda
+;; TODO Fix org-edit-src:
+;;      1. Make the buffer name be not as horrible
+;;      2. Remove the top-bar saying C-c, C-k
+;;      3. Bind :w and :q to write/abort

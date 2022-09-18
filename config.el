@@ -318,7 +318,8 @@ This is almost a complete copy of the original method, with a few very minor del
 (after! autumn-light-theme
   (custom-theme-set-faces! 'autumn-light
     '(mode-line :background "tan")
-    '(org-verbatim :inherit org-priority)))
+    '(org-verbatim :inherit org-priority)
+    '(doom-modeline-buffer-modified :foreground "firebrick4" :bold t)))
 
 ;;;;; Prism
 

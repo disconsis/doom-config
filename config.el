@@ -130,7 +130,8 @@
   (setq dired-omit-files (rx line-start (repeat 1 2 (char ".")))))
 
 (after! recentf
-  (add-to-list 'recentf-exclude (concat "^" doom-local-dir)))
+  (add-to-list 'recentf-exclude (concat "^" doom-local-dir))
+  (run-with-idle-timer 5 t #'recentf-cleanup))
 
 ;;; Evil
 (use-package! evil

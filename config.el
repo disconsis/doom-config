@@ -211,7 +211,7 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; Theme
 ;;;;; Timed changes
 
-(load! "local-packages/timed-themes/timed-themes.el" doom-private-dir)
+(load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
 
 (setq timed-themes/theme-timings
       `((autumn-light           . (,(am 6) . ,(pm 5)))

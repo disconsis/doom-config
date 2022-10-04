@@ -622,6 +622,9 @@ This is almost a complete copy of the original method, with a few very minor del
 (map! :when (featurep! :ui vc-gutter) :leader
       :desc "Show git diff at point" :n "g d" #'git-gutter:popup-diff)
 
+(when (featurep! :emacs vc)
+  (run-with-idle-timer 5 t #'vc-refresh-state))
+
 ;;; Notes
 ;; TODO Check out what `hyperbole' can do for you
 ;; TODO Change `imenu-list' to differentiate between headlines of diff depths

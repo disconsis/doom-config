@@ -215,8 +215,8 @@ This is almost a complete copy of the original method, with a few very minor del
 (load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
 
 (setq timed-themes/theme-timings
-      `((autumn-light     . (,(am 6) . ,(pm 1)))
-        (doom-tokyo-night . (,(pm 1) . ,(am 6))))
+      `((autumn-light        . (,(am 6) . ,(pm 1)))
+        (doom-tomorrow-night . (,(pm 1) . ,(am 6))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil
@@ -308,6 +308,7 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;;; Theme modifications
 
 (after! doom
+  (setq doom-tokyo-night-brighter-comments t)
   (custom-theme-set-faces! 'doom-ayu-mirage
     '(line-number :foreground "gray28")))
 

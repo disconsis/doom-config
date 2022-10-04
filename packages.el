@@ -65,6 +65,8 @@
 (package! imenu-list
   :recipe (:host github :repo "bmag/imenu-list"))
 
+(package! adaptive-wrap)
+
 ;;; Org
 (package! org-fragtog)
 (package! outshine)

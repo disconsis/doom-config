@@ -558,6 +558,8 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (advice-add 'recentf-cleanup :around #'silently)
 
+(add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
+
 ;;; Keybindings
 ;;;; Main
 

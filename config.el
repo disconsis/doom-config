@@ -123,6 +123,14 @@
         :desc "restart lsp server" :n "r" #'lsp-workspace-restart
         :desc "stop lsp server"    :n "k" #'lsp-workspace-shutdown)))
 
+(after! lsp-mode
+  (advice-add #'lsp-rename
+              :after
+              (defun kk/save-project-buffers (&rest _)
+                (require 'projectile)
+                (projectile-save-project-buffers))))
+  
+
 ;;; Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)
 

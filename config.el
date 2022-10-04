@@ -477,6 +477,30 @@ This is almost a complete copy of the original method, with a few very minor del
 (use-package! dhall-mode
   :mode "\\.dhall\\'")
 
+;;;; Elm
+(use-package! elm-mode
+  :hook (elm-mode . elm-format-on-save-mode)
+  :config
+  (defun kk/elm-color-hex-to-rgb (color-hex)
+    (let ((color-hex (if (s-starts-with? "#" color-hex)
+                         (substring color-hex 1)
+                       color-hex)))
+      (when (/= 6 (length color-hex))
+        (user-error "invalid color hex string length"))
+      (require 'kurecolor)
+      (require 'dash)
+      (require 's)
+      (s-join " " (cons "rgb255"
+                        (--map (number-to-string (round (* it 255)))
+                               (kurecolor-hex-to-rgb color-hex))))))
+
+  (defun kk/elm-replace-color-hex-to-rgb255 ()
+    (interactive)
+    (require 'kurecolor)
+    (kurecolor-replace-current #'kk/elm-color-hex-to-rgb)))
+
+;; TODO add font-lock keywords to highlight `rgb255 r g b' expressions with appr color
+
 ;;;; Minor-modes
 ;;;;; outshine
 

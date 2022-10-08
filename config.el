@@ -128,7 +128,8 @@
               :after
               (defun kk/save-project-buffers (&rest _)
                 (require 'projectile)
-                (projectile-save-project-buffers))))
+                (when (projectile-project-root)
+                 (projectile-save-project-buffers)))))
   
 
 ;;; Filesystem

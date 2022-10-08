@@ -376,6 +376,15 @@ This is almost a complete copy of the original method, with a few very minor del
     (doom-modeline-spc)
     (doom-modeline-spc))
 
+  (doom-modeline-def-segment line-with-max
+    (let ((curr-line (format-mode-line "%l"))
+          (max-line (save-excursion
+                      (goto-char (point-max))
+                      (format-mode-line "%l"))))
+      (concat
+       (doom-modeline-wspc)
+       (s-concat curr-line "/" max-line))))
+
   (doom-modeline-def-segment theme
     (let* ((face (if (doom-modeline--active)
                      'doom-modeline-buffer-minor-mode
@@ -426,7 +435,7 @@ This is almost a complete copy of the original method, with a few very minor del
        (doom-modeline-spc))))
 
   (doom-modeline-def-modeline 'main
-    '(bar workspace-name window-number matches buffer-info remote-host buffer-position word-count parrot selection-info)
+    '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)
     '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker spacing)))
 
 ;;; Language-specific configs

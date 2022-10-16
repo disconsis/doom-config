@@ -103,8 +103,9 @@
   (defun kk/org-regen-latex-previews ()
     "Regenerate latex previews in this buffer."
     (interactive)
-    (message "regenerating latex previews...")
-    (when (fboundp #'+org--toggle-inline-images-in-subtree)
+    (when (and (display-graphic-p)
+               (fboundp #'+org--toggle-inline-images-in-subtree))
+      (message "regenerating latex previews...")
       (let ((beg (point-min))
             (end (point-max)))
         (+org--toggle-inline-images-in-subtree beg end)

@@ -484,7 +484,7 @@ This is almost a complete copy of the original method, with a few very minor del
   (map! :map dune-mode-map
         :localleader
         :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
-  (when (featurep! :editor lispy) (add-hook 'dune-mode-hook #'lispyville-mode)))
+  (when (modulep! :editor lispy) (add-hook 'dune-mode-hook #'lispyville-mode)))
 
 ;;;; Purescript
 (after! purescript-mode
@@ -657,16 +657,16 @@ This is almost a complete copy of the original method, with a few very minor del
  :desc "format buffer" :n "gQ" #'+format/buffer)
 
 (map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
-(map! :when (featurep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
+(map! :when (modulep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
 ;;;; LSP
-(map! :when (featurep! :tools lsp) :map lsp-mode-map :localleader :desc "rename" :n "r" #'lsp-rename)
+(map! :when (modulep! :tools lsp) :map lsp-mode-map :localleader :desc "rename" :n "r" #'lsp-rename)
 
 ;;;; Version control
-(map! :when (featurep! :ui vc-gutter) :leader
+(map! :when (modulep! :ui vc-gutter) :leader
       :desc "Show git diff at point" :n "g d" #'git-gutter:popup-diff)
 
-(when (featurep! :emacs vc)
+(when (modulep! :emacs vc)
   (run-with-idle-timer 5 t #'vc-refresh-state))
 
 ;;; Notes

@@ -360,14 +360,16 @@ This is almost a complete copy of the original method, with a few very minor del
         all-the-icons-scale-factor 1.1)
 
   (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode)
-  (custom-theme-set-faces! 'user
-    '(doom-modeline-debug       :weight normal :inherit font-lock-doc-face)
-    '(doom-modeline-info        :weight normal :inherit info)
-    '(doom-modeline-warning     :weight normal :inherit warning)
-    '(doom-modeline-urgent      :weight normal :inherit error)
-    '(doom-modeline-lsp-error   :weight normal :inherit error)
-    '(doom-modeline-lsp-warning :weight normal :inherit warning)
-    '(doom-modeline-lsp-success :weight normal :inherit info))
+
+  (let ((weight (font-get doom-font :weight)))
+    (custom-theme-set-faces! 'user
+      `(doom-modeline-debug       :weight ,weight :inherit font-lock-doc-face)
+      `(doom-modeline-info        :weight ,weight :inherit info)
+      `(doom-modeline-warning     :weight ,weight :inherit warning)
+      `(doom-modeline-urgent      :weight ,weight :inherit error)
+      `(doom-modeline-lsp-error   :weight ,weight :inherit error)
+      `(doom-modeline-lsp-warning :weight ,weight :inherit warning)
+      `(doom-modeline-lsp-success :weight ,weight :inherit info)))
 
   ;; Change the lsp icon to be something nicer
   (defun kk/doom-modeline-lsp-icon (text face)

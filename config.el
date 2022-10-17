@@ -436,36 +436,11 @@ mouse-2: Show help for minor mode")
            (theme-name (symbol-name
                         (or (car-safe custom-enabled-themes)
                             'default)))
-           (timed-themes-enabled (bound-and-true-p timed-themes-minor-mode))
-           (prism-enabled (bound-and-true-p prism-mode))
-           (special-modes-enabled (or timed-themes-enabled prism-enabled)))
+           (timed-themes-enabled (bound-and-true-p timed-themes-minor-mode)))
       (concat
-       (doom-modeline-spc)
-       (->>
-        (list
-         (unless special-modes-enabled
-           (doom-modeline-icon 'material "color_lens" "" "" :face face))
-         (when timed-themes-enabled
-           (propertize (doom-modeline-icon 'material "timer" "" "" :face face)
-                       'face face
-                       'mouse-face 'mode-line-highlight
-                       'help-echo "Timed theme changes\nmouse-1: Disable"
-                       'local-map (let ((map (make-sparse-keymap)))
-                                    (define-key map [mode-line mouse-1] (cmd! (timed-themes-minor-mode -1)))
-                                    map)))
-         (when prism-enabled
-           (propertize (doom-modeline-icon 'material "details" "" "" :face face)
-                       'face face
-                       'mouse-face 'mode-line-highlight
-                       'help-echo "Color distributed according to depth\nmouse-1: Disable"
-                       'local-map (let ((map (make-sparse-keymap)))
-                                    (define-key map [mode-line mouse-1] (cmd! (prism-mode -1)))
-                                    map))))
-        -non-nil
-        (-interpose (propertize " " 'face '(:height 0.05)))
-        (apply #'concat))
-       (doom-modeline-vspc)
-       (propertize theme-name
+       (propertize (if timed-themes-enabled
+                       (concat "(" theme-name ")")
+                     theme-name)
                    'face face
                    'mouse-face 'mode-line-highlight
                    'help-echo "Current theme")

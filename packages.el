@@ -67,6 +67,8 @@
 
 (package! adaptive-wrap)
 
+(package! delight)
+
 ;;; Org
 (package! org-fragtog)
 (package! outshine)

@@ -416,7 +416,6 @@ mouse-2: Show help for minor mode")
                                          (describe-function 'flycheck-mode)))
                                      map)))))
 
-
   (doom-modeline-def-segment spacing
     (doom-modeline-wspc))
 
@@ -445,6 +444,9 @@ mouse-2: Show help for minor mode")
                    'mouse-face 'mode-line-highlight
                    'help-echo "Current theme")
        (doom-modeline-spc))))
+
+  (require 'delight)
+  (delight 'emacs-lisp-mode "emacs-lisp" :major)
 
   (remove-hook '+doom-dashboard-mode-hook #'doom-modeline-set-project-modeline)
   (add-hook '+doom-dashboard-mode-hook #'hide-mode-line-mode)

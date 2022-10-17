@@ -375,8 +375,7 @@ This is almost a complete copy of the original method, with a few very minor del
   (advice-add 'doom-modeline-lsp-icon :override #'kk/doom-modeline-lsp-icon)
 
   (doom-modeline-def-segment spacing
-    (doom-modeline-spc)
-    (doom-modeline-spc))
+    (doom-modeline-wspc))
 
   (doom-modeline-def-segment line-with-max
     (let ((curr-line (format-mode-line "%l"))

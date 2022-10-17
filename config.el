@@ -429,6 +429,9 @@ This is almost a complete copy of the original method, with a few very minor del
                    'help-echo "Current theme")
        (doom-modeline-spc))))
 
+  (remove-hook '+doom-dashboard-mode-hook #'doom-modeline-set-project-modeline)
+  (add-hook '+doom-dashboard-mode-hook #'hide-mode-line-mode)
+
   (doom-modeline-def-modeline 'main
     '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)
     '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker spacing)))

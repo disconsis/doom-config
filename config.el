@@ -355,7 +355,7 @@ This is almost a complete copy of the original method, with a few very minor del
 (after! doom-modeline
   (setq doom-modeline-hud nil
         doom-modeline-major-mode-icon nil
-        doom-modeline-icon nil
+        doom-modeline-icon t
         ;; reduce the size of icons in the modeline so that it doesn't get cut off at the end
         all-the-icons-scale-factor 1.1)
 
@@ -373,6 +373,49 @@ This is almost a complete copy of the original method, with a few very minor del
   (defun kk/doom-modeline-lsp-icon (text face)
     (doom-modeline-icon 'material "blur_circular" "{lsp}" text :face face))
   (advice-add 'doom-modeline-lsp-icon :override #'kk/doom-modeline-lsp-icon)
+
+  ;; Change checker icon
+  (defun doom-modeline-update-flycheck-icon (&optional status)
+    "Update flycheck icon via STATUS."
+    (setq doom-modeline--flycheck-icon
+          (when-let
+              ((icon
+                (pcase status
+                  ('finished  (if flycheck-current-errors
+                                  (let-alist (doom-modeline--flycheck-count-errors)
+                                    (propertize
+                                     "!"
+                                     'face
+                                     (cond ((> .error 0) 'doom-modeline-urgent)
+                                           ((> .warning 0) 'doom-modeline-warning)
+                                           (t 'doom-modeline-info))))
+                                (propertize "✓"  'face 'doom-modeline-info)))
+                  ('running     (propertize "*"   'face 'doom-modeline-debug))
+                  ('no-checker  (propertize "-"   'face 'doom-modeline-debug))
+                  ('errored     (propertize "!!!" 'face 'doom-modeline-urgent))
+                  ('interrupted (propertize "="   'face 'doom-modeline-debug))
+                  ('suspicious  (propertize "!!!" 'face 'doom-modeline-urgent))
+                  (_ nil))))
+            (propertize icon
+                        'help-echo (concat "Flycheck\n"
+                                           (pcase status
+                                             ('finished "mouse-1: Display minor mode menu
+mouse-2: Show help for minor mode")
+                                             ('running "Running...")
+                                             ('no-checker "No Checker")
+                                             ('errored "Error")
+                                             ('interrupted "Interrupted")
+                                             ('suspicious "Suspicious")))
+                        'mouse-face 'mode-line-highlight
+                        'local-map (let ((map (make-sparse-keymap)))
+                                     (define-key map [mode-line down-mouse-1]
+                                       flycheck-mode-menu-map)
+                                     (define-key map [mode-line mouse-2]
+                                       (lambda ()
+                                         (interactive)
+                                         (describe-function 'flycheck-mode)))
+                                     map)))))
+
 
   (doom-modeline-def-segment spacing
     (doom-modeline-wspc))

@@ -344,7 +344,7 @@ This is almost a complete copy of the original method, with a few very minor del
           font-lock-function-name-face
           font-lock-keyword-face
           font-lock-builtin-face)
-        prism-num-faces 8
+        prism-num-faces 16
         prism-color-distance 40000
         prism-desaturations '(0)
         prism-parens t

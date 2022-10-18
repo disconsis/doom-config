@@ -465,6 +465,9 @@ mouse-2: Show help for minor mode")
 ;;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook #'prism-mode)
 
+;; the checker for emacs-lisp sucks
+(add-hook 'emacs-lisp-mode-hook (cmd! (flycheck-mode -1)))
+
 ;;;; OCaml
 
 (defun kk/find-dune-file ()

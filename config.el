@@ -418,6 +418,10 @@ mouse-2: Show help for minor mode")
                                          (describe-function 'flycheck-mode)))
                                      map)))))
 
+  ;; simpler vcs icon - use text fallback instead of the actual icon
+  (defun doom-modeline-vcs-icon (icon &optional unicode text face voffset)
+    (propertize text 'face face))
+
   (doom-modeline-def-segment spacing
     (doom-modeline-wspc))
 

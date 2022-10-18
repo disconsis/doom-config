@@ -361,15 +361,14 @@ This is almost a complete copy of the original method, with a few very minor del
 
   (remove-hook! 'doom-modeline-mode-hook #'size-indication-mode)
 
-  (let ((weight (font-get doom-font :weight)))
-    (custom-theme-set-faces! 'user
-      `(doom-modeline-debug       :weight ,weight :inherit font-lock-doc-face)
-      `(doom-modeline-info        :weight ,weight :inherit info)
-      `(doom-modeline-warning     :weight ,weight :inherit warning)
-      `(doom-modeline-urgent      :weight ,weight :inherit error)
-      `(doom-modeline-lsp-error   :weight ,weight :inherit error)
-      `(doom-modeline-lsp-warning :weight ,weight :inherit warning)
-      `(doom-modeline-lsp-success :weight ,weight :inherit info)))
+  (custom-theme-set-faces! 'user
+    `(doom-modeline-debug       :weight unspecified :inherit font-lock-doc-face)
+    `(doom-modeline-info        :weight unspecified :inherit info)
+    `(doom-modeline-warning     :weight unspecified :inherit warning)
+    `(doom-modeline-urgent      :weight unspecified :inherit error)
+    `(doom-modeline-lsp-error   :weight unspecified :inherit error)
+    `(doom-modeline-lsp-warning :weight unspecified :inherit warning)
+    `(doom-modeline-lsp-success :weight unspecified :inherit info))
 
   ;; Change the lsp icon to be something nicer
   (defun kk/doom-modeline-lsp-icon (text face)

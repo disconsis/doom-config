@@ -460,6 +460,14 @@ mouse-2: Show help for minor mode")
     '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)
     '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker)))
 
+;;;; Banner
+
+(when (display-graphic-p)
+  (require 'f)
+  (setq +doom-dashboard-banner-dir (f-join doom-user-dir "banner-pictures")
+        +doom-dashboard-banner-file "cacochan.png"
+        +doom-dashboard-banner-padding '(6 . 6)))
+
 ;;; Language-specific configs
 ;;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook #'prism-mode)

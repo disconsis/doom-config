@@ -317,7 +317,8 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;;; Theme modifications
 
-(after! doom
+(after! doom-themes
+  (setq doom-themes-enable-italic nil)
   (setq doom-tokyo-night-brighter-comments t)
   (custom-theme-set-faces! 'doom-ayu-mirage
     '(line-number :foreground "gray28")))

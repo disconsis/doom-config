@@ -17,14 +17,6 @@
   (setq doom-theme (or theme doom-theme))
   (load-theme doom-theme t nil))
 
-(defun kk/nshuffle (sequence)
-  "Shuffle SEQUENCE in place. Picked up from somewhere on the internet."
-  (require 'cl)
-  (loop for i from (length sequence) downto 2
-        do (rotatef (elt sequence (random i))
-                    (elt sequence (1- i))))
-  sequence)
-
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -236,86 +228,6 @@ This is almost a complete copy of the original method, with a few very minor del
 ;; (timed-themes-minor-mode)
 
 (setq doom-theme 'doom-tomorrow-night)
-
-;;;;; Random theme switching
-
-(defvar kk/random-themes-list nil)
-(defvar kk/random-theme-idx nil)
-
-(defun kk/set-random-theme-idx (idx)
-  (interactive)
-  (let ((idx (mod idx (length kk/random-themes-list))))
-    (setq kk/random-theme-idx idx)
-    (load-theme (elt kk/random-themes-list kk/random-theme-idx) t nil)))
-
-(defun kk/random-themes-reshuffle ()
-  (interactive)
-  (setq kk/random-themes-list (or kk/random-themes-list (apply #'vector (custom-available-themes))))
-  (kk/nshuffle kk/random-themes-list)
-  (kk/set-random-theme-idx 0))
-
-(defvar kk/random-theme-at-start 'default
-  "The theme that `hydra-random-themes' was entered with, in case the user wants to go back to it.")
-
-(defun hydra-random-themes-gen-docstring (num-surrounding)
-  "Generate docstring for `hydra-random-themes' with NUM-SURROUNDING themes before and after (each) the current one."
-  (require 'cl)
-  (let* ((num-themes (length kk/random-themes-list))
-         (-frame-width- (frame-width))
-         (rows (--reduce-r-from
-                (destructuring-bind (theme-row num-row) acc
-                  (let* ((theme-idx (mod (+ it kk/random-theme-idx) num-themes))
-                         (theme-name (symbol-name (elt kk/random-themes-list theme-idx)))
-                         (is-current (zerop it))
-                         (theme-name-decorated (propertize theme-name
-                                                           'face
-                                                           (if is-current
-                                                               'font-lock-preprocessor-face
-                                                             'font-lock-comment-face)))
-                         (theme-num (s-center (string-width theme-name-decorated)
-                                              (if is-current
-                                                  (format "[%d/%d]" (1+ theme-idx) num-themes)
-                                                ""))))
-                    (list (cons theme-name-decorated theme-row) (cons theme-num num-row))))
-
-                (list nil nil)
-                (number-sequence (- num-surrounding) num-surrounding))))
-
-    (destructuring-bind (theme-row num-row) rows
-      (apply #'s-concat
-             (--map
-              (s-concat (s-center -frame-width- (s-join "   " it)) "\n")
-              (list (-concat '("...") theme-row '("..."))
-                    (-concat '("   ")  num-row  '("   "))))))))
-
-(defun kk/search-random-theme ()
-  (interactive)
-  (-> (completing-read "Find theme: "
-                       (mapcar #'symbol-name kk/random-themes-list)
-                       nil t)
-      (intern)
-      (position kk/random-themes-list)
-      (kk/set-random-theme-idx)))
-
-(defhydra hydra-random-themes
-  (:color red
-   :body-pre
-   (progn
-     (setq kk/random-theme-at-start doom-theme)
-     (if kk/random-themes-list
-         (load-theme (elt kk/random-themes-list kk/random-theme-idx) t nil)
-       (kk/random-themes-reshuffle))))
-  "
-%s(hydra-random-themes-gen-docstring 3)
-"
-  ("k" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
-  ("j" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
-  ("h" (kk/set-random-theme-idx (1- kk/random-theme-idx)) "prev-theme")
-  ("l" (kk/set-random-theme-idx (1+ kk/random-theme-idx)) "next-theme")
-  ("r" kk/random-themes-reshuffle "randomize")
-  ("/" kk/search-random-theme "search")
-  ("q" (load-theme kk/random-theme-at-start t nil) "reset to initial" :color blue)
-  ("." nil "confirm and quit" :color blue))
 
 ;;;;; Theme modifications
 
@@ -692,7 +604,10 @@ mouse-2: Show help for minor mode")
  :desc "format region" :v "gq" #'+format/region ; This is the keybinding I always reach for to format a region
  :desc "format buffer" :n "gQ" #'+format/buffer)
 
-(map! :leader :desc "random-themes-hydra" :n "h T" #'hydra-random-themes/body)
+(map! :leader :desc "random-themes-hydra" :n "h T"
+      (cmd!
+       (load! "local-packages/random-themes/random-themes.el" doom-user-dir)
+       (random-themes--hydra/body)))
 (map! :when (modulep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
 ;;;; LSP

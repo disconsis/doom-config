@@ -422,7 +422,7 @@ mouse-2: Show help for minor mode")
     (propertize text 'face face))
 
   (doom-modeline-def-segment spacing
-    (doom-modeline-wspc))
+    doom-modeline-wspc)
 
   (doom-modeline-def-segment line-with-max
     (let ((curr-line (format-mode-line "%l"))
@@ -430,7 +430,7 @@ mouse-2: Show help for minor mode")
                       (goto-char (point-max))
                       (format-mode-line "%l"))))
       (concat
-       (doom-modeline-wspc)
+       doom-modeline-wspc
        (s-concat curr-line "/" max-line))))
 
   (doom-modeline-def-segment theme
@@ -448,7 +448,7 @@ mouse-2: Show help for minor mode")
                    'face face
                    'mouse-face 'mode-line-highlight
                    'help-echo "Current theme")
-       (doom-modeline-spc))))
+       doom-modeline-spc)))
 
   (require 'delight)
   (delight 'emacs-lisp-mode "emacs-lisp" :major)

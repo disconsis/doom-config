@@ -7,6 +7,7 @@
 
 ;;; Code:
 
+(require 'cl)
 (require 'cl-lib)
 
 (defun random-themes/nshuffle (seq)
@@ -76,7 +77,7 @@
    :body-pre
    (progn
      (setq random-themes--theme-at-start (or (car-safe custom-enabled-themes) 'default))
-     (if random-themes--themes
+     (if (and random-themes--themes random-themes--idx)
          (load-theme (elt random-themes--themes random-themes--idx) t nil)
        (random-themes--shuffle))))
   "

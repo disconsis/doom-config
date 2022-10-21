@@ -122,8 +122,7 @@
               (defun kk/save-project-buffers (&rest _)
                 (require 'projectile)
                 (when (projectile-project-root)
-                 (projectile-save-project-buffers)))))
-  
+                  (projectile-save-project-buffers)))))
 
 ;;; Filesystem
 (add-hook! dired-mode #'dired-hide-details-mode)

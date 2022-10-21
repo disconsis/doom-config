@@ -266,6 +266,21 @@ This is almost a complete copy of the original method, with a few very minor del
         prism-parens t
         prism-lightens '(0)))
 
+;;;;; Font based on light or dark
+
+(defun kk/set-font-weight-by-light-or-dark ()
+  (let ((weight
+         (pcase (frame-parameter nil 'background-mode)
+           ('light 'normal)
+           ('dark  'light)
+           (_      (progn (message "Unknown background-mode... defaulting to 'dark") 'light))))
+        (curr-weight (or (font-get doom-font :weight) 'normal)))
+    (unless (equal weight curr-weight)
+      (font-put doom-font :weight weight)
+      (doom/reload-font))))
+
+(add-hook 'doom-load-theme-hook #'kk/set-font-weight-by-light-or-dark -50)
+
 ;;;; Modeline
 
 (after! doom-modeline

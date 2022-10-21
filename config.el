@@ -200,15 +200,15 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;; Font
 
-(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'light))
-;; (setq doom-variable-pitch-font (font-spec :family "Lato"))
-(setq doom-variable-pitch-font doom-font)
+(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'light)
+      doom-variable-pitch-font doom-font ;; (font-spec :family "Roboto Slab")
+      doom-font-increment 1)
 
-;; fix the weird fixed-pitch font in Info manuals
+;; fix weird Info-manual faces
 (custom-theme-set-faces! 'user
-  '(fixed-pitch-serif :inherit 'default))
-
-(setq doom-font-increment 1)
+  '(fixed-pitch-serif :inherit 'default)
+  '(info-menu-star    :inherit 'dired-mark)
+  '(info-menu-header  :inherit 'dired-header))
 
 ;;;; Theme
 ;;;;; Timed changes

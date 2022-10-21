@@ -286,7 +286,7 @@ This is almost a complete copy of the original method, with a few very minor del
 (after! doom-modeline
   (setq doom-modeline-hud nil
         doom-modeline-major-mode-icon nil
-        doom-modeline-icon t
+        doom-modeline-icon nil
         ;; reduce the size of icons in the modeline so that it doesn't get cut off at the end
         all-the-icons-scale-factor 1.1)
 

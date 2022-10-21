@@ -520,6 +520,21 @@ mouse-2: Show help for minor mode")
     '(outshine-level-7 :height 1.1 :inherit magit-diff-hunk-heading-highlight)
     '(outshine-level-8 :height 1.1 :inherit magit-diff-hunk-heading-highlight)))
 
+;;;;; lispyville
+
+(after! lispyville
+  (setq lispyville-key-theme
+        '((operators normal)
+          c-w
+          prettify
+          atom-movement
+          slurp/barf-lispy
+          commentary
+          additional-movement
+          additional-wrap))
+  (lispyville-set-key-theme)
+  (map! :map lispyville-mode-map :n "[" nil))
+
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)

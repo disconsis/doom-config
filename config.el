@@ -357,10 +357,13 @@ mouse-2: Show help for minor mode")
     doom-modeline-wspc)
 
   (doom-modeline-def-segment line-with-max
-    (let ((curr-line (format-mode-line "%l"))
-          (max-line (save-excursion
-                      (goto-char (point-max))
-                      (format-mode-line "%l"))))
+    (let* ((lc '(column-number-mode
+                 (doom-modeline-column-zero-based "%l:%c" "%l:%C")
+                 "%l"))
+           (curr-line (format-mode-line lc))
+           (max-line (save-excursion
+                       (goto-char (point-max))
+                       (format-mode-line "%l"))))
       (concat
        doom-modeline-wspc
        (s-concat curr-line "/" max-line))))

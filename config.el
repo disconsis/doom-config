@@ -487,6 +487,21 @@ mouse-2: Show help for minor mode")
 
 ;; TODO add font-lock keywords to highlight `rgb255 r g b' expressions with appr color
 
+;;;; Haskell
+(after! haskell-mode
+  (defun kk/haskell-hpack-find-pkg-desc (dir &optional allow-multiple)
+    "Return hpack ('package.yaml') files instead of the generated cabal file."
+    (let* ((cabal-files
+            (cl-remove-if 'file-directory-p
+                          (cl-remove-if-not 'file-exists-p
+                                            (directory-files dir t "package\\.yaml\\'")))))
+      (cond
+       ((= (length cabal-files) 1) (car cabal-files)) ;; exactly one candidate found
+       (allow-multiple cabal-files) ;; pass-thru multiple candidates
+       (t nil))))
+
+  (advice-add #'haskell-cabal-find-pkg-desc :before-until #'kk/haskell-hpack-find-pkg-desc))
+
 ;;;; Minor-modes
 ;;;;; outshine
 

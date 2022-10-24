@@ -500,7 +500,15 @@ mouse-2: Show help for minor mode")
        (allow-multiple cabal-files) ;; pass-thru multiple candidates
        (t nil))))
 
-  (advice-add #'haskell-cabal-find-pkg-desc :before-until #'kk/haskell-hpack-find-pkg-desc))
+  (advice-add #'haskell-cabal-find-pkg-desc :before-until #'kk/haskell-hpack-find-pkg-desc)
+
+  ;; Integrate `haskell-hide-all' etc. with the general fold bindings
+  (map! :map haskell-mode-map
+        :n "z o" #'haskell-hide-toggle
+        :n "z c" #'haskell-hide-toggle
+        :n "z a" #'haskell-hide-toggle
+        :n "z m" #'haskell-hide-toggle-all
+        :n "z r" #'haskell-hide-toggle-all))
 
 ;;;; Minor-modes
 ;;;;; outshine

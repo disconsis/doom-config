@@ -576,6 +576,10 @@ mouse-2: Show help for minor mode")
 
 (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)
 
+;; don't want to put my cursor at the absolute edge.
+;; get some context.
+(setq scroll-margin 5)
+
 ;;; Keybindings
 ;;;; Main
 

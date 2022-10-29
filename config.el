@@ -386,7 +386,7 @@ mouse-2: Show help for minor mode")
        doom-modeline-spc)))
 
   (require 'delight)
-  (delight 'emacs-lisp-mode "emacs-lisp" :major)
+  (delight 'emacs-lisp-mode "elisp" :major)
 
   (remove-hook '+doom-dashboard-mode-hook #'doom-modeline-set-project-modeline)
   (add-hook '+doom-dashboard-mode-hook #'hide-mode-line-mode)

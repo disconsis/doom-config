@@ -238,7 +238,13 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (after! modus-themes
   (setq modus-themes-mode-line '(accented borderless)
-        modus-themes-subtle-line-numbers t))
+        modus-themes-subtle-line-numbers t)
+
+
+  (custom-theme-set-faces! 'modus-operandi
+   '(modus-themes-fringe-green  :foreground "#62c86a" :background unspecified)
+   '(modus-themes-fringe-red    :foreground "#f08290" :background unspecified)
+   '(modus-themes-fringe-yellow :foreground "#dbba3f" :background unspecified)))
 
 (after! light-soap-theme
   (custom-theme-set-faces! 'light-soap

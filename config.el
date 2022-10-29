@@ -543,15 +543,17 @@ mouse-2: Show help for minor mode")
                   (outshine-font-lock-flush)))))
 
   (setq outshine-fontify-whole-heading-line t)
+
+  (require 'magit)
   (custom-theme-set-faces! 'user
-    '(outshine-level-1 :height 2.0 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-2 :height 1.8 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-3 :height 1.6 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-4 :height 1.4 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-5 :height 1.3 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-6 :height 1.2 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-7 :height 1.1 :inherit magit-diff-hunk-heading-highlight)
-    '(outshine-level-8 :height 1.1 :inherit magit-diff-hunk-heading-highlight)))
+    '(outshine-level-1 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-2 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-3 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-4 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-5 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-6 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-7 :inherit magit-diff-hunk-heading-highlight)
+    '(outshine-level-8 :inherit magit-diff-hunk-heading-highlight)))
 
 ;;;;; lispyville
 

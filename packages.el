@@ -88,3 +88,7 @@
 
 ;;; Additional file types
 (package! ahk-mode)
+
+;;; Haskell
+(package! hiedb-mode
+  :recipe (:host github :repo "agentultra/hiedb-mode"))

@@ -128,7 +128,9 @@
 (add-hook! dired-mode #'dired-hide-details-mode)
 
 (after! dired-x
-  (setq dired-omit-files (rx line-start (repeat 1 2 (char ".")))))
+  (setq dired-omit-files
+        (rx (or (seq line-start (repeat 1 2 (char ".")))
+                (seq (char ".") "hie" line-end)))))
 
 (after! recentf
   (add-to-list 'recentf-exclude (concat "^" doom-local-dir))
@@ -149,7 +151,8 @@
       lsp-ui-sideline-enable t
       lsp-eldoc-enable-hover nil
       lsp-signature-render-documentation nil
-      lsp-enable-folding t)
+      lsp-enable-folding t
+      lsp-warn-no-matched-clients nil)
 
 (after! lsp-mode
   (defun kk/lsp--read-rename-no-placeholder (at-point)
@@ -409,6 +412,13 @@ mouse-2: Show help for minor mode")
         +doom-dashboard-banner-file "cacochan.png"
         +doom-dashboard-banner-padding '(6 . 6)))
 
+;;; Projectile
+
+(after! projectile
+  (add-hook 'projectile-after-switch-project-hook
+            (defun kk/set-default-directory-to-project-root ()
+              (setq default-directory (projectile-project-root)))))
+
 ;;; Language-specific configs
 ;;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook #'prism-mode)
@@ -514,7 +524,32 @@ mouse-2: Show help for minor mode")
         :n "z c" #'haskell-hide-toggle
         :n "z a" #'haskell-hide-toggle
         :n "z m" #'haskell-hide-toggle-all
-        :n "z r" #'haskell-hide-toggle-all))
+        :n "z r" #'haskell-hide-toggle-all)
+
+  (setq haskell-process-suggest-remove-import-lines nil
+        haskell-process-suggest-hoogle-imports t))
+
+(use-package! flycheck-haskell
+  :hook (haskell-mode . flycheck-haskell-setup))
+
+(use-package! hiedb
+  ;; :hook (haskell-mode . hiedb-mode)
+  :config
+  (advice-add #'hiedb-module-from-path
+              :before
+              (defun kk/hiedb-set-project-paths ()
+                (when-let ((root (and
+                                  (fboundp 'projectile-project-root)
+                                  (projectile-project-root))))
+                  (setq hiedb-project-root root
+                        hiedb-dbfile (expand-file-name ".hiedb" root)))))
+
+  ;; FIXME hiedb functions throws errors
+  (set-lookup-handlers! 'hiedb-mode
+    :definition #'hiedb-interactive-defs
+    :references #'hiedb-interactive-refs
+    :documentation #'hiedb-interactive-info
+    :type-definition #'hiedb-interactive-types))
 
 ;;;; Minor-modes
 ;;;;; outshine

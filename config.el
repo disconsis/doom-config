@@ -378,21 +378,19 @@ mouse-2: Show help for minor mode")
        (s-concat curr-line "/" max-line))))
 
   (doom-modeline-def-segment theme
-    (let* ((face (if (doom-modeline--active)
-                     'doom-modeline-buffer-minor-mode
-                   'mode-line-inactive))
-           (theme-name (symbol-name
-                        (or (car-safe custom-enabled-themes)
-                            'default)))
-           (timed-themes-enabled (bound-and-true-p timed-themes-minor-mode)))
-      (concat
-       (propertize (if timed-themes-enabled
-                       (concat "(" theme-name ")")
-                     theme-name)
-                   'face face
-                   'mouse-face 'mode-line-highlight
-                   'help-echo "Current theme")
-       doom-modeline-spc)))
+    (when (doom-modeline--active)
+      (let* ((theme-name (symbol-name
+                          (or (car-safe custom-enabled-themes)
+                              'default)))
+             (timed-themes-enabled (bound-and-true-p timed-themes-minor-mode)))
+        (concat
+         (propertize (if timed-themes-enabled
+                         (concat "(" theme-name ")")
+                       theme-name)
+                     'face 'doom-modeline-buffer-minor-mode
+                     'mouse-face 'mode-line-highlight
+                     'help-echo "Current theme")
+         doom-modeline-spc))))
 
   (require 'delight)
   (delight 'emacs-lisp-mode "elisp" :major)

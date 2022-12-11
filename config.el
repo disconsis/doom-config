@@ -46,6 +46,7 @@
         `((?X  . ,(all-the-icons-material "check_box"))
           (?\s . ,(all-the-icons-material "check_box_outline_blank"))
           (?-  . ,(all-the-icons-material "indeterminate_check_box"))))
+  (setq org-modern-star (list "◆"))
   (add-hook 'doom-load-theme-hook #'org-modern--update-label-face))
 
 (use-package! org-modern-indent

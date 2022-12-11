@@ -525,7 +525,8 @@ mouse-2: Show help for minor mode")
         :n "z r" #'haskell-hide-toggle-all)
 
   (setq haskell-process-suggest-remove-import-lines nil
-        haskell-process-suggest-hoogle-imports t))
+        haskell-process-suggest-hoogle-imports t
+        haskell-interactive-popup-errors nil))
 
 (use-package! flycheck-haskell
   :hook (haskell-mode . flycheck-haskell-setup))

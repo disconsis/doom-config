@@ -14,6 +14,10 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+;; Needs to be set before `evil' loads, which is one of the packages doom eager-loads.
+;; See: https://www.reddit.com/r/emacs/comments/f3vncl/comment/fhmbf68/
+(setq evil-respect-visual-line-mode t)
+
 (doom! :input
        ;;chinese
        ;;japanese

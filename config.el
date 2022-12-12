@@ -108,6 +108,16 @@
 
   (add-hook 'doom-load-theme-hook #'kk/org-regen-latex-previews))
 
+;;;; Org src
+
+;; change the org-src-edit buffer name to something less ugly
+
+(defun kk/org-src--construct-edit-buffer-name (org-buffer-name lang)
+  (format "*org-src %s:%s*" org-buffer-name lang))
+
+(advice-add #'org-src--construct-edit-buffer-name
+            :override
+            #'kk/org-src--construct-edit-buffer-name)
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map
@@ -730,6 +740,5 @@ mouse-2: Show help for minor mode")
 ;; TODO Change `imenu-list' to differentiate between headlines of diff depths
 ;; TODO Check out dynamic views in `org-ql' to make a better agenda
 ;; TODO Fix org-edit-src:
-;;      1. Make the buffer name be not as horrible
-;;      2. Remove the top-bar saying C-c, C-k
-;;      3. Bind :w and :q to write/abort
+;;      1. Remove the top-bar saying C-c, C-k
+;;      2. Bind :w and :q to write/abort

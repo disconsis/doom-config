@@ -118,6 +118,17 @@
 (advice-add #'org-src--construct-edit-buffer-name
             :override
             #'kk/org-src--construct-edit-buffer-name)
+
+;;;; Inline Task
+
+(map! :map org-mode-map
+      :localleader
+      :desc "insert inline task"
+      "t"
+      (cmd! (require 'org-inlinetask)   ;; not usually loaded
+            (call-interactively #'org-inlinetask-insert-task)))
+
+
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

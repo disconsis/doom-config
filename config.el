@@ -615,6 +615,16 @@ mouse-2: Show help for minor mode")
   (lispyville-set-key-theme)
   (map! :map lispyville-mode-map :n "[" nil))
 
+;;;;; zen / writeroom
+
+(when (featurep! :ui zen)
+  ;; don't zoom
+  (setq +zen-text-scale 0))
+
+(after! writeroom-mode
+  (setq writeroom-width 0.6)
+  (add-hook 'writeroom-mode-enable-hook (cmd! (setq display-line-numbers nil))))
+
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)

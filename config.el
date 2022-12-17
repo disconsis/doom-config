@@ -108,25 +108,27 @@
 
   (add-hook 'doom-load-theme-hook #'kk/org-regen-latex-previews))
 
-;;;; Org src
+;;;; Org src block
+
 
 ;; change the org-src-edit buffer name to something less ugly
+(after! org
+ (defun kk/org-src--construct-edit-buffer-name (org-buffer-name lang)
+   (format "*org-src %s:%s*" org-buffer-name lang))
 
-(defun kk/org-src--construct-edit-buffer-name (org-buffer-name lang)
-  (format "*org-src %s:%s*" org-buffer-name lang))
-
-(advice-add #'org-src--construct-edit-buffer-name
-            :override
-            #'kk/org-src--construct-edit-buffer-name)
+ (advice-add #'org-src--construct-edit-buffer-name
+             :override
+             #'kk/org-src--construct-edit-buffer-name))
 
 ;;;; Inline Task
+(after! org
+  (map! :map org-mode-map
+        :localleader
+        :desc "insert inline task"
+        "t"
+        (cmd! (require 'org-inlinetask) ;; not usually loaded
+              (call-interactively #'org-inlinetask-insert-task))))
 
-(map! :map org-mode-map
-      :localleader
-      :desc "insert inline task"
-      "t"
-      (cmd! (require 'org-inlinetask)   ;; not usually loaded
-            (call-interactively #'org-inlinetask-insert-task)))
 
 
 ;;; LSP

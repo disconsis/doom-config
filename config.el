@@ -17,6 +17,12 @@
   (setq doom-theme (or theme doom-theme))
   (load-theme doom-theme t nil))
 
+;; stop the constant "Cleaning up the recentf list...done" messages
+(defun silently (fn)
+  "Run FN without showing any messages in echo area."
+  (let ((inhibit-message t))
+    (funcall fn)))
+
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -129,7 +135,10 @@
         (cmd! (require 'org-inlinetask) ;; not usually loaded
               (call-interactively #'org-inlinetask-insert-task))))
 
-
+;;;; Wrapping / indent mode
+;; Fix wrapping in `org-indent-mode' issues caused by `adaptive-wrap-prefix-mode'
+(after! org
+  (add-hook 'org-mode-hook (cmd! (adaptive-wrap-prefix-mode -1))))
 
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
@@ -641,12 +650,6 @@ mouse-2: Show help for minor mode")
 ;;; Assorted
 
 (setq confirm-kill-emacs nil)
-
-;; stop the constant "Cleaning up the recentf list...done" messages
-(defun silently (fn)
-  "Run FN without showing any messages in echo area."
-  (let ((inhibit-message t))
-    (funcall fn)))
 
 (advice-add 'recentf-cleanup :around #'silently)
 

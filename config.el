@@ -17,7 +17,6 @@
   (setq doom-theme (or theme doom-theme))
   (load-theme doom-theme t nil))
 
-;; stop the constant "Cleaning up the recentf list...done" messages
 (defun silently (fn)
   "Run FN without showing any messages in echo area."
   (let ((inhibit-message t))
@@ -651,6 +650,7 @@ mouse-2: Show help for minor mode")
 
 (setq confirm-kill-emacs nil)
 
+;; stop the constant "Cleaning up the recentf list...done" messages
 (advice-add 'recentf-cleanup :around #'silently)
 
 (add-hook 'visual-line-mode-hook #'adaptive-wrap-prefix-mode)

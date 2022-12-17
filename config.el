@@ -766,5 +766,5 @@ mouse-2: Show help for minor mode")
 ;; TODO Change `imenu-list' to differentiate between headlines of diff depths
 ;; TODO Check out dynamic views in `org-ql' to make a better agenda
 ;; TODO Fix org-edit-src:
-;;      1. Remove the top-bar saying C-c, C-k
+;;      1. Remove the top-bar saying C-c, C-k - can be removed by setting `org-edit-src-persistent-message'
 ;;      2. Bind :w and :q to write/abort

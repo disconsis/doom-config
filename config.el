@@ -642,7 +642,7 @@ mouse-2: Show help for minor mode")
 
 ;;;;; zen / writeroom
 
-(when (featurep! :ui zen)
+(when (modulep! :ui zen)
   ;; don't zoom
   (setq +zen-text-scale 0))
 

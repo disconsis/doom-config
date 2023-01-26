@@ -317,11 +317,11 @@ This is almost a complete copy of the original method, with a few very minor del
   (setq modus-themes-mode-line '(accented borderless)
         modus-themes-subtle-line-numbers t)
   (custom-theme-set-faces! 'modus-operandi-tinted
-    '(line-number :background 'unspecified)
-    '(fringe :background 'unspecified)
-    '(git-gutter-fr:added    :foreground "#8cca8c" :background 'unspecified)
-    '(git-gutter-fr:modified :foreground "tan"   :background 'unspecified)
-    '(git-gutter-fr:deleted  :foreground "#d84a4f" :background 'unspecified)))
+    '(line-number :background unspecified)
+    '(fringe :background unspecified)
+    '(git-gutter-fr:added    :foreground "#8cca8c" :background unspecified)
+    '(git-gutter-fr:modified :foreground "tan"   :background unspecified)
+    '(git-gutter-fr:deleted  :foreground "#d84a4f" :background unspecified)))
 
 (after! light-soap-theme
   (custom-theme-set-faces! 'light-soap

@@ -99,6 +99,7 @@ Both START-HOUR and END-HOUR are inclusive."
   (when timed-themes/change-timer (cancel-timer timed-themes/change-timer))
   (setq timed-themes/change-timer nil)
   (when timed-themes-minor-mode
+    (timed-themes/load-theme-for-time)
     (setq timed-themes/change-timer
           (run-with-timer nil timed-themes/change-time #'timed-themes/load-theme-for-time))))
 

@@ -228,13 +228,13 @@ This is almost a complete copy of the original method, with a few very minor del
         ;; highlight-indent-guides-character ?\|
         highlight-indent-guides-bitmap-function #'highlight-indent-guides--bitmap-line))
 
-;; put the window on the right-most monitor if present
-(when (display-graphic-p)
-  (setq kk/single-monitor-width 1920)
-  (let ((rightmost-monitor-left-pos
-         (* kk/single-monitor-width (1- (/ (x-display-pixel-width) kk/single-monitor-width)))))
-    (setq initial-frame-alist
-          `((top . 29) (left . ,rightmost-monitor-left-pos) (height . 58) (width . 267)))))
+;;;; put the window on the right-most monitor if present
+;; (when (display-graphic-p)
+;;   (setq kk/single-monitor-width 1920)
+;;  (let ((rightmost-monitor-left-pos
+;;         (* kk/single-monitor-width (1- (/ (x-display-pixel-width) kk/single-monitor-width)))))
+;;    (setq initial-frame-alist
+;;          `((top . 29) (left . ,rightmost-monitor-left-pos) (height . 58) (width . 267)))))
 
 
 ;;;; Font
@@ -262,10 +262,48 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;       timed-themes/change-theme-if-manually-set nil
 ;;       timed-themes/change-theme-default-on-ask-timeout nil)
 
-;; (setq doom-theme (timed-themes/theme-for-time))
 ;; (timed-themes-minor-mode)
 
-(setq doom-theme 'doom-tomorrow-night)
+;;;;; Sync with windows system theme
+
+;; (defvar win-theme-file "/mnt/c/Users/Ketan/AppData/Local/Microsoft/Windows/Themes/Custom.theme")
+
+;; (defvar win-themes
+;;   '(("light" . modus-operandi)
+;;     ("dark"  . doom-tomorrow-night)))
+
+;; (defvar win-default-theme 'wombat)
+
+;; (defun win-theme ()
+;;  (ignore-errors
+;;    (with-file-contents! win-theme-file
+;;                        (when (re-search-forward (rx line-start "SystemMode=" (group (+ alnum))) nil t)
+;;                          (s-lower-camel-case (match-string 1))))))
+
+;; (defun win-appropriate-theme ()
+;;   (alist-get (win-theme) win-themes win-default-theme nil #'equal))
+
+;; (setq doom-theme (win-appropriate-theme))
+
+;; (defvar win-theme-file-watch nil)
+
+;; (defun win-theme-load-appropriate-theme (&rest _)
+;;   (load-theme (win-appropriate-theme) t nil))
+
+;; (define-minor-mode win-theme-sync-minor-mode
+;;   "Minor mode to sync with the windows theme."
+;;   :global t
+;;   :lighter " WinTheme"
+;;   (when win-theme-file-watch
+;;     (file-notify-rm-watch win-theme-file-watch)
+;;     (setq win-theme-file-watch nil))
+;;   (when win-theme-sync-minor-mode
+;;     (progn
+;;       (load-theme (win-appropriate-theme) t nil)
+;;       (setq win-theme-file-watch
+;;             (file-notify-add-watch
+;;              win-theme-file '(change)
+;;              #'win-theme-load-appropriate-theme)))))
 
 ;;;;; Theme modifications
 

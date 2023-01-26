@@ -215,6 +215,10 @@ This is almost a complete copy of the original method, with a few very minor del
 
 (remove-hook 'doom-first-buffer-hook #'global-hl-line-mode)
 
+;; better than pixel-scroll-mode
+(when (fboundp 'pixel-scroll-precision-mode)
+  (pixel-scroll-precision-mode))
+
 (use-package! highlight-indent-guides
   :config
   ;; stop doom from autoloading this

@@ -239,7 +239,7 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;; Font
 
-(setq doom-font (font-spec :family "Iosevka" :size 14 :weight 'light)
+(setq doom-font (font-spec :family "Iosevka SS02" :weight 'light :size 14)
       doom-variable-pitch-font doom-font ;; (font-spec :family "Roboto Slab")
       doom-font-increment 1)
 

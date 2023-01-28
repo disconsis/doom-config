@@ -354,7 +354,7 @@ This is almost a complete copy of the original method, with a few very minor del
 (defun kk/set-font-weight-by-light-or-dark ()
   (let ((weight
          (pcase (frame-parameter nil 'background-mode)
-           ('light 'normal)
+           ('light 'semibold)
            ('dark  'light)
            (_      (progn (message "Unknown background-mode... defaulting to 'dark") 'light))))
         (curr-weight (or (font-get doom-font :weight) 'normal)))

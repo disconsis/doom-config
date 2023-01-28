@@ -321,16 +321,20 @@ This is almost a complete copy of the original method, with a few very minor del
     '(line-number :foreground "gray28")))
 
 (after! modus-themes
-  (setq modus-themes-mode-line '(accented borderless)
-        modus-themes-subtle-line-numbers t)
   (custom-theme-set-faces! 'modus-operandi-tinted
     '(line-number :foreground "burlywood3" :background unspecified)
     '(fringe :background unspecified)
-    '(git-gutter-fr:added    :foreground "#8cca8c" :background unspecified)
-    '(git-gutter-fr:modified :foreground "tan"     :background unspecified)
+    '(git-gutter-fr:added    :foreground "#006800" :background unspecified)
+    '(git-gutter-fr:modified :foreground "tan3"    :background unspecified)
     '(git-gutter-fr:deleted  :foreground "#d84a4f" :background unspecified))
   (custom-theme-set-faces! 'modus-vivendi-tinted
     '(line-number :foreground "#61e157578e0d" :background unspecified)
+    '(fringe :background unspecified)
+    '(git-gutter-fr:added    :foreground "#237f4f" :background unspecified)
+    '(git-gutter-fr:modified :foreground "#8a7a00" :background unspecified)
+    '(git-gutter-fr:deleted  :foreground "#b81a26" :background unspecified))
+  (custom-theme-set-faces! 'modus-vivendi
+    '(line-number :foreground "#1e1e1e" :background unspecified)
     '(fringe :background unspecified)
     '(git-gutter-fr:added    :foreground "#237f4f" :background unspecified)
     '(git-gutter-fr:modified :foreground "#8a7a00" :background unspecified)

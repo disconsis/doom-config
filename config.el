@@ -114,8 +114,6 @@
   (add-hook 'doom-load-theme-hook #'kk/org-regen-latex-previews))
 
 ;;;; Org src block
-
-
 ;; change the org-src-edit buffer name to something less ugly
 (after! org
  (defun kk/org-src--construct-edit-buffer-name (org-buffer-name lang)
@@ -245,9 +243,9 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;; fix weird Info-manual faces
 (custom-theme-set-faces! 'user
-  '(fixed-pitch-serif :inherit 'default)
-  '(info-menu-star    :inherit 'dired-mark)
-  '(info-menu-header  :inherit 'dired-header))
+  '(fixed-pitch-serif :inherit default)
+  '(info-menu-star    :inherit dired-mark)
+  '(info-menu-header  :inherit dired-header))
 
 ;;;; Theme
 ;;;;; Timed changes
@@ -320,12 +318,12 @@ This is almost a complete copy of the original method, with a few very minor del
     '(line-number :background unspecified)
     '(fringe :background unspecified)
     '(git-gutter-fr:added    :foreground "#8cca8c" :background unspecified)
-    '(git-gutter-fr:modified :foreground "tan"   :background unspecified)
+    '(git-gutter-fr:modified :foreground "tan"     :background unspecified)
     '(git-gutter-fr:deleted  :foreground "#d84a4f" :background unspecified)))
 
 (after! light-soap-theme
   (custom-theme-set-faces! 'light-soap
-    '(fringe :background nil)))
+    '(fringe :background unspecified)))
 
 (after! autumn-light-theme
   (custom-theme-set-faces! 'autumn-light

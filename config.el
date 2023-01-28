@@ -22,6 +22,15 @@
   (let ((inhibit-message t))
     (funcall fn)))
 
+(defun my/custom-theme-set-faces-test! (theme &rest specs)
+  "Function to test theme modifications before committing theme with `custom-theme-set-faces!'."
+  (let (custom--inhibit-theme-enable)
+    (dolist (theme (ensure-list (or theme 'user)))
+      (when (or (eq theme 'user)
+                (custom-theme-enabled-p theme))
+        (apply #'custom-theme-set-faces theme
+               (mapcan #'doom--custom-theme-set-face specs))))))
+
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -319,7 +328,13 @@ This is almost a complete copy of the original method, with a few very minor del
     '(fringe :background unspecified)
     '(git-gutter-fr:added    :foreground "#8cca8c" :background unspecified)
     '(git-gutter-fr:modified :foreground "tan"     :background unspecified)
-    '(git-gutter-fr:deleted  :foreground "#d84a4f" :background unspecified)))
+    '(git-gutter-fr:deleted  :foreground "#d84a4f" :background unspecified))
+  (custom-theme-set-faces! 'modus-vivendi-tinted
+    '(line-number :foreground "#61e157578e0d" :background unspecified)
+    '(fringe :background unspecified)
+    '(git-gutter-fr:added    :foreground "#237f4f" :background unspecified)
+    '(git-gutter-fr:modified :foreground "#8a7a00" :background unspecified)
+    '(git-gutter-fr:deleted  :foreground "#b81a26" :background unspecified)))
 
 (after! light-soap-theme
   (custom-theme-set-faces! 'light-soap

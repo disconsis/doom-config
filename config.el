@@ -624,6 +624,20 @@ mouse-2: Show help for minor mode")
     :documentation #'hiedb-interactive-info
     :type-definition #'hiedb-interactive-types))
 
+;;;; Latex
+
+(after! auctex
+  (map! :map LaTeX-mode-map
+        :n
+        :localleader
+        :desc "start or update latex preview pane"
+        "p"
+        (defun my/latex-preview-pane-start-or-update ()
+          (interactive)
+          (if (bound-and-true-p latex-preview-pane-mode)
+              (latex-preview-pane-update)
+            (latex-preview-pane-mode)))))
+
 ;;;; Minor-modes
 ;;;;; outshine
 

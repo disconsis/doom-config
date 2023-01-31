@@ -63,7 +63,7 @@ Both START-HOUR and END-HOUR are inclusive."
           timed-themes/default-theme)
       (car found-item))))
 
-(defun timed-themes/load-theme-for-time ()
+(defun timed-themes/load-theme-for-time (&optional force)
   "Load appropriate theme for time if the current theme hasn't been changed."
   (interactive)
   (let* ((prev-theme-for-time (timed-themes/theme-for-time -1))
@@ -72,6 +72,7 @@ Both START-HOUR and END-HOUR are inclusive."
          (change-theme
           (and (not (equal loaded-theme curr-theme-for-time))
                (or
+                force
                 (not loaded-theme)
                 (called-interactively-p 'any)  ;; force if called interactively
                 (equal loaded-theme prev-theme-for-time)
@@ -99,7 +100,7 @@ Both START-HOUR and END-HOUR are inclusive."
   (when timed-themes/change-timer (cancel-timer timed-themes/change-timer))
   (setq timed-themes/change-timer nil)
   (when timed-themes-minor-mode
-    (timed-themes/load-theme-for-time)
+    (timed-themes/load-theme-for-time t)
     (setq timed-themes/change-timer
           (run-with-timer nil timed-themes/change-time #'timed-themes/load-theme-for-time))))
 

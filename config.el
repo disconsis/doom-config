@@ -259,17 +259,18 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; Theme
 ;;;;; Timed changes
 
-;; (load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
+(load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
 
-;; (setq timed-themes/theme-timings
-;;       `((autumn-light        . (,(am 6) . ,(pm 1)))
-;;         (doom-tomorrow-night . (,(pm 1) . ,(am 6))))
+(setq timed-themes/theme-timings
+      `((modus-operandi-tinted . (,(am 6) . ,(pm 1)))
+        (doom-tomorrow-night   . (,(pm 1) . ,(am 6))))
 
-;;       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
-;;       timed-themes/change-theme-if-manually-set nil
-;;       timed-themes/change-theme-default-on-ask-timeout nil)
+      timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
+      timed-themes/change-theme-if-manually-set nil
+      timed-themes/change-theme-default-on-ask-timeout nil)
 
-;; (timed-themes-minor-mode)
+(timed-themes-minor-mode)
+
 
 ;;;;; Sync with windows system theme
 

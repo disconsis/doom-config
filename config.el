@@ -595,7 +595,7 @@ mouse-2: Show help for minor mode")
 ;;;; Haskell
 (after! haskell-mode
   (defun kk/haskell-hpack-find-pkg-desc (dir &optional allow-multiple)
-    "Return hpack ('package.yaml') files instead of the generated cabal file."
+    "Return hpack (package.yaml) files instead of the generated cabal file."
     (let* ((cabal-files
             (cl-remove-if 'file-directory-p
                           (cl-remove-if-not 'file-exists-p

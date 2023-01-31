@@ -644,16 +644,14 @@ mouse-2: Show help for minor mode")
 ;;;; Latex
 
 (after! auctex
+  (defun my/latex-preview-pane-start-or-update ()
+    (interactive)
+    (if (bound-and-true-p latex-preview-pane-mode)
+        (latex-preview-pane-update)
+      (latex-preview-pane-mode)))
   (map! :map LaTeX-mode-map
-        :n
         :localleader
-        :desc "start or update latex preview pane"
-        "p"
-        (defun my/latex-preview-pane-start-or-update ()
-          (interactive)
-          (if (bound-and-true-p latex-preview-pane-mode)
-              (latex-preview-pane-update)
-            (latex-preview-pane-mode)))))
+        :desc "start or update latex preview pane" "p" #'my/latex-preview-pane-start-or-update))
 
 ;;;; Minor-modes
 ;;;;; outshine

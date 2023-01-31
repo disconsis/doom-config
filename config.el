@@ -12,7 +12,7 @@
 (defun pm (hour) (mod (+ hour 12) 24))
 (defun am (hour) hour)
 
-(defun kk/load-doom-theme (&optional theme)
+(defun my/load-doom-theme (&optional theme)
   "Load the currently set `doom-theme'. If THEME is provided, set it to `doom-theme' first."
   (setq doom-theme (or theme doom-theme))
   (load-theme doom-theme t nil))
@@ -103,11 +103,11 @@
 (after! org
   ;; org-block backgrounds peek out from behind latex preview images.
   ;; This disables the org-block background whenever latex is previewed in any org buffer.
-  (defun kk/org-block-remove-bg (&rest _)
+  (defun my/org-block-remove-bg (&rest _)
     (set-face-background 'org-block 'unspecified))
-  (advice-add #'org--latex-preview-region :after #'kk/org-block-remove-bg)
+  (advice-add #'org--latex-preview-region :after #'my/org-block-remove-bg)
 
-  (defun kk/org-regen-latex-previews ()
+  (defun my/org-regen-latex-previews ()
     "Regenerate latex previews in this buffer."
     (interactive)
     (when (and (display-graphic-p)
@@ -120,17 +120,17 @@
         (org--latex-preview-region beg end))
       (message "regenerating latex previews... done.")))
 
-  (add-hook 'doom-load-theme-hook #'kk/org-regen-latex-previews))
+  (add-hook 'doom-load-theme-hook #'my/org-regen-latex-previews))
 
 ;;;; Org src block
 ;; change the org-src-edit buffer name to something less ugly
 (after! org
- (defun kk/org-src--construct-edit-buffer-name (org-buffer-name lang)
+ (defun my/org-src--construct-edit-buffer-name (org-buffer-name lang)
    (format "*org-src %s:%s*" org-buffer-name lang))
 
  (advice-add #'org-src--construct-edit-buffer-name
              :override
-             #'kk/org-src--construct-edit-buffer-name))
+             #'my/org-src--construct-edit-buffer-name))
 
 ;;;; Inline Task
 (after! org
@@ -158,7 +158,7 @@
 (after! lsp-mode
   (advice-add #'lsp-rename
               :after
-              (defun kk/save-project-buffers (&rest _)
+              (defun my/save-project-buffers (&rest _)
                 (require 'projectile)
                 (when (projectile-project-root)
                   (projectile-save-project-buffers)))))
@@ -194,7 +194,7 @@
       lsp-warn-no-matched-clients nil)
 
 (after! lsp-mode
-  (defun kk/lsp--read-rename-no-placeholder (at-point)
+  (defun my/lsp--read-rename-no-placeholder (at-point)
     "Modify `lsp--read-rename' (the function that reads the new name for symbol when `lsp-rename' is called to not use a placeholder name.
 The placeholder name is usually the old name itself, which irks me as I have to delete it before I can do the rename.
 This is almost a complete copy of the original method, with a few very minor deletions to remove the placeholder-calculation."
@@ -214,7 +214,7 @@ This is almost a complete copy of the original method, with a few very minor del
                          'lsp-rename-history))
         (and overlay (delete-overlay overlay)))))
 
-  (advice-add #'lsp--read-rename :override #'kk/lsp--read-rename-no-placeholder))
+  (advice-add #'lsp--read-rename :override #'my/lsp--read-rename-no-placeholder))
 
 ;;; UI
 
@@ -237,9 +237,9 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;; put the window on the right-most monitor if present
 ;; (when (display-graphic-p)
-;;   (setq kk/single-monitor-width 1920)
+;;   (setq my/single-monitor-width 1920)
 ;;  (let ((rightmost-monitor-left-pos
-;;         (* kk/single-monitor-width (1- (/ (x-display-pixel-width) kk/single-monitor-width)))))
+;;         (* my/single-monitor-width (1- (/ (x-display-pixel-width) my/single-monitor-width)))))
 ;;    (setq initial-frame-alist
 ;;          `((top . 29) (left . ,rightmost-monitor-left-pos) (height . 58) (width . 267)))))
 
@@ -368,7 +368,7 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;;; Font based on light or dark
 
-(defun kk/set-font-weight-by-light-or-dark ()
+(defun my/set-font-weight-by-light-or-dark ()
   (let ((weight
          (pcase (frame-parameter nil 'background-mode)
            ('light 'semibold)
@@ -379,7 +379,7 @@ This is almost a complete copy of the original method, with a few very minor del
       (font-put doom-font :weight weight)
       (doom/reload-font))))
 
-(add-hook 'doom-load-theme-hook #'kk/set-font-weight-by-light-or-dark -50)
+(add-hook 'doom-load-theme-hook #'my/set-font-weight-by-light-or-dark -50)
 
 ;;;; Modeline
 
@@ -403,9 +403,9 @@ This is almost a complete copy of the original method, with a few very minor del
     `(doom-modeline-buffer-major-mode :weight ,(face-attribute 'default :weight) :inherit doom-modeline-buffer-path))
 
   ;; Change the lsp icon to be something nicer
-  (defun kk/doom-modeline-lsp-icon (text face)
+  (defun my/doom-modeline-lsp-icon (text face)
     (doom-modeline-icon 'material "blur_circular" "{lsp}" text :face face))
-  (advice-add 'doom-modeline-lsp-icon :override #'kk/doom-modeline-lsp-icon)
+  (advice-add 'doom-modeline-lsp-icon :override #'my/doom-modeline-lsp-icon)
 
   ;; Change checker icon
   (defun doom-modeline-update-flycheck-icon (&optional status)
@@ -505,7 +505,7 @@ mouse-2: Show help for minor mode")
 
 (after! projectile
   (add-hook 'projectile-after-switch-project-hook
-            (defun kk/set-default-directory-to-project-root ()
+            (defun my/set-default-directory-to-project-root ()
               (setq default-directory (projectile-project-root)))))
 
 ;;; Language-specific configs
@@ -517,7 +517,7 @@ mouse-2: Show help for minor mode")
 
 ;;;; OCaml
 
-(defun kk/find-dune-file ()
+(defun my/find-dune-file ()
   "Find the corresponding dune file for the current file."
   (interactive)
   (let* ((curr-dir (f-dirname (ff-buffer-file-name (current-buffer))))
@@ -531,7 +531,7 @@ mouse-2: Show help for minor mode")
         :desc "format region" :v "gq" #'ocp-indent-region
         :localleader
         ;; switch back-and-forth b/w ocaml and dune file
-        :desc "visit corresp. dune file" "d" #'kk/find-dune-file)
+        :desc "visit corresp. dune file" "d" #'my/find-dune-file)
 
   (setq-hook! 'tuareg-mode-hook
     +default-want-RET-continue-comments nil
@@ -572,7 +572,7 @@ mouse-2: Show help for minor mode")
 (use-package! elm-mode
   :hook (elm-mode . elm-format-on-save-mode)
   :config
-  (defun kk/elm-color-hex-to-rgb (color-hex)
+  (defun my/elm-color-hex-to-rgb (color-hex)
     (let ((color-hex (if (s-starts-with? "#" color-hex)
                          (substring color-hex 1)
                        color-hex)))
@@ -585,16 +585,16 @@ mouse-2: Show help for minor mode")
                         (--map (number-to-string (round (* it 255)))
                                (kurecolor-hex-to-rgb color-hex))))))
 
-  (defun kk/elm-replace-color-hex-to-rgb255 ()
+  (defun my/elm-replace-color-hex-to-rgb255 ()
     (interactive)
     (require 'kurecolor)
-    (kurecolor-replace-current #'kk/elm-color-hex-to-rgb)))
+    (kurecolor-replace-current #'my/elm-color-hex-to-rgb)))
 
 ;; TODO add font-lock keywords to highlight `rgb255 r g b' expressions with appr color
 
 ;;;; Haskell
 (after! haskell-mode
-  (defun kk/haskell-hpack-find-pkg-desc (dir &optional allow-multiple)
+  (defun my/haskell-hpack-find-pkg-desc (dir &optional allow-multiple)
     "Return hpack (package.yaml) files instead of the generated cabal file."
     (let* ((cabal-files
             (cl-remove-if 'file-directory-p
@@ -605,7 +605,7 @@ mouse-2: Show help for minor mode")
        (allow-multiple cabal-files) ;; pass-thru multiple candidates
        (t nil))))
 
-  (advice-add #'haskell-cabal-find-pkg-desc :before-until #'kk/haskell-hpack-find-pkg-desc)
+  (advice-add #'haskell-cabal-find-pkg-desc :before-until #'my/haskell-hpack-find-pkg-desc)
 
   ;; Integrate `haskell-hide-all' etc. with the general fold bindings
   (map! :map haskell-mode-map
@@ -627,7 +627,7 @@ mouse-2: Show help for minor mode")
   :config
   (advice-add #'hiedb-module-from-path
               :before
-              (defun kk/hiedb-set-project-paths ()
+              (defun my/hiedb-set-project-paths ()
                 (when-let ((root (and
                                   (fboundp 'projectile-project-root)
                                   (projectile-project-root))))
@@ -661,7 +661,7 @@ mouse-2: Show help for minor mode")
         :desc "narrow to subtree" :n "zn" #'outshine-narrow-to-subtree)
 
   (add-hook 'outshine-mode-hook
-            (defun kk/outshine-compose-start ()
+            (defun my/outshine-compose-start ()
               "Make outshine (outline) headings prettier."
               (when outshine-mode
                 (add-to-list 'font-lock-extra-managed-props 'display)

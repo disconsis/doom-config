@@ -31,6 +31,15 @@
         (apply #'custom-theme-set-faces theme
                (mapcan #'doom--custom-theme-set-face specs))))))
 
+(defun my/update-doom-features ()
+  "Run after upgrading doom. Ediff's the current `init.el' with the example in doom-emacs-dir."
+  (interactive)
+  (require 'f)
+  (ediff-files (f-join doom-private-dir "init.el")
+               (f-join doom-emacs-dir "templates" "init.example.el")))
+
+(advice-add #'doom/upgrade :after #'my/update-doom-features)
+
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -742,7 +751,7 @@ mouse-2: Show help for minor mode")
 ;; learned habit from IntelliJ and VS Code
 (map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
 
-(map! :leader :desc "M-x" "SPC" #'counsel-M-x)
+(map! :leader :desc "M-x" "SPC" #'execute-extended-command)
 
 (map! :leader "s I" #'imenu-list)
 

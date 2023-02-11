@@ -35,7 +35,7 @@
   "Run after upgrading doom. Ediff's the current `init.el' with the example in doom-emacs-dir."
   (interactive)
   (require 'f)
-  (ediff-files (f-join doom-private-dir "init.el")
+  (ediff-files (f-join doom-user-dir "init.el")
                (f-join doom-emacs-dir "templates" "init.example.el")))
 
 (advice-add #'doom/upgrade :after #'my/update-doom-features)
@@ -173,7 +173,7 @@
                   (projectile-save-project-buffers)))))
 
 ;;; Filesystem
-(add-hook! dired-mode #'dired-hide-details-mode)
+(add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
 (after! dired-x
   (setq dired-omit-files
@@ -190,7 +190,9 @@
   (setq evil-split-window-below t
         evil-vsplit-window-right t
         evil-ex-substitute-global t
-        evil-echo-state nil))
+        evil-echo-state nil
+        evil-kill-on-visual-paste nil   ;; Don't put overwritten text in the kill ring
+        ))
 
 ;;; LSP
 
@@ -271,8 +273,8 @@ This is almost a complete copy of the original method, with a few very minor del
 (load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
 
 (setq timed-themes/theme-timings
-      `((modus-operandi-tinted . (,(am 6) . ,(pm 1)))
-        (doom-tomorrow-night   . (,(pm 1) . ,(am 6))))
+      `((modus-operandi-tinted . (,(am 6) . ,(pm 6)))
+        (doom-tomorrow-night   . (,(pm 6) . ,(am 6))))
 
       timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil
@@ -378,7 +380,7 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;;; Font based on light or dark
 
-(defun my/set-font-weight-by-light-or-dark ()
+(defun my/set-font-weight-by-light-or-dark (&rest _)
   (let ((weight
          (pcase (frame-parameter nil 'background-mode)
            ('light 'semibold)
@@ -390,6 +392,7 @@ This is almost a complete copy of the original method, with a few very minor del
       (doom/reload-font))))
 
 (add-hook 'doom-load-theme-hook #'my/set-font-weight-by-light-or-dark -50)
+(add-hook 'doom-init-ui-hook #'my/set-font-weight-by-light-or-dark)
 
 ;;;; Modeline
 
@@ -397,6 +400,7 @@ This is almost a complete copy of the original method, with a few very minor del
   (setq doom-modeline-hud nil
         doom-modeline-major-mode-icon nil
         doom-modeline-icon nil
+        doom-modeline-modal nil
         ;; reduce the size of icons in the modeline so that it doesn't get cut off at the end
         all-the-icons-scale-factor 1.1)
 
@@ -493,23 +497,33 @@ mouse-2: Show help for minor mode")
                      'help-echo "Current theme")
          doom-modeline-spc))))
 
-  (require 'delight)
-  (delight 'emacs-lisp-mode "elisp" :major)
-
-  (remove-hook '+doom-dashboard-mode-hook #'doom-modeline-set-project-modeline)
-  (add-hook '+doom-dashboard-mode-hook #'hide-mode-line-mode)
-
   (doom-modeline-def-modeline 'main
     '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)
     '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker)))
 
-;;;; Banner
+;;;; Dashboard
 
 (when (display-graphic-p)
   (require 'f)
   (setq +doom-dashboard-banner-dir (f-join doom-user-dir "banner-pictures")
         +doom-dashboard-banner-file "cacochan.png"
         +doom-dashboard-banner-padding '(6 . 6)))
+
+;; minimal dashboard
+(setq +doom-dashboard-functions
+      (list #'doom-dashboard-widget-banner
+            #'doom-dashboard-widget-loaded))
+
+;; don't echo the init time since it's in the dashboard anyway
+(remove-hook 'doom-after-init-hook #'doom-display-benchmark-h)
+
+
+;; remove mode line from doom-dashboard. both these hooks are needed!
+(defun my/doom-dashboard-tweak ()
+ (with-current-buffer (doom-fallback-buffer)
+    (setq-local mode-line-format nil)))
+(add-hook '+doom-dashboard-mode-hook #'my/doom-dashboard-tweak)
+(add-transient-hook! 'after-change-major-mode-hook (my/doom-dashboard-tweak))
 
 ;;; Projectile
 
@@ -518,12 +532,17 @@ mouse-2: Show help for minor mode")
             (defun my/set-default-directory-to-project-root ()
               (setq default-directory (projectile-project-root)))))
 
+
 ;;; Language-specific configs
 ;;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook #'prism-mode)
 
 ;; the checker for emacs-lisp sucks
 (add-hook 'emacs-lisp-mode-hook (cmd! (flycheck-mode -1)))
+
+(after! emacs-lisp-mode
+  (require 'delight)
+  (delight 'emacs-lisp-mode "elisp" :major))
 
 ;;;; OCaml
 
@@ -560,7 +579,7 @@ mouse-2: Show help for minor mode")
      "end"
      nil nil))
 
-  (add-hook! 'tuareg-mode-hook #'hs-minor-mode))
+  (add-hook 'tuareg-mode-hook #'hs-minor-mode))
 
 (after! dune
   ;; switch back-and-forth b/w ocaml and dune file
@@ -653,7 +672,7 @@ mouse-2: Show help for minor mode")
 
 ;;;; Latex
 
-(after! auctex
+(after! latex
   (defun my/latex-preview-pane-start-or-update ()
     (interactive)
     (if (bound-and-true-p latex-preview-pane-mode)

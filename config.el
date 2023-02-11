@@ -849,3 +849,5 @@ mouse-2: Show help for minor mode")
 ;; TODO Fix org-edit-src:
 ;;      1. Remove the top-bar saying C-c, C-k - can be removed by setting `org-edit-src-persistent-message'
 ;;      2. Bind :w and :q to write/abort
+;; TODO remove cursor and mode-line in doom dashboard
+;; TODO make the various native compilation buffers not pop up. also stop the messages in the minibuffer

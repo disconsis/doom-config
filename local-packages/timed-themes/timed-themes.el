@@ -13,7 +13,7 @@
 
 (require 'cl-lib)
 
-(defgroup timed-themes
+(defgroup timed-themes nil
   "Change themes automatically by time."
   :group 'themes)
 
@@ -46,6 +46,7 @@ START-HOUR is inclusive."
 (defun timed-themes/theme-for-time (&optional hour-diff)
   "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `timed-theme/theme-timings'."
   (when (seq-empty-p timed-themes/theme-timings) (user-error "Theme timings are empty!"))
+  (require 'dash)
   (let* ((curr-hour (mod (+ (or hour-diff 0)
                        (decoded-time-hour (decode-time (current-time))))
                     24)))

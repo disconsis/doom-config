@@ -516,13 +516,13 @@ mouse-2: Show help for minor mode")
 ;; don't echo the init time since it's in the dashboard anyway
 (remove-hook 'doom-after-init-hook #'doom-display-benchmark-h)
 
-
-;; remove mode line from doom-dashboard. both these hooks are needed!
-(defun my/doom-dashboard-tweak ()
- (with-current-buffer (doom-fallback-buffer)
-    (setq-local mode-line-format nil)))
-(add-hook '+doom-dashboard-mode-hook #'my/doom-dashboard-tweak)
-(add-transient-hook! 'after-change-major-mode-hook (my/doom-dashboard-tweak))
+;; remove mode-line and cursor from doom-dashboard
+(setq-hook! '+doom-dashboard-mode-hook
+  mode-line-format nil
+  evil-normal-state-cursor (list nil))
+(after! doom-modeline
+  (setq doom-modeline-mode-alist
+        (assq-delete-all '+doom-dashboard-mode doom-modeline-mode-alist)))
 
 ;;; Projectile
 
@@ -867,5 +867,5 @@ mouse-2: Show help for minor mode")
 ;; TODO Fix org-edit-src:
 ;;      1. Remove the top-bar saying C-c, C-k - can be removed by setting `org-edit-src-persistent-message'
 ;;      2. Bind :w and :q to write/abort
-;; TODO remove cursor and mode-line in doom dashboard
 ;; TODO make the various native compilation buffers not pop up. also stop the messages in the minibuffer
+;; TODO don't print 'No buttons!' when pressing j/k in doom-dashboard

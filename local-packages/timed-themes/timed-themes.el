@@ -13,19 +13,18 @@
 
 (require 'cl-lib)
 
-(defcustom timed-themes/theme-timings
-  `((modus-operandi . (6  . 15))
-    (wombat         . (4  . 20))
-    (modus-vivendi  . (21 . 5)))
-  "Alist mapping themes to their suitable timings.
-Entries should be of the form (THEME . (START-HOUR . END-HOUR)).
-Both START-HOUR and END-HOUR are inclusive."
-  :type '(alist :key-type symbol :value-type (alist :key-type integer :value-type integer))
-  :group 'timed-themes)
+(defgroup timed-themes
+  "Change themes automatically by time."
+  :group 'themes)
 
-(defcustom timed-themes/default-theme 'wombat
-  "Fallback theme in case no suitable timed theme is found."
-  :type 'symbol
+(defcustom timed-themes/theme-timings
+  `((modus-operandi . 6)
+    (wombat . 4)
+    (modus-vivendi . 21))
+  "Alist mapping themes to their suitable timings.
+Entries should be of the form (THEME . START-HOUR).
+START-HOUR is inclusive."
+  :type '(alist :key-type symbol :value-type integer)
   :group 'timed-themes)
 
 (defcustom timed-themes/change-theme-if-manually-set t
@@ -46,22 +45,12 @@ Both START-HOUR and END-HOUR are inclusive."
 
 (defun timed-themes/theme-for-time (&optional hour-diff)
   "Get appropriate theme for current time (offset by HOUR-DIFF hours) from `timed-theme/theme-timings'."
-  (let* ((hour (mod (+ (or hour-diff 0)
+  (when (seq-empty-p timed-themes/theme-timings) (user-error "Theme timings are empty!"))
+  (let* ((curr-hour (mod (+ (or hour-diff 0)
                        (decoded-time-hour (decode-time (current-time))))
-                    24))
-         (check-theme
-          (lambda (item)
-            (cl-destructuring-bind (_theme . (start-hour . end-hour)) item
-              (if (<= start-hour end-hour)
-                  (timed-themes/between start-hour hour end-hour)
-                (or (timed-themes/between end-hour hour 23)
-                    (timed-themes/between 0 hour end-hour))))))
-         (found-item (seq-find check-theme timed-themes/theme-timings)))
-    (if (not found-item)
-        (progn
-          (warn "No suitable theme found in `timed-themes/theme-timings' for hour = %s. Defaulting to %s theme" hour timed-themes/default-theme)
-          timed-themes/default-theme)
-      (car found-item))))
+                    24)))
+    (car (or (--last (<= (cdr it) curr-hour) timed-themes/theme-timings)
+             (last timed-themes/theme-timings)))))
 
 (defun timed-themes/load-theme-for-time (&optional force)
   "Load appropriate theme for time if the current theme hasn't been changed."
@@ -74,7 +63,7 @@ Both START-HOUR and END-HOUR are inclusive."
                (or
                 force
                 (not loaded-theme)
-                (called-interactively-p 'any)  ;; force if called interactively
+                (called-interactively-p 'any) ;; force if called interactively
                 (equal loaded-theme prev-theme-for-time)
                 (pcase timed-themes/change-theme-if-manually-set
                   (`ask (y-or-n-p-with-timeout

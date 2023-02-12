@@ -273,10 +273,9 @@ This is almost a complete copy of the original method, with a few very minor del
 (load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
 
 (setq timed-themes/theme-timings
-      `((modus-operandi-tinted . (,(am 6) . ,(pm 6)))
-        (doom-tomorrow-night   . (,(pm 6) . ,(am 6))))
+      `((modus-operandi-tinted . ,(am 6))
+        (doom-tomorrow-night   . ,(pm 6)))
 
-      timed-themes/default-theme 'wombat ;; different enough to be noticeable, but won't accidentally blind me
       timed-themes/change-theme-if-manually-set nil
       timed-themes/change-theme-default-on-ask-timeout nil)
 

@@ -51,8 +51,6 @@
 
 (package! svg-lib)
 
-(package! dhall-mode)
-
 (package! prism)
 
 (package! imenu-list

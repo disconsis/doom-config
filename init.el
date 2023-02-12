@@ -25,7 +25,7 @@
        ;;layout            ; auie,ctsrnm is the superior home row
 
        :completion
-       (company +tng)      ; the ultimate code completion backend
+       company             ; the ultimate code completion backend
        ;;helm              ; the *other* search engine for love and life
        ;;ido               ; the other *other* search engine...
        ;;ivy               ; a search engine for love and life
@@ -74,7 +74,7 @@
        dired                ; making dired pretty [functional]
        electric             ; smarter, keyword-based electric-indent
        ;;ibuffer            ; interactive buffer management
-       undo                 ; persistent, smarter undo for your inevitable mistakes
+       (undo +tree)         ; persistent, smarter undo for your inevitable mistakes
        vc                   ; version-control and Emacs, sitting in a tree
 
        :term
@@ -173,7 +173,7 @@
        (rust +lsp)          ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
        ;;scala              ; java, but good
        ;;(scheme +guile)    ; a fully conniving family of lisps
-       sh                   ; she sells {ba,z,fi}sh shells on the C xor
+       (sh +fish +tree-sitter) ; she sells {ba,z,fi}sh shells on the C xor
        ;;sml
        ;;solidity           ; do you need a blockchain? No.
        ;;swift              ; who asked for emoji variables?

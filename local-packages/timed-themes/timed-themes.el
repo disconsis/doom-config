@@ -51,7 +51,7 @@ START-HOUR is inclusive."
                        (decoded-time-hour (decode-time (current-time))))
                     24)))
     (car (or (--last (<= (cdr it) curr-hour) timed-themes/theme-timings)
-             (last timed-themes/theme-timings)))))
+             (-last-item timed-themes/theme-timings)))))
 
 (defun timed-themes/load-theme-for-time (&optional force)
   "Load appropriate theme for time if the current theme hasn't been changed."

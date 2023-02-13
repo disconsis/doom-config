@@ -40,6 +40,10 @@
 
 (advice-add #'doom/upgrade :after #'my/update-doom-features)
 
+;; add local packages to load path
+(let ((default-directory (expand-file-name "local-packages" doom-user-dir)))
+  (normal-top-level-add-subdirs-to-load-path))
+
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
@@ -270,17 +274,16 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; Theme
 ;;;;; Timed changes
 
-(load! "local-packages/timed-themes/timed-themes.el" doom-user-dir)
-
-(setq timed-themes/theme-timings
-      `((modus-operandi-tinted . ,(am 6))
-        (doom-tomorrow-night   . ,(pm 6)))
-
-      timed-themes/change-theme-if-manually-set nil
-      timed-themes/change-theme-default-on-ask-timeout nil)
+(use-package! timed-themes
+  :commands timed-themes-minor-mode
+  :custom
+  (timed-themes/change-theme-if-manually-set t)
+  (timed-themes/change-theme-default-on-ask-timeout t)
+  (timed-themes/theme-timings
+   `((modus-operandi-tinted . ,(am 6))
+     (doom-tomorrow-night   . ,(pm 4)))))
 
 (timed-themes-minor-mode)
-
 
 ;;;;; Sync with windows system theme
 
@@ -844,10 +847,16 @@ mouse-2: Show help for minor mode")
  :desc "format region" :v "gq" #'+format/region ; This is the keybinding I always reach for to format a region
  :desc "format buffer" :n "gQ" #'+format/buffer)
 
-(map! :leader :desc "random-themes-hydra" :n "h T"
-      (cmd!
-       (load! "local-packages/random-themes/random-themes.el" doom-user-dir)
-       (random-themes--hydra/body)))
+;; (map! :leader :desc "random-themes-hydra" :n "h T"
+;;       (cmd!
+;;        (load! "local-packages/random-themes/random-themes.el" doom-user-dir)
+;;        (random-themes--hydra/body)))
+
+(use-package! random-themes
+  :commands random-themes--hydra/body
+  :init
+  (map! :leader :desc "random-themes-hydra" :n "h T" #'random-themes--hydra/body))
+
 (map! :when (modulep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
 ;;;; LSP

@@ -195,8 +195,22 @@
         evil-vsplit-window-right t
         evil-ex-substitute-global t
         evil-echo-state nil
-        evil-kill-on-visual-paste nil   ;; Don't put overwritten text in the kill ring
-        ))
+        evil-kill-on-visual-paste nil) ;; Don't put overwritten text in the kill ring
+
+  ;; Evil turns off undo-tree-mode. This activates it back acc. to the globalized mode.
+  ;; https://github.com/emacs-evil/evil/issues/1382#issuecomment-761087738
+  (eval-after-load 'undo-tree
+    (with-no-warnings
+      (defun my/evil-turn-on-undo-tree-mode ()
+        "Enable `undo-tree-mode' if evil is enabled.
+This function enables `undo-tree-mode' when Evil is activated in
+some buffer, but only if `global-undo-tree-mode' is also
+activated."
+        (when (and (boundp 'global-undo-tree-mode)
+                   global-undo-tree-mode)
+          (turn-on-undo-tree-mode)))
+
+      (add-hook 'evil-local-mode-hook #'my/evil-turn-on-undo-tree-mode))))
 
 ;;; LSP
 

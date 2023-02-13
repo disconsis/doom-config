@@ -523,6 +523,9 @@ mouse-2: Show help for minor mode")
 (setq-hook! '+doom-dashboard-mode-hook
   mode-line-format nil
   evil-normal-state-cursor (list nil))
+
+(add-hook #'+doom-dashboard-mode-hook #'clear-minibuffer-message)
+
 (after! doom-modeline
   (setq doom-modeline-mode-alist
         (assq-delete-all '+doom-dashboard-mode doom-modeline-mode-alist)))
@@ -760,6 +763,8 @@ mouse-2: Show help for minor mode")
 ;; don't want to put my cursor at the absolute edge.
 ;; get some context.
 (setq scroll-margin 5)
+
+(setq byte-compile-warnings nil)
 
 ;;; Keybindings
 ;;;; Main

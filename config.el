@@ -44,11 +44,24 @@
 (let ((default-directory (expand-file-name "local-packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
+;;; Command line arguments
+(defun my/handle-extra-args ()
+  "Handle extra args passed on the command line."
+  (pcase argi
+    ("config"
+     (doom/goto-private-config-file))
+    ("init"
+     (doom/goto-private-init-file))
+    ((or "package" "packages")
+     (doom/goto-private-packages-file))))
+
+(push #'my/handle-extra-args command-line-functions)
+
 ;;; Org
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
-(setq org-directory "~/org/")
+(setq org-directory "~/notes/")
 
 ;;;; Look
 
@@ -189,40 +202,24 @@
   (run-with-idle-timer 5 t #'recentf-cleanup))
 
 ;;; Evil
-(use-package! evil
-  :config
+(after! evil
   (setq evil-split-window-below t
         evil-vsplit-window-right t
         evil-ex-substitute-global t
         evil-echo-state nil
-        evil-kill-on-visual-paste nil) ;; Don't put overwritten text in the kill ring
-
-  ;; Evil turns off undo-tree-mode. This activates it back acc. to the globalized mode.
-  ;; https://github.com/emacs-evil/evil/issues/1382#issuecomment-761087738
-  (eval-after-load 'undo-tree
-    (with-no-warnings
-      (defun my/evil-turn-on-undo-tree-mode ()
-        "Enable `undo-tree-mode' if evil is enabled.
-This function enables `undo-tree-mode' when Evil is activated in
-some buffer, but only if `global-undo-tree-mode' is also
-activated."
-        (when (and (boundp 'global-undo-tree-mode)
-                   global-undo-tree-mode)
-          (turn-on-undo-tree-mode)))
-
-      (add-hook 'evil-local-mode-hook #'my/evil-turn-on-undo-tree-mode))))
+        evil-kill-on-visual-paste nil)) ;; Don't put overwritten text in the kill ring
 
 ;;; LSP
 
-(setq lsp-ui-doc-enable nil
-      lsp-ui-doc-show-with-cursor nil
-      lsp-ui-sideline-enable t
-      lsp-eldoc-enable-hover nil
-      lsp-signature-render-documentation nil
-      lsp-enable-folding t
-      lsp-warn-no-matched-clients nil)
-
 (after! lsp-mode
+  (setq lsp-ui-doc-enable nil
+        lsp-ui-doc-show-with-cursor nil
+        lsp-ui-sideline-enable t
+        lsp-eldoc-enable-hover nil
+        lsp-signature-render-documentation nil
+        lsp-enable-folding t
+        lsp-warn-no-matched-clients nil)
+
   (defun my/lsp--read-rename-no-placeholder (at-point)
     "Modify `lsp--read-rename' (the function that reads the new name for symbol when `lsp-rename' is called to not use a placeholder name.
 The placeholder name is usually the old name itself, which irks me as I have to delete it before I can do the rename.
@@ -230,7 +227,7 @@ This is almost a complete copy of the original method, with a few very minor del
     (unless at-point
       (user-error "`lsp-rename' is invalid here"))
     (-let* ((((start . end) . _placeholder) at-point)
-            (rename-me (buffer-substring start end))
+            (rename-me (buffer-substring-no-properties start end))
             overlay)
       ;; We need unwind protect, as the user might cancel here, causing the
       ;; overlay to linger.
@@ -275,9 +272,13 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;; Font
 
-(setq doom-font (font-spec :family "Iosevka SS02" :weight 'light :size 14)
-      doom-variable-pitch-font doom-font ;; (font-spec :family "Roboto Slab")
-      doom-font-increment 1)
+(setq
+ doom-font (font-spec
+            ;; :family "Iosevka SS02" :weight 'light :size 14
+            ;; :family "Inconsolata" :weight 'semibold :size 16
+            :family "Rec Mono Linear" :size 12)
+ doom-variable-pitch-font (font-spec :family "Recursive")
+ doom-font-increment 1)
 
 ;; fix weird Info-manual faces
 (custom-theme-set-faces! 'user
@@ -346,7 +347,13 @@ This is almost a complete copy of the original method, with a few very minor del
   (setq doom-themes-enable-italic nil)
   (setq doom-tokyo-night-brighter-comments t)
   (custom-theme-set-faces! 'doom-ayu-mirage
-    '(line-number :foreground "gray28")))
+    '(line-number :foreground "gray28"))
+  (custom-theme-set-faces! 'doom-tokyo-night
+    '(shadow :foreground "gray22")
+    '(line-number :foreground unspecified :background unspecified :inherit shadow))
+  (custom-theme-set-faces! 'doom-tomorrow-night
+    '(line-number :inherit shadow)
+    '(line-number-current-line :inherit default)))
 
 (after! modus-themes
   (custom-theme-set-faces! 'modus-operandi-tinted
@@ -407,8 +414,8 @@ This is almost a complete copy of the original method, with a few very minor del
       (font-put doom-font :weight weight)
       (doom/reload-font))))
 
-(add-hook 'doom-load-theme-hook #'my/set-font-weight-by-light-or-dark -50)
-(add-hook 'doom-init-ui-hook #'my/set-font-weight-by-light-or-dark)
+;; (add-hook 'doom-load-theme-hook #'my/set-font-weight-by-light-or-dark -50)
+;; (add-hook 'doom-init-ui-hook #'my/set-font-weight-by-light-or-dark)
 
 ;;;; Modeline
 
@@ -472,11 +479,9 @@ mouse-2: Show help for minor mode")
                         'mouse-face 'mode-line-highlight
                         'local-map (let ((map (make-sparse-keymap)))
                                      (define-key map [mode-line down-mouse-1]
-                                       flycheck-mode-menu-map)
+                                                 flycheck-mode-menu-map)
                                      (define-key map [mode-line mouse-2]
-                                       (lambda ()
-                                         (interactive)
-                                         (describe-function 'flycheck-mode)))
+                                                 (cmd! (describe-function 'flycheck-mode)))
                                      map)))))
 
   ;; simpler vcs icon - use text fallback instead of the actual icon
@@ -559,7 +564,7 @@ mouse-2: Show help for minor mode")
 ;; the checker for emacs-lisp sucks
 (add-hook 'emacs-lisp-mode-hook (cmd! (flycheck-mode -1)))
 
-(after! emacs-lisp-mode
+(after! elisp-mode
   (require 'delight)
   (delight 'emacs-lisp-mode "elisp" :major))
 
@@ -701,10 +706,17 @@ mouse-2: Show help for minor mode")
         :localleader
         :desc "start or update latex preview pane" "p" #'my/latex-preview-pane-start-or-update))
 
+;;;; Clojure
+(add-hook 'clojure-mode-hook #'prism-mode)
+
 ;;;; Minor-modes
 ;;;;; outshine
 
-(after! outshine
+(use-package! outshine
+  :init
+  (add-hook 'prog-mode-hook 'outshine-mode)
+
+  :config
   (map! :map outshine-mode-map
         :desc "narrow to subtree" :n "zn" #'outshine-narrow-to-subtree)
 
@@ -820,6 +832,7 @@ mouse-2: Show help for minor mode")
    :desc "maximize buffer" :n "o" #'doom/window-maximize-buffer
    :desc "+zoom"           :n "z" #'+hydra/text-zoom/body
    :desc "+navi"           :n "." #'+hydra/window-nav/body
+   :desc "ace-swap"        :n "S" #'ace-swap-window
    ;; remove previous one-shot bindings.
    ;; the hydra takes care of all these cases much better.
    "+" nil
@@ -832,6 +845,8 @@ mouse-2: Show help for minor mode")
  :desc "scroll other window down a lot" :n "M-S-j" (cmd! (scroll-other-window))
  :desc "scroll other window up"         :n "M-k"   (cmd! (scroll-other-window-down 2))
  :desc "scroll other window up a lot"   :n "M-S-k" (cmd! (scroll-other-window-down)))
+
+(map! :desc "Frame maximize" :leader "t F" #'toggle-frame-maximized)
 
 ;;;; Terminal(s)
 
@@ -877,9 +892,6 @@ mouse-2: Show help for minor mode")
   (map! :leader :desc "random-themes-hydra" :n "h T" #'random-themes--hydra/body))
 
 (map! :when (modulep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
-
-;;;; LSP
-(map! :when (modulep! :tools lsp) :map lsp-mode-map :localleader :desc "rename" :n "r" #'lsp-rename)
 
 ;;;; Version control
 (map! :when (modulep! :ui vc-gutter) :leader

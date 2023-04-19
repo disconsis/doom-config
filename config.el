@@ -298,8 +298,6 @@ This is almost a complete copy of the original method, with a few very minor del
    `((modus-operandi-tinted . ,(am 6))
      (doom-tomorrow-night   . ,(pm 4)))))
 
-(timed-themes-minor-mode)
-
 ;;;;; Sync with windows system theme
 
 (use-package! windows-theme
@@ -310,6 +308,7 @@ This is almost a complete copy of the original method, with a few very minor del
      (dark  . doom-tomorrow-night)
      (error . adwaita))))
 
+(windows-theme-minor-mode)
 
 ;;;;; Theme modifications
 

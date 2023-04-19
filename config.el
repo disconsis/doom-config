@@ -489,7 +489,7 @@ mouse-2: Show help for minor mode")
     (propertize text 'face face))
 
   (doom-modeline-def-segment spacing
-    doom-modeline-wspc)
+    (doom-modeline-wspc))
 
   (doom-modeline-def-segment line-with-max
     (let* ((lc '(column-number-mode
@@ -500,7 +500,7 @@ mouse-2: Show help for minor mode")
                        (goto-char (point-max))
                        (format-mode-line "%l"))))
       (concat
-       doom-modeline-wspc
+       (doom-modeline-wspc)
        (s-concat curr-line "/" max-line))))
 
   (doom-modeline-def-segment theme
@@ -516,7 +516,7 @@ mouse-2: Show help for minor mode")
                      'face 'doom-modeline-buffer-minor-mode
                      'mouse-face 'mode-line-highlight
                      'help-echo "Current theme")
-         doom-modeline-spc))))
+         (doom-modeline-spc)))))
 
   (doom-modeline-def-modeline 'main
     '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)

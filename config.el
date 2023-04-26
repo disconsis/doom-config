@@ -477,14 +477,16 @@ mouse-2: Show help for minor mode")
       (let* ((theme-name (symbol-name
                           (or (car-safe custom-enabled-themes)
                               'default)))
-             (timed-themes-enabled (bound-and-true-p timed-themes-minor-mode)))
+             (timed-themes-enabled (bound-and-true-p timed-themes-minor-mode))
+             (windows-theme-enabled (bound-and-true-p windows-theme-minor-mode)))
         (concat
-         (propertize (if timed-themes-enabled
-                         (concat "(" theme-name ")")
-                       theme-name)
-                     'face 'doom-modeline-buffer-minor-mode
-                     'mouse-face 'mode-line-highlight
-                     'help-echo "Current theme")
+         (propertize
+          (--> theme-name
+               (if timed-themes-enabled (concat "(" it ")") it)
+               (if windows-theme-enabled (concat "[" it "]") it))
+          'face 'doom-modeline-buffer-minor-mode
+          'mouse-face 'mode-line-highlight
+          'help-echo "Current theme")
          (doom-modeline-spc)))))
 
   (doom-modeline-def-modeline 'main

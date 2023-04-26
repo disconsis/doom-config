@@ -182,6 +182,10 @@
 (after! org
   (add-hook 'org-mode-hook (cmd! (adaptive-wrap-prefix-mode -1))))
 
+;;;; Export
+(after! org
+  (setq org-export-with-toc nil))
+
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

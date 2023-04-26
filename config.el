@@ -590,8 +590,7 @@ mouse-2: Show help for minor mode")
   ;; switch back-and-forth b/w ocaml and dune file
   (map! :map dune-mode-map
         :localleader
-        :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer)
-  (when (modulep! :editor lispy) (add-hook 'dune-mode-hook #'lispyville-mode)))
+        :desc "visit previous file" "d" #'evil-switch-to-windows-last-buffer))
 
 ;;;; Purescript
 (after! purescript-mode
@@ -747,6 +746,9 @@ mouse-2: Show help for minor mode")
           additional-wrap))
   (lispyville-set-key-theme)
   (map! :map lispyville-mode-map :n "[" nil))
+
+(when (modulep! :editor lispy)
+  (add-hook 'lisp-mode-hook #'lispyville-mode))
 
 ;;;;; zen / writeroom
 

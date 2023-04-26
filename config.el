@@ -40,6 +40,16 @@
 
 (advice-add #'doom/upgrade :after #'my/update-doom-features)
 
+(defun my/file-contents (filename &optional noerror)
+  (with-temp-buffer
+    (condition-case nil
+        (progn
+          (insert-file-contents filename)
+          (buffer-string))
+      (file-error
+       (funcall (if noerror #'message #'user-error)
+                "Unable to read file %s" filename)))))
+
 ;; add local packages to load path
 (let ((default-directory (expand-file-name "local-packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))

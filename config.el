@@ -282,12 +282,12 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;; Font
 
+;; Good monospace font options:
+;; - Inconsolata
+;; - Rec Mono Linear -- (Recursive)
 (setq
- doom-font (font-spec
-            ;; :family "Iosevka SS02" :weight 'light :size 14
-            ;; :family "Inconsolata" :weight 'semibold :size 16
-            :family "Rec Mono Linear" :size 12)
- doom-variable-pitch-font (font-spec :family "Recursive")
+ doom-font (font-spec :family "Iosevka" :weight 'normal :size 14)
+ doom-variable-pitch-font nil
  doom-font-increment 1)
 
 ;; fix weird Info-manual faces

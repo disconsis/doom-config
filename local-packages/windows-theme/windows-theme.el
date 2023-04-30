@@ -99,18 +99,5 @@ and 'error (for unexpected erroneous cases)."
       (windows-theme/turn-on)
     (windows-theme/turn-off)))
 
-;; (define-minor-mode windows-theme-minor-mode
-;;   "Minor mode to periodically change theme."
-;;   :global t
-;;   :group 'windows-theme
-;;   :lighter " WindowsTheme"
-;;   (when windows-theme/change-timer (cancel-timer windows-theme/change-timer))
-;;   (setq windows-theme/change-timer nil)
-;;   (when windows-theme-minor-mode
-;;     (windows-theme/load-theme-for-time t)
-;;     (setq windows-theme/change-timer
-;;           (run-with-timer nil windows-theme/change-time #'windows-theme/load-theme-for-time))))
-
-
 (provide 'windows-theme)
 ;;; windows-theme.el ends here

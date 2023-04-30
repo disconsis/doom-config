@@ -73,6 +73,10 @@
 ;; change `org-directory'. It must be set before org loads!
 (setq org-directory "~/notes/")
 
+;; fix breakage of ',' as localleader
+;; https://github.com/doomemacs/doomemacs/issues/4242#issuecomment-731436096
+(add-hook! 'org-mode-hook #'+org-init-keybinds-h)
+
 ;;;; Look
 
 (after! org

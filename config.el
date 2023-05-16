@@ -195,6 +195,15 @@
   (setq org-agenda-skip-scheduled-if-deadline-is-shown t
         org-agenda-skip-timestamp-if-deadline-is-shown t))
 
+;;;; Habit
+;; load with org
+(add-to-list 'org-modules 'org-habit t)
+
+;; settings that are not exactly org-habit specific, but which are customized for it:
+(after! org
+  (setq org-treat-insert-todo-heading-as-state-change t) ;; I prefer to log TODO creation also
+  (setq org-log-into-drawer t) ;; log into LOGBOOK drawer
+  )
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

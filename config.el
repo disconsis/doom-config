@@ -702,6 +702,11 @@ mouse-2: Show help for minor mode")
 ;;;; Clojure
 (add-hook 'clojure-mode-hook #'prism-mode)
 
+;;;; Rust
+
+(when (modulep! :lang rust +lsp)
+  (setq lsp-rust-analyzer-cargo-watch-command "clippy"))
+
 ;;;; Minor-modes
 ;;;;; outshine
 

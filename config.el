@@ -300,7 +300,7 @@ This is almost a complete copy of the original method, with a few very minor del
 ;; - Rec Mono Linear -- (Recursive)
 (setq
  doom-font (font-spec :family "Iosevka" :weight 'normal :size 14)
- doom-variable-pitch-font nil
+ doom-variable-pitch-font (font-spec :family "Bitter Thin")
  doom-font-increment 1)
 
 ;; fix weird Info-manual faces

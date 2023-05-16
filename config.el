@@ -190,6 +190,11 @@
 (after! org
   (setq org-export-with-toc nil))
 
+;;;; Agenda
+(after! org
+  (setq org-agenda-skip-scheduled-if-deadline-is-shown t
+        org-agenda-skip-timestamp-if-deadline-is-shown t))
+
 ;;; LSP
 ;; TODO this does not isolate this to prog-mode-map
 (map! :map prog-mode-map

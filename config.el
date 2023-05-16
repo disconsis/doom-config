@@ -177,7 +177,7 @@
   (map! :map org-mode-map
         :localleader
         :desc "insert inline task"
-        "t"
+        "T"
         (cmd! (require 'org-inlinetask) ;; not usually loaded
               (call-interactively #'org-inlinetask-insert-task))))
 

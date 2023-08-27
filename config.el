@@ -571,8 +571,8 @@ mouse-2: Show help for minor mode")
 
 (map! :map prog-mode-map
       :localleader
-      :desc "package manager" "p"
-      (cmd! (message "no package manager interface defined for %s" major-mode)))
+      :desc "package manager"
+      "p" (cmd! (message "no package manager interface defined for %s" major-mode)))
 
 ;;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook #'prism-mode)
@@ -582,7 +582,11 @@ mouse-2: Show help for minor mode")
 
 (after! elisp-mode
   (require 'delight)
-  (delight 'emacs-lisp-mode "elisp" :major))
+  (delight 'emacs-lisp-mode "elisp" :major)
+  (map! :map emacs-lisp-mode-map
+        :localleader
+        :desc "edit doom packages"
+        "p" #'doom/goto-private-packages-file))
 
 ;;;; OCaml
 

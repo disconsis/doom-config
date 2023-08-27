@@ -80,7 +80,8 @@
 ;;;; Look
 
 (after! org
-  (setq org-hide-emphasis-markers t))
+  (setq org-hide-emphasis-markers t
+        org-fontify-quote-and-verse-blocks nil))
 
 (after! imenu-list
   (custom-theme-set-faces! 'user
@@ -106,6 +107,9 @@
 (use-package! org-modern-indent
   :defer
   :hook (org-mode . org-modern-indent-mode))
+
+(after! mixed-pitch
+  (push 'org-drawer mixed-pitch-fixed-pitch-faces))
 
 ;;;; Structure templates (like <s)
 (after! org
@@ -192,6 +196,7 @@
 
 ;;;; Agenda
 (after! org
+  (setq org-extend-today-until 6) ;; fine, I have a horrible sleep schedule
   (setq org-agenda-skip-scheduled-if-deadline-is-shown t
         org-agenda-skip-timestamp-if-deadline-is-shown t))
 
@@ -201,7 +206,7 @@
 
 ;; settings that are not exactly org-habit specific, but which are customized for it:
 (after! org
-  (setq org-treat-insert-todo-heading-as-state-change t) ;; I prefer to log TODO creation also
+  ;; (setq org-treat-insert-todo-heading-as-state-change t) ;; I prefer to log TODO creation also
   (setq org-log-into-drawer t) ;; log into LOGBOOK drawer
   )
 ;;; LSP
@@ -308,7 +313,7 @@ This is almost a complete copy of the original method, with a few very minor del
 ;; - Inconsolata
 ;; - Rec Mono Linear -- (Recursive)
 (setq
- doom-font (font-spec :family "Iosevka" :weight 'normal :size 14)
+ doom-font (font-spec :family "Iosevka" :weight 'medium :size 14)
  doom-variable-pitch-font (font-spec :family "Bitter Thin")
  doom-font-increment 1)
 
@@ -561,6 +566,14 @@ mouse-2: Show help for minor mode")
 
 
 ;;; Language-specific configs
+
+;; NOTE: localleader-p (~, p~) -> package manager hydra
+
+(map! :map prog-mode-map
+      :localleader
+      :desc "package manager" "p"
+      (cmd! (message "no package manager interface defined for %s" major-mode)))
+
 ;;;; Emacs lisp
 (add-hook 'emacs-lisp-mode-hook #'prism-mode)
 
@@ -919,3 +932,4 @@ mouse-2: Show help for minor mode")
 ;;      2. Bind :w and :q to write/abort
 ;; TODO make the various native compilation buffers not pop up. also stop the messages in the minibuffer
 ;; TODO don't print 'No buttons!' when pressing j/k in doom-dashboard
+;; TODO increase fringe-width when in fullscreen mode (~SPC t F~) to increase readability of git-gutter (and other info in fringe)

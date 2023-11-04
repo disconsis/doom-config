@@ -758,6 +758,17 @@ mouse-2: Show help for minor mode")
 
   (setq rustic-cargo-use-last-stored-arguments t))
 
+;;;; AutoHotKey
+
+(after! ahk-mode
+  (when (modulep! :tools lookup)
+    (defun my/ahk-lookup-web-v2 (symbol)
+      (interactive (list (ahk-command-at-point)))
+      (browse-url (format "https://www.autohotkey.com/docs/v2/lib/%s.htm" symbol)))
+
+    (set-lookup-handlers! 'ahk-mode
+      :async t
+      :documentation #'my/ahk-lookup-web-v2)))
 
 ;;;; Minor-modes
 ;;;;; outshine

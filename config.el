@@ -219,6 +219,7 @@
         :desc "stop lsp server"    :n "k" #'lsp-workspace-shutdown)))
 
 (after! lsp-mode
+  (setq lsp-headerline-breadcrumb-enable t)
   (advice-add #'lsp-rename
               :after
               (defun my/save-project-buffers (&rest _)

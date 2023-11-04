@@ -535,7 +535,7 @@ mouse-2: Show help for minor mode")
 (when (display-graphic-p)
   (require 'f)
   (setq +doom-dashboard-banner-dir (f-join doom-user-dir "banner-pictures")
-        +doom-dashboard-banner-file "cacochan.png"
+        +doom-dashboard-banner-file "planet.png"
         +doom-dashboard-banner-padding '(6 . 6)))
 
 ;; minimal dashboard

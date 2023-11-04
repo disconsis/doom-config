@@ -731,8 +731,33 @@ mouse-2: Show help for minor mode")
 
 ;;;; Rust
 
-(when (modulep! :lang rust +lsp)
-  (setq lsp-rust-analyzer-cargo-watch-command "clippy"))
+(after! rustic
+  (when (modulep! :lang rust +lsp)
+    (setq lsp-rust-analyzer-cargo-watch-command "clippy"))
+
+  (defun my/cargo-packages ()
+    (save-window-excursion
+      (lsp-rust-analyzer-open-cargo-toml)
+      (goto-char (point-min))
+      (when (re-search-forward "^\\[dependencies\\]$" nil 'noerror)
+        (let ((matches '()))
+          (while (re-search-forward "^[a-zA-Z]+" nil 'noerror)
+            (push (match-string-no-properties 0) matches))
+          matches))))
+
+  (defun my/cargo-rm ()
+    (interactive)
+    (let ((pkg (completing-read "Crate: " (my/cargo-packages) nil t)))
+      (rustic-run-cargo-command (format "%s rm %s" (rustic-cargo-bin) pkg))))
+
+  (map! :map rustic-mode-map
+        :localleader
+        (:prefix ("p" . "packages")
+         :desc "cargo-add" "a" #'rustic-cargo-add
+         :desc "cargo-rm"  "d" #'my/cargo-rm))
+
+  (setq rustic-cargo-use-last-stored-arguments t))
+
 
 ;;;; Minor-modes
 ;;;;; outshine

@@ -79,6 +79,7 @@
 
 ;;; Additional file types
 (package! ahk-mode)
+(package! vimrc-mode)
 
 ;;;; Haskell
 (package! hiedb-mode

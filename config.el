@@ -169,12 +169,12 @@
 ;;;; Org src block
 ;; change the org-src-edit buffer name to something less ugly
 (after! org
- (defun my/org-src--construct-edit-buffer-name (org-buffer-name lang)
-   (format "*org-src %s:%s*" org-buffer-name lang))
+  (defun my/org-src--construct-edit-buffer-name (org-buffer-name lang)
+    (format "*org-src %s:%s*" org-buffer-name lang))
 
- (advice-add #'org-src--construct-edit-buffer-name
-             :override
-             #'my/org-src--construct-edit-buffer-name))
+  (advice-add #'org-src--construct-edit-buffer-name
+              :override
+              #'my/org-src--construct-edit-buffer-name))
 
 ;;;; Inline Task
 (after! org

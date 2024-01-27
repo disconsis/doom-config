@@ -599,7 +599,14 @@ This is almost a complete copy of the original method, with a few very minor del
 (after! window-stool
   (set-face-attribute 'window-stool-face nil :background "#333")
   (setq window-stool-n-from-top 10
-        window-stool-n-from-bottom 10))
+        window-stool-n-from-bottom 10)
+  (add-hook 'window-stool-mode-hook
+            (defun my/fix-conflict-b/w-window-stool-&-lsp-headerline ()
+              (if window-stool-mode
+                  (when lsp-headerline-breadcrumb-mode
+                    (lsp-headerline-breadcrumb-mode -1))
+                (when (and lsp-mode lsp-headerline-breadcrumb-enable)
+                  (lsp-headerline-breadcrumb-mode))))))
 
 
 ;;; Language-specific configs

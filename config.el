@@ -323,10 +323,14 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;; Font
 
 ;; Good monospace font options:
+;; - Iosevka
 ;; - Inconsolata
 ;; - Rec Mono Linear -- (Recursive)
+;; - Commit Mono
+;; - Binchotan Sharp
+;; - Agave
 (setq
- doom-font (font-spec :family "Iosevka" :weight 'medium :size 14)
+ doom-font (font-spec :family "Agave" :size 14)
  doom-variable-pitch-font (font-spec :family "Bitter Thin")
  doom-font-increment 1)
 

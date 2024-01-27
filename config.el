@@ -417,18 +417,13 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;;; Prism
 
 (after! prism
-  (setq prism-colors
-        '(font-lock-type-face
-          font-lock-function-name-face
-          font-lock-keyword-face
-          font-lock-builtin-face
-          font-lock-string-face
-          font-lock-preprocessor-face)
-        prism-num-faces 16
+  (setq prism-num-faces 16
         prism-color-distance 20000
         prism-desaturations '(0)
         prism-parens t
-        prism-lightens '(0)))
+        prism-lightens '(0))
+
+  (add-hook 'doom-load-theme-hook #'prism-set-colors))
 
 ;;;;; Font based on light or dark
 

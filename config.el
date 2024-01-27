@@ -896,6 +896,10 @@ mouse-2: Show help for minor mode")
 
 (setq byte-compile-warnings nil)
 
+;; keep this as bash since everything else assumes it,
+;; even if I'm using a non-standard shell (like nushell)
+(setq shell-file-name "/bin/bash")
+
 ;;; Keybindings
 ;;;; Main
 

@@ -811,7 +811,7 @@ This is almost a complete copy of the original method, with a few very minor del
     (let* ((proj-type (cider-project-type))
            (proj-dir (clojure-project-dir))
            (proj-rel-file (cl-case proj-type
-                            ('lein "project.clj")
+                            (lein "project.clj")
                             (t (error "todo: unhandled project type: %s" proj-type))))
            (proj-file (f-join proj-dir proj-rel-file)))
       (if (f-file? proj-file)

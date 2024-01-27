@@ -417,13 +417,24 @@ This is almost a complete copy of the original method, with a few very minor del
 ;;;;; Prism
 
 (after! prism
+  ;; when prism loads up, it's supposed to have prism-faces set to nil.
+  ;; `prism-mode' looks at this when starting and decides whether to call
+  ;; `prism-set-colors' to set the colors according to the current theme.
+  ;;
+  ;; for some reason, this is always set to a full list, so calling `prism-mode'
+  ;; never actually sets the correct colors without manually calling
+  ;; `prism-set-colors' (or `prism-randomize-colors').
+  (setq prism-faces nil) ;; this line is *very* important. do NOT remove.
+
   (setq prism-num-faces 16
         prism-color-distance 20000
         prism-desaturations '(0)
-        prism-parens t
+        prism-parens nil
         prism-lightens '(0))
 
-  (add-hook 'doom-load-theme-hook #'prism-set-colors))
+  ;; NOTE not required, prism already advises `load-theme'
+  ;; --- (add-hook 'doom-load-theme-hook #'prism-set-colors)
+  )
 
 ;;;;; Font based on light or dark
 

@@ -60,6 +60,8 @@
 
 (package! delight)
 
+(package! window-stool :recipe (:host github :repo "jaszhe/window-stool" :files ("*.el")))
+
 ;;; Org
 (package! org-fragtog)
 (package! outshine)

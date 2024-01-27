@@ -593,6 +593,13 @@ mouse-2: Show help for minor mode")
             (defun my/set-default-directory-to-project-root ()
               (setq default-directory (projectile-project-root)))))
 
+;;;; Code context
+
+(after! window-stool
+  (set-face-attribute 'window-stool-face nil :background "#333")
+  (setq window-stool-n-from-top 10
+        window-stool-n-from-bottom 10))
+
 
 ;;; Language-specific configs
 

@@ -418,8 +418,10 @@
     `(doom-modeline-urgent            :weight unspecified :inherit error)
     `(doom-modeline-lsp-error         :weight unspecified :inherit error)
     `(doom-modeline-lsp-warning       :weight unspecified :inherit warning)
-    `(doom-modeline-lsp-success       :weight unspecified :inherit info)
-    `(doom-modeline-buffer-major-mode :weight ,(face-attribute 'default :weight) :inherit doom-modeline-buffer-path))
+    `(doom-modeline-lsp-success       :weight unspecified :inherit success)
+    `(doom-modeline-buffer-major-mode :weight ,(face-attribute 'default :weight) :inherit doom-modeline-buffer-path)
+    `(doom-modeline-repl-success      :inherit success)
+    `(doom-modeline-repl-warning      :inherit error))
 
   ;; Change the lsp icon to be something nicer
   (defun my/doom-modeline-lsp-icon (text face)

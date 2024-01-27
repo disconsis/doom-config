@@ -852,7 +852,8 @@ mouse-2: Show help for minor mode")
           additional-movement
           additional-wrap))
   (lispyville-set-key-theme)
-  (map! :map lispyville-mode-map :n "[" nil))
+  (map! :map lispyville-mode-map :n "[" nil)
+  (map! :map lispyville-mode-map :v "g c" #'lispyville-comment-or-uncomment))
 
 (when (modulep! :editor lispy)
   (add-hook 'lisp-mode-hook #'lispyville-mode))

@@ -26,6 +26,14 @@
   (setq random-themes--idx idx)
   (load-theme (elt random-themes--themes random-themes--idx) t nil))
 
+(defun random-themes--prev ()
+  (random-themes--set
+        (% (1- random-themes--idx) (length random-themes--themes))))
+
+(defun random-themes--next ()
+  (random-themes--set
+        (% (1+ random-themes--idx) (length random-themes--themes))))
+
 (defun random-themes--shuffle ()
   (setq random-themes--themes (or random-themes--themes (apply #'vector (custom-available-themes))))
   (random-themes/nshuffle random-themes--themes)
@@ -83,10 +91,10 @@
   "
 %s(random-themes--hydra-gen-docstring 3)
 "
-  ("k" (random-themes--set (1- random-themes--idx)) "prev-theme")
-  ("j" (random-themes--set (1+ random-themes--idx)) "next-theme")
-  ("h" (random-themes--set (1- random-themes--idx)) "prev-theme")
-  ("l" (random-themes--set (1+ random-themes--idx)) "next-theme")
+  ("k" (random-themes--prev) "prev-theme")
+  ("j" (random-themes--next) "next-theme")
+  ("h" (random-themes--prev) "prev-theme")
+  ("l" (random-themes--next) "next-theme")
   ("r" random-themes--shuffle "randomize")
   ("/" random-themes--search "search")
   ("q" (load-theme random-themes--theme-at-start t nil) "reset to initial" :color blue)

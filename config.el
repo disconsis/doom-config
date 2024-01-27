@@ -504,9 +504,22 @@ mouse-2: Show help for minor mode")
           'help-echo "Current theme")
          (doom-modeline-spc)))))
 
+  (after! lsp
+    (defun my/lsp-modeline--code-actions-icon (face)
+      "Build the icon for modeline code actions using FACE."
+      (doom-modeline-icon 'octicon "light-bulb"
+                          lsp-modeline-code-action-fallback-icon "{!}"
+                          :face face))
+    (advice-add 'lsp-modeline--code-actions-icon
+                :override #'my/lsp-modeline--code-actions-icon))
+
+
+  ;; NOTE misc-info shows whatever is in `global-mode-string'
+  ;; in `lsp-mode', this is code actions and diagnostics data. (if their respective modes are enabled),
+  ;; so it makes sense to keep it beside `lsp'
   (doom-modeline-def-modeline 'main
     '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)
-    '(objed-state misc-info persp-name battery grip irc mu4e gnus github debug repl lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker)))
+    '(objed-state persp-name battery grip irc mu4e gnus github debug repl misc-info lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker)))
 
 ;;;; Dashboard
 
@@ -1067,3 +1080,4 @@ This is almost a complete copy of the original method, with a few very minor del
 ;; TODO modify `prism-randomize-colors' to:
 ;; 1. be consistent (seed with a set value)
 ;; 2. not produce colors with low contrast
+;; TODO add fallback unicode font

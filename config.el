@@ -593,10 +593,6 @@ mouse-2: Show help for minor mode")
       "p" (cmd! (message "no package manager interface defined for %s" major-mode)))
 
 ;;;; Emacs lisp
-(add-hook 'emacs-lisp-mode-hook #'prism-mode)
-
-;; the checker for emacs-lisp sucks
-(add-hook 'emacs-lisp-mode-hook (cmd! (flycheck-mode -1)))
 
 (after! elisp-mode
   (require 'delight)
@@ -604,7 +600,12 @@ mouse-2: Show help for minor mode")
   (map! :map emacs-lisp-mode-map
         :localleader
         :desc "edit doom packages"
-        "p" #'doom/goto-private-packages-file))
+        "p" #'doom/goto-private-packages-file)
+
+  ;; the checker for emacs-lisp sucks
+  (add-hook 'emacs-lisp-mode-hook (cmd! (flycheck-mode -1)))
+
+  (add-hook 'emacs-lisp-mode-hook #'prism-mode))
 
 ;;;; OCaml
 
@@ -748,12 +749,13 @@ mouse-2: Show help for minor mode")
         :desc "start or update latex preview pane" "p" #'my/latex-preview-pane-start-or-update))
 
 ;;;; Clojure
-(add-hook 'clojure-mode-hook #'prism-mode)
 (after! clojure-mode
   ;; rama macros
   (put-clojure-indent '<<sources 1)
   (put-clojure-indent '<<if 1)
-  (put-clojure-indent 'ifexpr 1))
+  (put-clojure-indent 'ifexpr 1)
+
+  (add-hook 'clojure-mode-hook #'prism-mode))
 
 ;;;; Rust
 

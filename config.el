@@ -749,6 +749,11 @@ mouse-2: Show help for minor mode")
 
 ;;;; Clojure
 (add-hook 'clojure-mode-hook #'prism-mode)
+(after! clojure-mode
+  ;; rama macros
+  (put-clojure-indent '<<sources 1)
+  (put-clojure-indent '<<if 1)
+  (put-clojure-indent 'ifexpr 1))
 
 ;;;; Rust
 

@@ -606,7 +606,15 @@ This is almost a complete copy of the original method, with a few very minor del
                   (when lsp-headerline-breadcrumb-mode
                     (lsp-headerline-breadcrumb-mode -1))
                 (when (and lsp-mode lsp-headerline-breadcrumb-enable)
-                  (lsp-headerline-breadcrumb-mode))))))
+                  (lsp-headerline-breadcrumb-mode)))))
+
+  (add-hook 'prog-mode-hook #'window-stool-mode)
+
+  (map! :map prog-mode-map
+        :leader
+        :desc "code context" :n "t x" (cmd! (window-stool-mode 'toggle))))
+
+;; TODO modify `window-stool-fn' to return outline/outshine headers as well.
 
 
 ;;; Language-specific configs

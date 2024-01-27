@@ -81,6 +81,7 @@
 (package! ahk-mode)
 (package! vimrc-mode)
 (package! nushell-mode)
+(package! dhall-mode)
 
 ;;;; Haskell
 (package! hiedb-mode

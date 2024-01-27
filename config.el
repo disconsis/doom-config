@@ -54,6 +54,13 @@
 (let ((default-directory (expand-file-name "local-packages" doom-user-dir)))
   (normal-top-level-add-subdirs-to-load-path))
 
+;;; Fixes
+
+;; doom installs this advice which, if the formatter is not installed in the format-all executable table,
+;; silently ignores it. this is strange, since the formatter utility function `set-formatter!' DOES NOT
+;; install the executable. the advice doesn't do too else much anyway, so it's fine to remove it.
+(advice-remove 'format-all-buffer--from-hook #'+format--all-buffer-from-hook-a)
+
 ;;; Command line arguments
 (defun my/handle-extra-args ()
   "Handle extra args passed on the command line."

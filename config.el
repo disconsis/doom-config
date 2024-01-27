@@ -229,6 +229,9 @@
 
 (after! lsp-mode
   (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-headerline-breadcrumb-enable-diagnostics nil)
+  (setq lsp-headerline-arrow "")
+
   (advice-add #'lsp-rename
               :after
               (defun my/save-project-buffers (&rest _)

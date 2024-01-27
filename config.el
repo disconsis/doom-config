@@ -575,13 +575,12 @@ This is almost a complete copy of the original method, with a few very minor del
                 (when (projectile-project-root)
                   (projectile-save-project-buffers))))
 
-  ;; TODO this does not isolate this to prog-mode-map
-  (map! :map prog-mode-map
-        (:leader
-         (:prefix ("l" . "lsp")
-          :desc "start lsp server" :n "l" #'lsp!
-          :desc "restart lsp server" :n "r" #'lsp-workspace-restart
-          :desc "stop lsp server" :n "k" #'lsp-workspace-shutdown)))
+  (map! (:map prog-mode-map
+              (:leader
+               (:prefix ("l" . "lsp")
+                :desc "start lsp server" :n "l" #'lsp!
+                :desc "restart lsp server" :n "r" #'lsp-workspace-restart
+                :desc "stop lsp server" :n "k" #'lsp-workspace-shutdown))))
 
   (setq lsp-headerline-breadcrumb-enable t)
   (setq lsp-headerline-breadcrumb-enable-diagnostics nil)

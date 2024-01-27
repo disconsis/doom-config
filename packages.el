@@ -76,6 +76,7 @@
 (package! poet-theme)
 (package! autumn-light-theme)
 (package! light-soap-theme)
+(package! kaolin-themes)
 
 ;;; Additional file types
 (package! ahk-mode)

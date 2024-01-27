@@ -900,9 +900,10 @@ mouse-2: Show help for minor mode")
 
 (map! :leader "s I" #'imenu-list)
 
+
 ;;;; Line numbers
 
-(map! :leader :desc "toggle line numbers" "t l"
+(map! :leader :desc "" "t l"
       (cmd! (setq display-line-numbers (not display-line-numbers))))
 
 ;;;; Window
@@ -1003,3 +1004,6 @@ mouse-2: Show help for minor mode")
 ;; TODO make the various native compilation buffers not pop up. also stop the messages in the minibuffer
 ;; TODO don't print 'No buttons!' when pressing j/k in doom-dashboard
 ;; TODO increase fringe-width when in fullscreen mode (~SPC t F~) to increase readability of git-gutter (and other info in fringe)
+;; TODO modify `prism-randomize-colors' to:
+;; 1. be consistent (seed with a set value)
+;; 2. not produce colors with low contrast

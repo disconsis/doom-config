@@ -218,27 +218,6 @@
   ;; (setq org-treat-insert-todo-heading-as-state-change t) ;; I prefer to log TODO creation also
   (setq org-log-into-drawer t) ;; log into LOGBOOK drawer
   )
-;;; LSP
-;; TODO this does not isolate this to prog-mode-map
-(map! :map prog-mode-map
-      (:leader
-       (:prefix ("l" . "lsp")
-        :desc "start lsp server"   :n "l" #'lsp!
-        :desc "restart lsp server" :n "r" #'lsp-workspace-restart
-        :desc "stop lsp server"    :n "k" #'lsp-workspace-shutdown)))
-
-(after! lsp-mode
-  (setq lsp-headerline-breadcrumb-enable t)
-  (setq lsp-headerline-breadcrumb-enable-diagnostics nil)
-  (setq lsp-headerline-arrow "")
-
-  (advice-add #'lsp-rename
-              :after
-              (defun my/save-project-buffers (&rest _)
-                (require 'projectile)
-                (when (projectile-project-root)
-                  (projectile-save-project-buffers)))))
-
 ;;; Filesystem
 (add-hook 'dired-mode-hook #'dired-hide-details-mode)
 
@@ -259,38 +238,6 @@
         evil-echo-state nil
         evil-kill-on-visual-paste nil)) ;; Don't put overwritten text in the kill ring
 
-;;; LSP
-
-(after! lsp-mode
-  (setq lsp-ui-doc-enable nil
-        lsp-ui-doc-show-with-cursor nil
-        lsp-ui-sideline-enable t
-        lsp-eldoc-enable-hover nil
-        lsp-signature-render-documentation nil
-        lsp-enable-folding t
-        lsp-warn-no-matched-clients nil)
-
-  (defun my/lsp--read-rename-no-placeholder (at-point)
-    "Modify `lsp--read-rename' (the function that reads the new name for symbol when `lsp-rename' is called to not use a placeholder name.
-The placeholder name is usually the old name itself, which irks me as I have to delete it before I can do the rename.
-This is almost a complete copy of the original method, with a few very minor deletions to remove the placeholder-calculation."
-    (unless at-point
-      (user-error "`lsp-rename' is invalid here"))
-    (-let* ((((start . end) . _placeholder) at-point)
-            (rename-me (buffer-substring-no-properties start end))
-            overlay)
-      ;; We need unwind protect, as the user might cancel here, causing the
-      ;; overlay to linger.
-      (unwind-protect
-          (progn
-            (setq overlay (make-overlay start end))
-            (overlay-put overlay 'face 'lsp-face-rename)
-
-            (read-string (format "Rename %s to: " rename-me) nil
-                         'lsp-rename-history))
-        (and overlay (delete-overlay overlay)))))
-
-  (advice-add #'lsp--read-rename :override #'my/lsp--read-rename-no-placeholder))
 
 ;;; UI
 
@@ -586,7 +533,61 @@ mouse-2: Show help for minor mode")
   (setq doom-modeline-mode-alist
         (assq-delete-all '+doom-dashboard-mode doom-modeline-mode-alist)))
 
-;;; Projectile
+
+;;; General programming utilities
+;;;; LSP
+
+(after! lsp-mode
+  (setq lsp-ui-doc-enable nil
+        lsp-ui-doc-show-with-cursor nil
+        lsp-ui-sideline-enable t
+        lsp-eldoc-enable-hover nil
+        lsp-signature-render-documentation nil
+        lsp-enable-folding t
+        lsp-warn-no-matched-clients nil)
+
+  (defun my/lsp--read-rename-no-placeholder (at-point)
+    "Modify `lsp--read-rename' (the function that reads the new name for symbol when `lsp-rename' is called to not use a placeholder name.
+The placeholder name is usually the old name itself, which irks me as I have to delete it before I can do the rename.
+This is almost a complete copy of the original method, with a few very minor deletions to remove the placeholder-calculation."
+    (unless at-point
+      (user-error "`lsp-rename' is invalid here"))
+    (-let* ((((start . end) . _placeholder) at-point)
+            (rename-me (buffer-substring-no-properties start end))
+            overlay)
+      ;; We need unwind protect, as the user might cancel here, causing the
+      ;; overlay to linger.
+      (unwind-protect
+          (progn
+            (setq overlay (make-overlay start end))
+            (overlay-put overlay 'face 'lsp-face-rename)
+
+            (read-string (format "Rename %s to: " rename-me) nil
+                         'lsp-rename-history))
+        (and overlay (delete-overlay overlay)))))
+
+  (advice-add #'lsp--read-rename :override #'my/lsp--read-rename-no-placeholder)
+
+  (advice-add #'lsp-rename
+              :after
+              (defun my/save-project-buffers (&rest _)
+                (require 'projectile)
+                (when (projectile-project-root)
+                  (projectile-save-project-buffers))))
+
+  ;; TODO this does not isolate this to prog-mode-map
+  (map! :map prog-mode-map
+        (:leader
+         (:prefix ("l" . "lsp")
+          :desc "start lsp server" :n "l" #'lsp!
+          :desc "restart lsp server" :n "r" #'lsp-workspace-restart
+          :desc "stop lsp server" :n "k" #'lsp-workspace-shutdown)))
+
+  (setq lsp-headerline-breadcrumb-enable t)
+  (setq lsp-headerline-breadcrumb-enable-diagnostics nil)
+  (setq lsp-headerline-arrow ""))
+
+;;;; Project management
 
 (after! projectile
   (add-hook 'projectile-after-switch-project-hook

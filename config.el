@@ -171,7 +171,9 @@
         (org--latex-preview-region beg end))
       (message "regenerating latex previews... done.")))
 
-  (add-hook 'doom-load-theme-hook #'my/org-regen-latex-previews))
+  ;; FIXME this recurses infinitely for some reason
+  ;; (add-hook 'doom-load-theme-hook #'my/org-regen-latex-previews)
+  )
 
 ;;;; Org src block
 ;; change the org-src-edit buffer name to something less ugly

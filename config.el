@@ -359,7 +359,7 @@ This is almost a complete copy of the original method, with a few very minor del
   :custom
   (windows-theme/themes
    '((light . modus-operandi-tinted)
-     (dark  . doom-tomorrow-night)
+     (dark  . kaolin-bubblegum)
      (error . adwaita))))
 
 (windows-theme-minor-mode)
@@ -407,6 +407,12 @@ This is almost a complete copy of the original method, with a few very minor del
     '(mode-line :background "tan")
     '(org-verbatim :inherit org-priority)
     '(doom-modeline-buffer-modified :foreground "firebrick4" :bold t)))
+
+(after! kaolin-themes
+  (custom-theme-set-faces! 'kaolin-blossom
+    '(header-line :background "#271f1f"))
+  (custom-theme-set-faces! 'kaolin-valley-light
+    '(header-line :background "#EEE6D3")))
 
 ;;;;; Prism
 

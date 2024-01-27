@@ -652,7 +652,11 @@ mouse-2: Show help for minor mode")
 ;;;; Purescript
 (after! purescript-mode
   ;; (set-formatter! 'purty "purty -" :modes '(purescript-mode))
-  (set-formatter! 'purs-tidy "purs-tidy format" :modes '(purescript-mode)))
+  (set-formatter! 'purs-tidy "purs-tidy format" :modes '(purescript-mode))
+  (setq-hook! 'purescript-mode-hook +format-with-lsp nil)
+
+  ;; the pursls lsp shows a *lot* of lens things
+  (setq-hook! 'purescript-mode-hook lsp-lens-enable nil))
 
 ;;;; Dhall
 (use-package! dhall-mode

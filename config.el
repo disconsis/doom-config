@@ -782,13 +782,31 @@ This is almost a complete copy of the original method, with a few very minor del
         :desc "start or update latex preview pane" "p" #'my/latex-preview-pane-start-or-update))
 
 ;;;; Clojure
+
 (after! clojure-mode
   ;; rama macros
   (put-clojure-indent '<<sources 1)
   (put-clojure-indent '<<if 1)
   (put-clojure-indent 'ifexpr 1)
 
-  (add-hook 'clojure-mode-hook #'prism-mode))
+  (add-hook 'clojure-mode-hook #'prism-mode)
+
+  (defun my/clojure-visit-project-file ()
+    (interactive)
+    (let* ((proj-type (cider-project-type))
+           (proj-dir (clojure-project-dir))
+           (proj-rel-file (cl-case proj-type
+                            ('lein "project.clj")
+                            (t (error "todo: unhandled project type: %s" proj-type))))
+           (proj-file (f-join proj-dir proj-rel-file)))
+      (if (f-file? proj-file)
+          (find-file proj-file)
+        (error "couldn't file %s" proj-rel-file))))
+
+  (map! :map clojure-mode-map
+        :localleader
+        :desc "edit dependencies"
+        "p" #'my/clojure-visit-project-file))
 
 ;;;; Rust
 

@@ -893,6 +893,9 @@ mouse-2: Show help for minor mode")
 ;; learned habit from IntelliJ and VS Code
 (map! :nv "C-/" #'evilnc-comment-or-uncomment-lines)
 
+;; similar to VsVim
+(map! :n "g r" #'+lookup/references)
+
 (map! :leader :desc "M-x" "SPC" #'execute-extended-command)
 
 (map! :leader "s I" #'imenu-list)

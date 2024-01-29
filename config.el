@@ -851,10 +851,9 @@ current buffer's, reload dir-locals."
           (find-file proj-file)
         (error "couldn't file %s" proj-rel-file))))
 
-  (map! :map clojure-mode-map
+  (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
         :localleader
-        :desc "edit dependencies"
-        "p" #'my/clojure-visit-project-file))
+        :desc "visit project file" "p" #'my/clojure-visit-project-file)
 
 ;;;; Rust
 

@@ -504,7 +504,7 @@ mouse-2: Show help for minor mode")
           'help-echo "Current theme")
          (doom-modeline-spc)))))
 
-  (after! lsp
+  (after! lsp-mode
     (defun my/lsp-modeline--code-actions-icon (face)
       "Build the icon for modeline code actions using FACE."
       (doom-modeline-icon 'octicon "light-bulb"

@@ -872,22 +872,24 @@ current buffer's, reload dir-locals."
   ;; *only* use `cider' formatting.
   ;; `lispyville-prettify' is bound to '=', so we shadow this.
 
-  (evil-define-operator my/cider-prettify-operator (_beg end)
-    "Prettify lists using `cider' formatting.
+  (when (and (modulep! :editor lispy) (modulep! :editor evil)) ;; i.e. lispyville
+    (evil-define-operator my/cider-prettify-operator (_beg end)
+      "Prettify lists using `cider' formatting.
 Inspired by `lispyville-prettify'."
-    :move-point nil
-    (interactive "<r>")
-    (let ((orig-pos (point)))
-      (lispy--out-backward 1)
-      (let ((beg (point)))
-        (while (and (ignore-errors (lispyville--forward-list))
-                    (> end (save-excursion (backward-list))))
-          (let ((end (point)))
-            (cider-format-region beg end))))
-      (goto-char orig-pos)))
+      :move-point nil
+      (interactive "<r>")
+      (let ((orig-pos (point)))
+        (lispy--out-backward 1)
+        (let ((beg (point)))
+          (while (and (ignore-errors (lispyville--forward-list))
+                      (> end (save-excursion (backward-list))))
+            (let ((end (point)))
+              (cider-format-region beg end))))
+        (goto-char orig-pos)))
 
-  (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
-        :n "=" #'my/cider-prettify-operator))
+    (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
+          :n "=" #'my/cider-prettify-operator)))
+
 
 ;;;; Rust
 

@@ -855,6 +855,40 @@ current buffer's, reload dir-locals."
         :localleader
         :desc "visit project file" "p" #'my/clojure-visit-project-file)
 
+  ;; Using any sort of indentation/formatting in clojure which is
+  ;; based on emacs' `read' is going to be flawed, since the elisp reader
+  ;; differs from clojure's.
+  ;; For example, try evaluating the following sexp:
+  ;; > (read "(.. System getProperties)")
+  ;; Note that the `..' is escaped into `\..'!
+  ;; So every time you try to format this expression (or any region containing it),
+  ;; it will be "formatted" into:
+  ;; > (\.. System getProperties)
+  ;;
+  ;; I noticed this when using `lispyville' (specifically, `lispyville-prettify'),
+  ;; which defers to `lispy', which eventually calls emacs' `read'.
+  ;;
+  ;; To solve this, in clojure modes (i.e. clj, cljs, cljc),
+  ;; *only* use `cider' formatting.
+  ;; `lispyville-prettify' is bound to '=', so we shadow this.
+
+  (evil-define-operator my/cider-prettify-operator (_beg end)
+    "Prettify lists using `cider' formatting.
+Inspired by `lispyville-prettify'."
+    :move-point nil
+    (interactive "<r>")
+    (let ((orig-pos (point)))
+      (lispy--out-backward 1)
+      (let ((beg (point)))
+        (while (and (ignore-errors (lispyville--forward-list))
+                    (> end (save-excursion (backward-list))))
+          (let ((end (point)))
+            (cider-format-region beg end))))
+      (goto-char orig-pos)))
+
+  (map! :map (clojure-mode-map clojurescript-mode-map clojurec-mode-map)
+        :n "=" #'my/cider-prettify-operator))
+
 ;;;; Rust
 
 (after! rustic

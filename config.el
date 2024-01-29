@@ -549,6 +549,16 @@ mouse-2: Show help for minor mode")
         (assq-delete-all '+doom-dashboard-mode doom-modeline-mode-alist)))
 
 
+;;;; Neotree
+
+(after! neotree
+  (map! :map neotree-mode-map
+        :n "g o" #'neotree-enter-ace-window
+
+        ;; copied from neotree.el definition
+        :n "O" (neotree-make-executor
+                :dir-fn 'neo-open-dir-recursive)))
+
 ;;; General programming utilities
 ;;;; LSP
 

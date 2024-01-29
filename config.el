@@ -631,6 +631,29 @@ This is almost a complete copy of the original method, with a few very minor del
 ;; TODO modify `window-stool-fn' to return outline/outshine headers as well.
 
 
+;;;; Dir locals
+
+;; Reload dir-locals.
+;; TODO add a function that does this to all buffers of current project.
+;;
+;; https://emacs.stackexchange.com/a/13096
+
+(defun my/reload-dir-locals-for-current-buffer ()
+  "reload dir locals for the current buffer"
+  (interactive)
+  (let ((enable-local-variables :all))
+    (hack-dir-local-variables-non-file-buffer)))
+
+(defun my/reload-dir-locals-for-all-buffer-in-this-directory ()
+  "For every buffer with the same `default-directory` as the
+current buffer's, reload dir-locals."
+  (interactive)
+  (let ((dir default-directory))
+    (dolist (buffer (buffer-list))
+      (with-current-buffer buffer
+        (when (equal default-directory dir)
+          (my-reload-dir-locals-for-current-buffer))))))
+
 ;;; Language-specific configs
 
 ;; NOTE: localleader-p (~, p~) -> package manager hydra

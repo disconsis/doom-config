@@ -359,7 +359,9 @@
   (custom-theme-set-faces! 'kaolin-blossom
     '(header-line :background "#271f1f"))
   (custom-theme-set-faces! 'kaolin-valley-light
-    '(header-line :background "#EEE6D3")))
+    '(header-line :background "#EEE6D3"))
+  (custom-theme-set-faces! 'kaolin-bubblegum
+    '(header-line :background "#111")))
 
 ;;;;; Prism
 

@@ -79,6 +79,8 @@
 (package! autumn-light-theme)
 (package! light-soap-theme)
 (package! kaolin-themes)
+(package! dakrone-light-theme)
+(package! apropospriate-theme)
 
 ;;; Additional file types
 (package! ahk-mode)

@@ -269,6 +269,30 @@
 
 ;;;; Font
 
+(setq my/good-fonts
+  (list (font-spec :family "Iosevka" :size 12)
+        (font-spec :family "CommitMono" :size 12)
+        (font-spec :family "Agave" :size 14)
+        (font-spec :family "Binchotan_Sharp" :size 14)
+        (font-spec :family "Rec Mono Linear" :size 12)))
+
+(defun my/cycle-fonts ()
+  (interactive)
+  (unless (> (list-length my/good-fonts) 0)
+    (user-error "`my/good-fonts' is empty!"))
+
+  (let* ((curr-idx (or (--find-index
+                        (equal (font-get doom-font :family)
+                               (font-get it :family))
+                        my/good-fonts)
+                       -1))
+         (next-idx (% (1+ curr-idx)
+                      (list-length my/good-fonts)))
+         (next-font (nth next-idx my/good-fonts)))
+    (setq doom-font next-font)
+    (doom/reload-font)
+    (message "set font to: %s" (font-get doom-font :family))))
+
 ;; Good monospace font options:
 ;; - Iosevka
 ;; - Inconsolata

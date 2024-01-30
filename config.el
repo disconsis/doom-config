@@ -690,11 +690,20 @@ current buffer's, reload dir-locals."
         (when (equal default-directory dir)
           (my-reload-dir-locals-for-current-buffer))))))
 
-;;;; Git
+;;;; Version control
 
 (after! git-commit
   ;; the visual indicator is enough for me - don't want to explicitly confirm
   (delq! 'overlong-summary-line git-commit-style-convention-checks))
+
+(after! vc
+  (run-with-idle-timer 5 t #'vc-refresh-state)
+
+  (map! :when (modulep! :ui vc-gutter)
+        :leader
+
+        :desc "Show git diff at point"
+        :n "g d" #'git-gutter:popup-diff))
 
 ;;; Language-specific configs
 
@@ -1160,12 +1169,6 @@ Inspired by `lispyville-prettify'."
 
 (map! :when (modulep! :ui hl-todo) :leader :desc "search for todos" :n "s t" #'hl-todo-occur)
 
-;;;; Version control
-(map! :when (modulep! :ui vc-gutter) :leader
-      :desc "Show git diff at point" :n "g d" #'git-gutter:popup-diff)
-
-(when (modulep! :emacs vc)
-  (run-with-idle-timer 5 t #'vc-refresh-state))
 
 ;;; Notes
 ;; TODO Check out what `hyperbole' can do for you

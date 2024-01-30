@@ -690,6 +690,12 @@ current buffer's, reload dir-locals."
         (when (equal default-directory dir)
           (my-reload-dir-locals-for-current-buffer))))))
 
+;;;; Git
+
+(after! git-commit
+  ;; the visual indicator is enough for me - don't want to explicitly confirm
+  (delq! 'overlong-summary-line git-commit-style-convention-checks))
+
 ;;; Language-specific configs
 
 ;; NOTE: localleader-p (~, p~) -> package manager hydra

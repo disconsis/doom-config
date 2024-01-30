@@ -871,7 +871,7 @@ current buffer's, reload dir-locals."
   ;; which defers to `lispy', which eventually calls emacs' `read'.
   ;;
   ;; To solve this, in clojure modes (i.e. clj, cljs, cljc),
-  ;; *only* use `cider' formatting.
+  ;; *only* use `cider' formatting. Cider internally defers to `cljfmt'.
   ;; `lispyville-prettify' is bound to '=', so we shadow this.
 
   (when (and (modulep! :editor lispy) (modulep! :editor evil)) ;; i.e. lispyville

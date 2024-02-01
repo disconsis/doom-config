@@ -697,14 +697,21 @@ current buffer's, reload dir-locals."
   ;; the visual indicator is enough for me - don't want to explicitly confirm
   (delq! 'overlong-summary-line git-commit-style-convention-checks))
 
+(map! :when (modulep! :ui vc-gutter)
+      :after git-gutter
+
+      (:leader
+       :desc "Show git diff at point"
+       :n "g d" #'git-gutter:popup-diff)
+
+      :desc "Jump to previous hunk"
+      :n "[ g" #'git-gutter:previous-hunk
+
+      :desc "Jump to next hunk"
+      :n "] g" #'git-gutter:next-hunk)
+
 (after! vc
-  (run-with-idle-timer 5 t #'vc-refresh-state)
-
-  (map! :when (modulep! :ui vc-gutter)
-        :leader
-
-        :desc "Show git diff at point"
-        :n "g d" #'git-gutter:popup-diff))
+  (run-with-idle-timer 5 t #'vc-refresh-state))
 
 ;;; Language-specific configs
 

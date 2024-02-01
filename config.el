@@ -641,23 +641,29 @@ This is almost a complete copy of the original method, with a few very minor del
 
 ;;;; Code context
 
-(after! window-stool
+(use-package! window-stool
+  :commands window-stool-mode
+  :hook (prog-mode . window-stool-mode)
+
+  :init
+  (map! :map prog-mode-map
+        :leader
+        :desc "code context" :n "t x" (cmd! (window-stool-mode 'toggle)))
+
+  :config
   (set-face-attribute 'window-stool-face nil :background "#333")
+
   (setq window-stool-n-from-top 10
         window-stool-n-from-bottom 10)
+
   (add-hook 'window-stool-mode-hook
             (defun my/fix-conflict-b/w-window-stool-&-lsp-headerline ()
               (if window-stool-mode
-                  (when lsp-headerline-breadcrumb-mode
+                  (when (bound-and-true-p lsp-headerline-breadcrumb-mode)
                     (lsp-headerline-breadcrumb-mode -1))
-                (when (and lsp-mode lsp-headerline-breadcrumb-enable)
-                  (lsp-headerline-breadcrumb-mode)))))
-
-  (add-hook 'prog-mode-hook #'window-stool-mode)
-
-  (map! :map prog-mode-map
-        :leader
-        :desc "code context" :n "t x" (cmd! (window-stool-mode 'toggle))))
+                (when (and (bound-and-true-p lsp-mode)
+                           (bound-and-true-p lsp-headerline-breadcrumb-enable))
+                  (lsp-headerline-breadcrumb-mode))))))
 
 ;; TODO modify `window-stool-fn' to return outline/outshine headers as well.
 

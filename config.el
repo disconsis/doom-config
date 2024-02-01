@@ -1000,8 +1000,9 @@ Inspired by `lispyville-prettify'."
                           (,(concat outline-rgxp "\\{6\\} ") 0 '(face outshine-level-6 display "[6] ") t)
                           (,(concat outline-rgxp "\\{7\\} ") 0 '(face outshine-level-7 display "[7] ") t)
                           (,(concat outline-rgxp "\\{8\\} ") 0 '(face outshine-level-8 display "[8] ") t))))
-                  (setf (car outshine-font-lock-keywords) (append (car outshine-font-lock-keywords) font-lock-new-keywords))
-                  (font-lock-add-keywords nil font-lock-new-keywords 'append)
+                  ;; need to add these new keywords to outshine's so that they are disabled together
+                  (add-to-list 'outshine-font-lock-keywords font-lock-new-keywords)
+                  (font-lock-add-keywords nil font-lock-new-keywords)
                   (outshine-font-lock-flush)))))
 
   (setq outshine-fontify-whole-heading-line t)

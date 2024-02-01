@@ -985,8 +985,7 @@ Inspired by `lispyville-prettify'."
 ;;;;; outshine
 
 (use-package! outshine
-  :init
-  (add-hook 'prog-mode-hook 'outshine-mode)
+  :hook (prog-mode . outshine-mode)
 
   :config
   (map! :map outshine-mode-map
@@ -1027,7 +1026,9 @@ Inspired by `lispyville-prettify'."
 
 ;;;;; lispyville
 
-(after! lispyville
+(use-package! lispyville
+  :hook (lisp-mode . lispyville-mode)
+  :config
   (setq lispyville-key-theme
         '((operators normal)
           c-w
@@ -1040,9 +1041,6 @@ Inspired by `lispyville-prettify'."
   (lispyville-set-key-theme)
   (map! :map lispyville-mode-map :n "[" nil)
   (map! :map lispyville-mode-map :v "g c" #'lispyville-comment-or-uncomment))
-
-(when (modulep! :editor lispy)
-  (add-hook 'lisp-mode-hook #'lispyville-mode))
 
 ;;;;; zen / writeroom
 

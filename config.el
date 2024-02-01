@@ -270,11 +270,13 @@
 ;;;; Font
 
 (setq my/good-fonts
-  (list (font-spec :family "Iosevka" :size 12)
-        (font-spec :family "CommitMono" :size 12)
-        (font-spec :family "Agave" :size 14)
-        (font-spec :family "Binchotan_Sharp" :size 14)
-        (font-spec :family "Rec Mono Linear" :size 12)))
+  (list
+   (font-spec :family "Maple Mono" :size 12)
+   (font-spec :family "Rec Mono Linear" :size 12)
+   (font-spec :family "Iosevka" :size 12)
+   (font-spec :family "CommitMono" :size 12)
+   (font-spec :family "Agave" :size 14)
+   (font-spec :family "Binchotan_Sharp" :size 14)))
 
 (defun my/cycle-fonts ()
   (interactive)
@@ -293,15 +295,8 @@
     (doom/reload-font)
     (message "set font to: %s" (font-get doom-font :family))))
 
-;; Good monospace font options:
-;; - Iosevka
-;; - Inconsolata
-;; - Rec Mono Linear -- (Recursive)
-;; - Commit Mono
-;; - Binchotan Sharp
-;; - Agave
 (setq
- doom-font (font-spec :family "Agave" :size 14)
+ doom-font (car my/good-fonts)
  doom-variable-pitch-font (font-spec :family "Bitter Thin")
  doom-font-increment 1)
 

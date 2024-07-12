@@ -1045,6 +1045,11 @@ Inspired by `lispyville-prettify'."
       :async t
       :documentation #'my/ahk-lookup-web-v2)))
 
+;;;; Typescript
+
+(use-package! typescript-mode
+  :hook (typescript-mode . glasses-mode))
+
 ;;;; Web
 
 (use-package! web-mode

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: export_class
+# uuid:
+# key: export_class
+# condition: t
+# --
+let className = "";
+export { className as class };

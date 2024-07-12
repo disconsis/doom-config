@@ -270,34 +270,47 @@
 ;;;; Font
 
 (setq my/good-fonts
-  (list
-   (font-spec :family "Maple Mono" :size 12)
-   (font-spec :family "Rec Mono Linear" :size 12)
-   (font-spec :family "Iosevka" :size 12)
-   (font-spec :family "CommitMono" :size 12)
-   (font-spec :family "Agave" :size 14)
-   (font-spec :family "Binchotan_Sharp" :size 14)))
+      (list
+       (font-spec :family "Maple Mono" :size 12)
+       (font-spec :family "DankMono" :size 15)
+       (font-spec :family "Inconsolata" :size 16 :width 'semi-condensed)
+       (font-spec :family "Rec Mono Semicasual" :size 14)
+       (font-spec :family "Rec Mono Duotone" :size 14)
+       (font-spec :family "Rec Mono Linear" :size 14)
+       (font-spec :family "Iosevka" :size 12)
+       (font-spec :family "CommitMono" :size 12)
+       (font-spec :family "Agave" :size 14)
+       (font-spec :family "Binchotan_Sharp" :size 14)))
 
 (defun my/cycle-fonts ()
   (interactive)
-  (unless (> (list-length my/good-fonts) 0)
+  (unless (> (length my/good-fonts) 0)
     (user-error "`my/good-fonts' is empty!"))
 
-  (let* ((curr-idx (or (--find-index
-                        (equal (font-get doom-font :family)
-                               (font-get it :family))
-                        my/good-fonts)
-                       -1))
-         (next-idx (% (1+ curr-idx)
-                      (list-length my/good-fonts)))
-         (next-font (nth next-idx my/good-fonts)))
-    (setq doom-font next-font)
-    (doom/reload-font)
-    (message "set font to: %s" (font-get doom-font :family))))
+  (let* ((curr-font doom-font)
+         (curr-idx
+          (--find-index
+           (equal (font-get curr-font :family)
+                  (font-get it :family))
+           my/good-fonts)))
+    (let ((done
+           (catch 'done
+             (dolist (font (--doto
+                               (-rotate (- (1+ (or curr-idx -1))) my/good-fonts)))
+               (setq doom-font font)
+               (if (not (ignore-errors (doom/reload-font) t))
+                   (message "font %s doesn't exist, skipping" (font-get font :family))
+                 (message "set font: %s" (font-get doom-font :family))
+                 (throw 'done t))
+               nil))))
+      (unless done
+        (message "no font found, resetting to %s" (font-get curr-font :family))
+        (setq doom-font curr-font)
+        (doom/reload-font)))))
 
 (setq
  doom-font (car my/good-fonts)
- doom-variable-pitch-font (font-spec :family "Bitter Thin")
+ ;; doom-variable-pitch-font (font-spec :family "Bitter Thin")
  doom-font-increment 1)
 
 ;; fix weird Info-manual faces
@@ -318,8 +331,9 @@
    `((modus-operandi-tinted . ,(am 6))
      (doom-tomorrow-night   . ,(pm 4)))))
 
-;;;;; Sync with windows system theme
+;;;;; Sync with windows system theme from WSL
 
+;; Probably better to change this to be a detection method in `auto-dark'
 (use-package! windows-theme
   :commands windows-theme-minor-mode
   :custom
@@ -328,7 +342,16 @@
      (dark  . kaolin-bubblegum)
      (error . adwaita))))
 
-(windows-theme-minor-mode)
+;;;;; Sync with system theme
+
+(use-package! auto-dark
+  :commands auto-dark-mode
+  :custom
+  (auto-dark-light-theme 'modus-operandi-tinted)
+  (auto-dark-dark-theme 'doom-moonlight))
+
+(auto-dark-mode)
+
 
 ;;;;; Theme modifications
 
@@ -540,7 +563,7 @@ mouse-2: Show help for minor mode")
   ;; so it makes sense to keep it beside `lsp'
   (doom-modeline-def-modeline 'main
     '(workspace-name window-number matches buffer-info remote-host line-with-max word-count parrot selection-info)
-    '(objed-state persp-name battery grip irc mu4e gnus github debug repl misc-info lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs checker)))
+    '(objed-state persp-name battery grip irc mu4e gnus github debug repl misc-info lsp minor-modes input-method indent-info buffer-encoding theme major-mode process vcs)))
 
 ;;;; Dashboard
 
@@ -569,21 +592,50 @@ mouse-2: Show help for minor mode")
   (setq doom-modeline-mode-alist
         (assq-delete-all '+doom-dashboard-mode doom-modeline-mode-alist)))
 
+;;;; Treemacs
 
-;;;; Neotree
-
-(after! neotree
-  (map! :map neotree-mode-map
-        :n "g o" #'neotree-enter-ace-window
-
-        ;; copied from neotree.el definition
-        :n "O" (neotree-make-executor
-                :dir-fn 'neo-open-dir-recursive)))
+(use-package! treemacs
+  :init
+  (setq +treemacs-git-mode 'deferred)
+  :config
+  (setq treemacs-collapse-dirs 3)
+  (add-hook 'treemacs-mode #'treemacs-follow-mode))
 
 ;;; General programming utilities
 ;;;; LSP
 
 (after! lsp-mode
+  ;;;;; from emacs-lsp-booster docs
+  (defun lsp-booster--advice-json-parse (old-fn &rest args)
+    "Try to parse bytecode instead of json."
+    (or
+     (when (equal (following-char) ?#)
+       (let ((bytecode (read (current-buffer))))
+         (when (byte-code-function-p bytecode)
+           (funcall bytecode))))
+     (apply old-fn args)))
+  (advice-add (if (progn (require 'json)
+                         (fboundp 'json-parse-buffer))
+                  'json-parse-buffer
+                'json-read)
+              :around
+              #'lsp-booster--advice-json-parse)
+
+  (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+    "Prepend emacs-lsp-booster command to lsp CMD."
+    (let ((orig-result (funcall old-fn cmd test?)))
+      (if (and (not test?) ;; for check lsp-server-present?
+               (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+               lsp-use-plists
+               (not (functionp 'json-rpc-connection)) ;; native json-rpc
+               (executable-find "emacs-lsp-booster"))
+          (progn
+            (message "Using emacs-lsp-booster for %s!" orig-result)
+            (cons "emacs-lsp-booster" orig-result))
+        orig-result)))
+  (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+  ;;;;; /end from emacs-lsp-booster docs
+
   (setq lsp-ui-doc-enable nil
         lsp-ui-doc-show-with-cursor nil
         lsp-ui-sideline-enable t
@@ -651,7 +703,7 @@ This is almost a complete copy of the original method, with a few very minor del
         :desc "code context" :n "t x" (cmd! (window-stool-mode 'toggle)))
 
   :config
-  (set-face-attribute 'window-stool-face nil :background "#333")
+  (set-face-attribute 'window-stool-face nil :inherit 'region)
 
   (setq window-stool-n-from-top 10
         window-stool-n-from-bottom 10)
@@ -712,6 +764,17 @@ current buffer's, reload dir-locals."
 
 (after! vc
   (run-with-idle-timer 5 t #'vc-refresh-state))
+
+;;;; Glasses mode (camelcase -> view as snake case)
+
+(use-package! glasses
+  :init
+  (setq glasses-separator "-"
+        glasses-original-separator "_"
+        glasses-uncapitalize-p t
+        glasses-separate-parentheses-p nil
+        glasses-separate-capital-groups nil
+        glasses-face nil))
 
 ;;; Language-specific configs
 
@@ -980,6 +1043,19 @@ Inspired by `lispyville-prettify'."
     (set-lookup-handlers! 'ahk-mode
       :async t
       :documentation #'my/ahk-lookup-web-v2)))
+
+;;;; Web
+
+(use-package! web-mode
+  :config
+  (setq web-mode-auto-close-style 2))
+
+;;;; Tailwind
+
+(use-package! lsp-tailwindcss
+  :init
+  ;; *has* to be set before the package loads
+  (setq lsp-tailwindcss-add-on-mode t))
 
 ;;;; Minor-modes
 ;;;;; outshine

@@ -62,6 +62,10 @@
 
 (package! window-stool :recipe (:host github :repo "jaszhe/window-stool" :files ("*.el")))
 
+(package! auto-dark)
+
+(package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+
 ;;; Org
 (package! org-fragtog)
 (package! outshine)

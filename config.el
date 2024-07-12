@@ -642,7 +642,8 @@ mouse-2: Show help for minor mode")
         lsp-eldoc-enable-hover nil
         lsp-signature-render-documentation nil
         lsp-enable-folding t
-        lsp-warn-no-matched-clients nil)
+        lsp-warn-no-matched-clients nil
+        lsp-auto-execute-action nil)
 
   (defun my/lsp--read-rename-no-placeholder (at-point)
     "Modify `lsp--read-rename' (the function that reads the new name for symbol when `lsp-rename' is called to not use a placeholder name.

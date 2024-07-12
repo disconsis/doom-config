@@ -777,6 +777,10 @@ current buffer's, reload dir-locals."
         glasses-separate-capital-groups nil
         glasses-face nil))
 
+;;;; Directory tree
+
+(add-hook 'treemacs-mode-hook #'hide-mode-line-mode)
+
 ;;; Language-specific configs
 
 ;; NOTE: localleader-p (~, p~) -> package manager hydra
